@@ -1,21 +1,21 @@
-const express = require('express');
-const session = require('express-session');
-const bodyParser = require('body-parser');
-const logger = require('morgan');
-const dotenv = require('dotenv');
-const path = require('path');
-const passport = require('passport');
-const expressStatusMonitor = require('express-status-monitor');
+const express = require("express");
+const session = require("express-session");
+const bodyParser = require("body-parser");
+const logger = require("morgan");
+const dotenv = require("dotenv");
+const path = require("path");
+const passport = require("passport");
+const expressStatusMonitor = require("express-status-monitor");
+const Sequelize = require("sequelize");
 
+const { Pool, Client } = require("pg");
+const client = new Client();
 
-
-dotenv.config({ path: '.env.example' });
-
+dotenv.config({ path: ".env.example" });
 
 /*
 Configs:
 */
-
 
 /*
 Create Express server.
@@ -25,17 +25,34 @@ const app = express();
 /*
 Database configuration
 */
+const sequelize = new Sequelize("memorize_dev", "postgres", "123456", {
+  host: "localhost",
+  dialect: "postgres",
+  pool: {
+    max: 9,
+    min: 0,
+    idle: 10000
+  }
+});
 
+sequelize
+  .authenticate()
+  .then(() => {
+    console.log("Success!");
+  })
+  .catch(err => {
+    console.log(err);
+  });
 
 /*
 Express Config:
 */
-app.set('host', process.env.OPENSHIFT_NODEJS_IP || '0.0.0.0');
-app.set('port', process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8080);
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs');
+app.set("host", process.env.OPENSHIFT_NODEJS_IP || "0.0.0.0");
+app.set("port", process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8080);
+app.set("views", path.join(__dirname, "views"));
+app.set("view engine", "ejs");
 app.use(expressStatusMonitor());
-app.use(logger('dev'));
+app.use(logger("dev"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 //app.use(session({
@@ -51,26 +68,28 @@ app.use(passport.session());
 /*
 Assets:
 */
-app.use('/', express.static(path.join(__dirname, 'public')));
-
+app.use("/", express.static(path.join(__dirname, "public")));
 
 /*
 Controllers (route handlers).
 */
-const start ={};  
-start.routing = require('./controllers/start');
+const start = {};
+start.routing = require("./controllers/start");
 /*
 Routing:
 */
-app.use('/', start.routing);
-
+app.use("/", start.routing);
 
 /*
 Start Express server.
 */
-app.listen(app.get('port'), () => {
-  console.log('%s App is running at http://localhost:%d in %s mode', app.get('port'), app.get('env'));
-  console.log('  Press CTRL-C to stop\n');
+app.listen(app.get("port"), () => {
+  console.log(
+    "%s App is running at http://localhost:%d in %s mode",
+    app.get("port"),
+    app.get("env")
+  );
+  console.log("  Press CTRL-C to stop\n");
 });
 
 module.exports = app;
