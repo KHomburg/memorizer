@@ -11,7 +11,7 @@ const Sequelize = require("sequelize");
 const { Pool, Client } = require("pg");
 const client = new Client();
 
-dotenv.config({ path: ".env.example" });
+dotenv.config({ path: ".env" });
 
 /*
 Configs:
@@ -25,8 +25,9 @@ const app = express();
 /*
 Database configuration
 */
-const sequelize = new Sequelize("memorize_dev", "postgres", "123456", {
-  host: "localhost",
+const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASSWORD, {
+  host: process.env.HOST,
+  port: process.env.DB_PORT,
   dialect: "postgres",
   pool: {
     max: 9,
@@ -47,8 +48,8 @@ sequelize
 /*
 Express Config:
 */
-app.set("host", process.env.OPENSHIFT_NODEJS_IP || "0.0.0.0");
-app.set("port", process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8080);
+app.set("host", process.env.HOST || "0.0.0.0");
+app.set("port", process.env.PORT || 3000);
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 app.use(expressStatusMonitor());
