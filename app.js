@@ -25,25 +25,13 @@ const app = express();
 /*
 Database configuration
 */
-const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASSWORD, {
-  host: process.env.HOST,
-  port: process.env.DB_PORT,
-  dialect: "postgres",
-  pool: {
-    max: 9,
-    min: 0,
-    idle: 10000
-  }
-});
+const db = require("./models/index")
 
-sequelize
-  .authenticate()
-  .then(() => {
-    console.log("Success!");
-  })
-  .catch(err => {
-    console.log(err);
-  });
+db.sequelize.authenticate()
+  .then(() => {console.log("Success!")})
+  .catch(err => {console.log(err)});
+
+  
 
 /*
 Express Config:
@@ -76,21 +64,29 @@ Controllers (route handlers).
 */
 const start = {};
 start.routing = require("./controllers/start");
+const users = {};
+users.routing = require("./controllers/users");
 /*
 Routing:
 */
 app.use("/", start.routing);
+app.use("/users", users.routing);
+
+
 
 /*
 Start Express server.
 */
-app.listen(app.get("port"), () => {
-  console.log(
-    "%s App is running at http://localhost:%d in %s mode",
-    app.get("port"),
-    app.get("env")
-  );
-  console.log("  Press CTRL-C to stop\n");
-});
+db.sequelize.sync().then(x => {
+  app.listen(app.get("port"), () => {
+    console.log(
+      "%s App is running at http://localhost:%d in %s mode",
+      app.get("port"),
+      app.get("env")
+    );
+    console.log("  Press CTRL-C to stop\n");
+  });
+})
+
 
 module.exports = app;
