@@ -7,9 +7,11 @@ const path = require("path");
 const passport = require("passport");
 const expressStatusMonitor = require("express-status-monitor");
 const Sequelize = require("sequelize");
+const cookieParser = require('cookie-parser');
 
-const { Pool, Client } = require("pg");
-const client = new Client();
+//require('./passport');
+
+
 
 dotenv.config({ path: ".env" });
 
@@ -25,6 +27,8 @@ const app = express();
 /*
 Database configuration
 */
+const { Pool, Client } = require("pg");
+const client = new Client();
 const db = require("./models/index")
 
 db.sequelize.authenticate()
@@ -44,6 +48,7 @@ app.use(expressStatusMonitor());
 app.use(logger("dev"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cookieParser());
 //app.use(session({
 //  resave: true,
 //  saveUninitialized: true,
@@ -53,11 +58,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 //}));
 app.use(passport.initialize());
 app.use(passport.session());
-
-/*
-Assets:
-*/
-app.use("/", express.static(path.join(__dirname, "public")));
 
 /*
 Controllers (route handlers).
@@ -72,7 +72,23 @@ Routing:
 app.use("/", start.routing);
 app.use("/users", users.routing);
 
+//// catch 404 and forward to error handler
+//app.use(function(req, res, next) {
+//  var err = new Error('Not Found');
+//  err.status = 404;
+//  next(err);
+//});
 
+// // error handler
+// app.use(function(err, req, res, next) {
+//   // set locals, only providing error in development
+//   res.locals.message = err.message;
+//   res.locals.error = req.app.get('env') === 'development' ? err : {};
+
+//   // render the error page
+//   res.status(err.status || 500);
+//   res.render('error');
+// });
 
 /*
 Start Express server.
