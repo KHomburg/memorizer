@@ -57,7 +57,7 @@ app.use(cookieParser());
 //  store: //TODO: define store
 //}));
 app.use(passport.initialize());
-app.use(passport.session());
+require('./config/passport-config')(passport);
 
 /*
 Controllers (route handlers).
