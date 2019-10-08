@@ -24,31 +24,35 @@ router.post("/register", (req, res) => {
           msg: "user already exists",
           user
         })
-        //TODO: check for a password2
       } else {
-        bcrypt.genSalt(10, (err, salt) => {
-          if (err) throw err
-          bcrypt.hash(req.body.password, salt, (err, hash) => {
-            //TODO: include validation
-            //TODO: refactor: outsource to a helper
+        if(req.body.password === req.body.password2){
+          bcrypt.genSalt(10, (err, salt) => {
             if (err) throw err
-            models.User.create(
-              {
-                username: req.body.username,
-                password: hash,
-                email: req.body.email.toLowerCase(),
-              }
-            )
+            bcrypt.hash(req.body.password, salt, (err, hash) => {
+              //TODO: include validation
+              if (err) throw err
+              models.User.create(
+                {
+                  username: req.body.username,
+                  password: hash,
+                  email: req.body.email.toLowerCase(),
+                }
+              )
               .then(user => res.json({
                 msg: "user created",
-                user //TODO: remove this, don't send user
+                user
               }))
               .catch((err) => {
                 res.json({ error: err })
                 if (err) throw err
               })
-          }, null)
-        })
+            }, null)
+          
+          })
+        }else{
+          errors.password = "Passwords do not match";
+          return res.status(404).json(errors);
+        }
       }
     })
 })
@@ -63,6 +67,7 @@ router.post("/login", (req, res) => {
         errors.email = "Email not found";
         return res.status(404).json(errors);
       }
+      //TODO: include validation
       bcrypt.compare(password, user.password)
         .then(isMatch => {
           if (isMatch) {

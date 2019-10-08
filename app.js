@@ -49,13 +49,6 @@ app.use(logger("dev"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
-//app.use(session({
-//  resave: true,
-//  saveUninitialized: true,
-//  secret: process.env.SESSION_SECRET,
-//  cookie: { maxAge: 1209600000 }, // two weeks in milliseconds
-//  store: //TODO: define store
-//}));
 app.use(passport.initialize());
 require('./config/passport-config')(passport);
 
