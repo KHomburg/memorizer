@@ -1,6 +1,6 @@
 
 module.exports = (sequelize, DataTypes) => {
-  const User = sequelize.define('User', {
+  const Note = sequelize.define('Note', {
     id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
@@ -10,32 +10,31 @@ module.exports = (sequelize, DataTypes) => {
         notEmpty: true, 
       }
     },
-    username: {
+    title: {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
         notEmpty: true, 
       }
     },
-    password: {
-      type: DataTypes.STRING,
+    text: {
+      type: DataTypes.TEXT,
       allowNull: false,
       validate: {
         notEmpty: true, 
       }
     },
-    email: {
-      type: DataTypes.STRING,
+    userId: {
+      type: DataTypes.INTEGER,
       allowNull: false,
-      unique: true,
-      validate: {
-        isEmail: true,
-        notEmpty: true,
-      }
+      //references: {         
+      //  model: 'User',
+      //  key: 'id'
+      //}
     },
   });
-  User.associate = function(models) {
-    User.hasMany(models.Note, {foreignKey: "userId", as: 'note', onDelete: 'CASCADE'})
+  Note.associate = function(models) {
+    Note.belongsTo(models.User, {foreignKey: 'userId', as: 'user'})
   };
-  return User;
+  return Note;
 };

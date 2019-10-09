@@ -101,8 +101,7 @@ router.get("/:id", passport.authenticate('jwt', {session: false}), (req, res) =>
   models.User.findByPk(req.params.id)
     .then(user => res.json(user))
     .catch((err) => console.log(err))
-
 });
 
 
-  module.exports = router;
+module.exports = router;

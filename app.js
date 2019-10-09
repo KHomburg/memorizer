@@ -59,11 +59,14 @@ const start = {};
 start.routing = require("./controllers/start");
 const users = {};
 users.routing = require("./controllers/users");
+const notes = {};
+notes.routing = require("./controllers/notes");
 /*
 Routing:
 */
 app.use("/", start.routing);
 app.use("/users", users.routing);
+app.use("/notes", passport.authenticate('jwt', {session: false}), notes.routing);
 
 //// catch 404 and forward to error handler
 //app.use(function(req, res, next) {
