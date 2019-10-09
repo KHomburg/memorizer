@@ -33,4 +33,20 @@ router.post("/new", (req, res) => {
     })
 });
 
+//find note by id
+router.get("/:id", (req, res) => {
+  console.log(req.params.id)
+  models.Note.findByPk(req.params.id)
+    .then(notes => res.json(notes))
+    .catch((err) => console.log(err))
+});
+
+//find notes of user
+router.get("/user/:id", (req, res) => {
+  console.log(req.params.id)
+  models.Note.findAll({where: {userId : req.params.id}})
+    .then(notes => res.json(notes))
+    .catch((err) => console.log(err))
+});
+
 module.exports = router;

@@ -96,12 +96,21 @@ router.post("/login", (req, res) => {
     });
 })
 
-//login route
+//find user by id route
 router.get("/:id", passport.authenticate('jwt', {session: false}), (req, res) => {
   models.User.findByPk(req.params.id)
     .then(user => res.json(user))
     .catch((err) => console.log(err))
 });
+
+//find note with user model by noteId
+router.get("/note/:id", passport.authenticate('jwt', {session: false}), (req, res) => {
+  models.Note.findByPk(req.params.id, {include: [{model: models.User, as: "user"}]})
+    .then(note => res.json(note))
+    .catch((err) => console.log(err))
+});
+
+
 
 
 module.exports = router;
