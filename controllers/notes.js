@@ -22,7 +22,7 @@ router.post("/new", (req, res) => {
       userId: req.user.id,
     })
     .then(note => res.json({
-      msg: "note created",
+      message: "note created",
       note
     }))
     .catch((err) => {
@@ -46,6 +46,21 @@ router.get("/user/:id", (req, res) => {
   console.log(req.params.id)
   models.Note.findAll({where: {userId : req.params.id}})
     .then(notes => res.json(notes))
+    .catch((err) => console.log(err))
+});
+
+//delete note by user
+router.delete("/:id", (req, res) => {
+  console.log(req.params.id)
+  models.Note.findByPk(req.params.id)
+    .then((note) => {
+      if(note){
+        note.destroy()
+        .then(note => res.json({message: "note removed"}))
+      }else{
+        res.json({message: "note not found"})
+      }
+    })
     .catch((err) => console.log(err))
 });
 
