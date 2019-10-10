@@ -7,9 +7,7 @@ const secret = process.env.SECRET
 
 //test route
 router.get("/test", (req, res) => {
-  
   res.json({ msg: "test" });
-
 });
 
 //create a new note
@@ -35,15 +33,32 @@ router.post("/new", (req, res) => {
 
 //find note by id
 router.get("/:id", (req, res) => {
-  console.log(req.params.id)
   models.Note.findByPk(req.params.id)
     .then(notes => res.json(notes))
     .catch((err) => console.log(err))
 });
 
+//find note by id
+router.put("/:id", (req, res) => {
+  models.Note.findByPk(req.params.id)
+    .then(note => {
+      if(note){
+        note.update(
+          {
+            title: req.body.title,
+            text: req.body.text
+          }
+        )
+        .then(note => res.json(note))
+      }else{
+        res.json({message: "note not found"})
+      }
+    })
+    .catch((err) => console.log(err))
+});
+
 //find notes of user
 router.get("/user/:id", (req, res) => {
-  console.log(req.params.id)
   models.Note.findAll({where: {userId : req.params.id}})
     .then(notes => res.json(notes))
     .catch((err) => console.log(err))
@@ -51,7 +66,6 @@ router.get("/user/:id", (req, res) => {
 
 //delete note by user
 router.delete("/:id", (req, res) => {
-  console.log(req.params.id)
   models.Note.findByPk(req.params.id)
     .then((note) => {
       if(note){
