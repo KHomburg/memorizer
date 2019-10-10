@@ -16,21 +16,19 @@ router.get("/", (req, res) => {
 });
 
 //register route
-router.post("/register", (req, res) => {
+router.post("/register", (req, res, next) => {
   models.User.findOne({ where: { email: req.body.email } })
     .then((user) => {
       if (user) {
-        res.json({
-          msg: "user already exists",
-          user
-        })
+        const err = new Error("email already in use")
+        next(err)
       } else {
         if(req.body.password === req.body.password2){
           bcrypt.genSalt(10, (err, salt) => {
             if (err) throw err
             bcrypt.hash(req.body.password, salt, (err, hash) => {
               //TODO: include validation
-              if (err) throw err
+              if (err) next(err)
               models.User.create(
                 {
                   username: req.body.username,
@@ -39,33 +37,31 @@ router.post("/register", (req, res) => {
                 }
               )
               .then(user => res.json({
-                msg: "user created",
+                message: "user created",
                 user
               }))
-              .catch((err) => {
-                res.json({ error: err })
-                if (err) throw err
-              })
+              .catch((err) => next(err))
             }, null)
           
           })
         }else{
-          errors.password = "Passwords do not match";
-          return res.status(404).json(errors);
+          const err = new Error("Passwords do not match")
+          next(err)
         }
       }
     })
+    .catch((err) => next(err))
 })
 
 //login route
-router.post("/login", (req, res) => {
+router.post("/login", (req, res, next) => {
   const email = req.body.email;
   const password = req.body.password;
   models.User.findOne({ where: { email: req.body.email } })
     .then((user) => {
       if (!user) {
-        errors.email = "Email not found";
-        return res.status(404).json(errors);
+        const err = new Error("user not found")
+        next(err)
       }
       //TODO: include validation
       bcrypt.compare(password, user.password)
@@ -77,37 +73,48 @@ router.post("/login", (req, res) => {
             };
             jwt.sign(payload, secret, { expiresIn: 36000 },
               (err, token) => {
-                if (err) res.status(500)
-                  .json({
-                    error: "Error signing token",
-                    raw: err
-                  });
-                res.json({
-                  success: true,
-                  token: `Bearer ${token}`
-                });
+                if (err){
+                  next(err)
+                }else{
+                  res.json({token: `Bearer ${token}`});
+                }
               });
           } else {
-              errors.email = "Password does not match";
-              return res.status(404).json(errors);
+            const err = new Error("Password does not match")
+            next(err)
           }
         })
-        .catch((err) => console.log(err))
-    });
+        .catch((err) => next(err))
+    })
+    .catch((err) => next(err))
 })
 
 //find user by id route
-router.get("/:id", passport.authenticate('jwt', {session: false}), (req, res) => {
+router.get("/:id", passport.authenticate('jwt', {session: false}), (req, res, next) => {
   models.User.findByPk(req.params.id)
-    .then(user => res.json(user))
-    .catch((err) => console.log(err))
+    .then((user) => {
+      if(user){
+        res.json(user)
+      }else{
+        const err = new Error("user not found")
+        next(err)
+      }
+    })
+    .catch((err) => next(err))
 });
 
 //find note with user model by noteId
-router.get("/note/:id", passport.authenticate('jwt', {session: false}), (req, res) => {
+router.get("/note/:id", passport.authenticate('jwt', {session: false}), (req, res, next) => {
   models.Note.findByPk(req.params.id, {include: [{model: models.User, as: "user"}]})
-    .then(note => res.json(note))
-    .catch((err) => console.log(err))
+    .then((note) => {
+      if(note){
+        res.json(note)
+      }else{
+        const err = new Error("user could not be found; either note does not exist or internal error")
+        next(err)
+      }
+    })
+    .catch((err) => next(err))
 });
 
 
