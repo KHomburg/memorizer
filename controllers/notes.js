@@ -6,12 +6,12 @@ require('dotenv').config();
 const secret = process.env.SECRET
 
 //test route
-router.get("/test", (req, res) => {
+router.get("/test", (req, res, next) => {
   res.json({ msg: "test" });
 });
 
 //create a new note
-router.post("/new", (req, res) => {
+router.post("/new", (req, res, next) => {
   //TODO: add input validation
   models.Note.create(
     {
@@ -23,23 +23,25 @@ router.post("/new", (req, res) => {
       message: "note created",
       note
     }))
-    .catch((err) => {
-      if(err){
-        res.json(err)
-        if (err) throw err
+    .catch((err) => next(err))
+});
+
+//find note by id
+router.get("/:id", (req, res, next) => {
+  models.Note.findByPk(req.params.id)
+    .then((note) => {
+      if(note){
+        res.json(note)
+      }else{
+        const err = new Error("Note not found")
+        next(err)
       }
     })
+    .catch((err) => next(err))
 });
 
 //find note by id
-router.get("/:id", (req, res) => {
-  models.Note.findByPk(req.params.id)
-    .then(notes => res.json(notes))
-    .catch((err) => console.log(err))
-});
-
-//find note by id
-router.put("/:id", (req, res) => {
+router.put("/:id", (req, res, next) => {
   models.Note.findByPk(req.params.id)
     .then(note => {
       if(note){
@@ -50,32 +52,35 @@ router.put("/:id", (req, res) => {
           }
         )
         .then(note => res.json(note))
+        .catch((err) => next(err))
       }else{
-        res.json({message: "note not found"})
+        const err = new Error("note not found")
+        next(err)
       }
     })
-    .catch((err) => console.log(err))
+    .catch((err) => next(err))
 });
 
 //find notes of user
-router.get("/user/:id", (req, res) => {
+router.get("/user/:id", (req, res, next) => {
   models.Note.findAll({where: {userId : req.params.id}})
     .then(notes => res.json(notes))
-    .catch((err) => console.log(err))
+    .catch((err) => next(err))
 });
 
 //delete note by user
-router.delete("/:id", (req, res) => {
+router.delete("/:id", (req, res, next) => {
   models.Note.findByPk(req.params.id)
     .then((note) => {
       if(note){
         note.destroy()
         .then(note => res.json({message: "note removed"}))
       }else{
-        res.json({message: "note not found"})
+        const err = new Error("note not found")
+        next(err)
       }
     })
-    .catch((err) => console.log(err))
+    .catch((err) => next(err))
 });
 
 module.exports = router;
