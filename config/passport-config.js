@@ -4,12 +4,12 @@ const ExtractJwt = pp_jwt.ExtractJwt;
 
 
 require('dotenv').config();
-const secret = process.env.SECRET || 'some other secret as default';
+const secret = process.env.SECRET || '123456';
 const models = require("../models")
 
 const opts = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-  secretOrKey: secret
+  secretOrKey: secret,
 };
 
 module.exports = passport => {

@@ -12,42 +12,46 @@ const errors = {}
 
 //test route
 router.get("/", (req, res) => {
-  res.json({ message: "test" });
+  res.json({ message: "this route is not defined" });
 });
 
 //register route
 router.post("/register", (req, res, next) => {
   models.User.findOne({ where: { email: req.body.email } })
     .then((user) => {
+      //TODO: outsource validation
       if (user) {
         const err = new Error("email already in use")
         next(err)
       } else {
-        if(req.body.password === req.body.password2){
-          bcrypt.genSalt(10, (err, salt) => {
-            if (err) next(err)
-            bcrypt.hash(req.body.password, salt, (err, hash) => {
-              //TODO: include validation
-              if (err) next(err)
-              models.User.create(
-                {
-                  username: req.body.username,
-                  password: hash,
-                  email: req.body.email.toLowerCase(),
-                }
-              )
-              .then(user => res.json({
-                message: "user created",
-                user
-              }))
-              .catch((err) => next(err))
-            }, null)
-          
-          })
-        }else{
-          const err = new Error("Passwords do not match")
+        if(!(req.body.password === req.body.password2) || (!req.body.password || !req.body.password2)){
+          const err = new Error("No matching passwords")
           next(err)
         }
+        if(!req.body.username){
+          const err = new Error("Username is missing")
+          next(err)
+        }
+        bcrypt.genSalt(10, (err, salt) => {
+          if (err) next(err)
+          bcrypt.hash(req.body.password, salt, (err, hash) => {
+            //TODO: include validation
+            if (err) next(err)
+            models.User.create(
+              {
+                username: req.body.username,
+                password: hash,
+                email: req.body.email.toLowerCase(),
+              }
+            )
+            .then(user => res.json({
+              message: "user created",
+              user
+            }))
+            .catch((err) => next(err))
+          }, null)
+        
+        })
       }
     })
     .catch((err) => next(err))
