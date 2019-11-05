@@ -4,8 +4,8 @@ import './styles/App.scss';
 import Button from 'react-bootstrap/Button';
 import Header from './components/layout/Header'
 import Landing from './components/layout/Landing'
-import Register from './components/auth/Register'
-import Login from './components/auth/Login'
+import Register from './components/pages/auth/Register'
+import Login from './components/pages/auth/Login'
 
 function App() {
   return (
