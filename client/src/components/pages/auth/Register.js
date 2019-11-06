@@ -1,11 +1,54 @@
-import React from 'react'
+import React, {Fragment, useState} from 'react';
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
 
-const register = () => {
+const Register = () => {
+  const [formData, setFormData] = useState({
+    username: "",
+    email: "",
+    password: "",
+    password2: ""
+  });
+
+  const {username, email, password, password2} = formData;
+  const onChange = e => setFormData({...formData, [e.target.name]: e.target.value})
+  const onSubmit = async e => {
+    e.preventDefault()
+    console.log(formData)
+    if(password !== password2){
+      console.log("Passwords do not match!")
+    }else{
+      console.log("good job")
+    }
+  }
+
   return (
-    <div>
-      Register
-    </div>
+    <Fragment>
+      <h5>Register</h5>
+      <Form onSubmit={e=>onSubmit(e)}>
+      <Form.Group controlId="formBasicName">
+          <Form.Label>Username</Form.Label>
+          <Form.Control type="text" name="username" placeholder="Enter Username" value={username} onChange={e => onChange(e)} />
+        </Form.Group>
+        <Form.Group controlId="formBasicEmail">
+          <Form.Label>Email address</Form.Label>
+          <Form.Control type="email" name="email" placeholder="Enter E-mail" value={email} onChange={e => onChange(e)} />
+        </Form.Group>
+
+        <Form.Group controlId="formBasicPassword">
+          <Form.Label>Password</Form.Label>
+          <Form.Control type="password" name="password" placeholder="Password" value={password} onChange={e => onChange(e)} />
+        </Form.Group>
+        <Form.Group controlId="formBasicPassword2">
+          <Form.Label>Password Validation</Form.Label>
+          <Form.Control type="password" name="password2" placeholder="Password validation" value={password2} onChange={e => onChange(e)} />
+        </Form.Group>
+        <Button variant="primary border-white" type="submit" value="register">
+          Register
+        </Button>
+      </Form>
+    </Fragment>
   )
 }
 
-export default register
+export default Register
