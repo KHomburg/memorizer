@@ -7,8 +7,15 @@ const config = require("../config/config")
 const bcrypt = require('bcryptjs');
 require('dotenv').config();
 const secret = process.env.SECRET
+const validate = require("../helpers/validation")
 
-const errors = {}
+var registerConstraints = {
+  username: {
+    presence: {
+      message: "Username is required"
+    }
+  }
+}
 
 //test route
 router.get("/", (req, res) => {
@@ -17,41 +24,40 @@ router.get("/", (req, res) => {
 
 //register route
 router.post("/register", (req, res, next) => {
-  models.User.findOne({ where: { email: req.body.email } })
-    .then((user) => {
-      //TODO: outsource validation
-      if (user) {
-        const err = new Error("email already in use")
-        next(err)
-      } else {
-        if(!(req.body.password === req.body.password2) || (!req.body.password || !req.body.password2)){
-          const err = new Error("No matching passwords")
-          next(err)
-        }
-        if(!req.body.username){
-          const err = new Error("Username is missing")
-          next(err)
-        }
-        bcrypt.genSalt(10, (err, salt) => {
-          if (err) next(err)
-          bcrypt.hash(req.body.password, salt, (err, hash) => {
-            //TODO: include validation
-            if (err) next(err)
-            models.User.create(
-              {
-                username: req.body.username,
-                password: hash,
-                email: req.body.email.toLowerCase(),
-              }
-            )
-            .then(user => res.json({
-              message: "user created",
-              user
-            }))
-            .catch((err) => next(err))
-          }, null)
-        
+  validate.validateRegistration(req, res)
+  .then((validationErrors) => {
+    if(validationErrors){
+      res.json({errors: validationErrors}).status(500)
+    }else{
+      models.User.findOne({ where: { email: req.body.email } })
+        .then((user) => {
+          if (user) {
+            const err = new Error("E-mail already in use")
+            next(err)
+          } else {
+
+            bcrypt.genSalt(10, (err, salt) => {
+              if (err) next(err)
+              bcrypt.hash(req.body.password, salt, (err, hash) => {
+                //TODO: include validation
+                if (err) next(err)
+                models.User.create(
+                  {
+                    username: req.body.username,
+                    password: hash,
+                    email: req.body.email.toLowerCase(),
+                  }
+                )
+                .then(user => res.json({
+                  message: "user created",
+                  user
+                }))
+                .catch((err) => next(err))
+              }, null)
+            })
+          }
         })
+        .catch((err) => next(err))
       }
     })
     .catch((err) => next(err))
@@ -61,37 +67,46 @@ router.post("/register", (req, res, next) => {
 router.post("/login", (req, res, next) => {
   const email = req.body.email;
   const password = req.body.password;
-  models.User.findOne({ where: { email: req.body.email } })
-    .then((user) => {
-      if (!user) {
-        const err = new Error("user not found")
-        next(err)
+  validate.validateLogin(req, res)
+    .then((validationErrors) => {
+      if(validationErrors){
+        res.json({errors: validationErrors}).status(500)
+      }else{
+        models.User.findOne({ where: { email: req.body.email } })
+          .then((user) => {
+            if (!user) {
+              const err = new Error("user not found")
+              next(err)
+            }else{
+              bcrypt.compare(password, user.password)
+                .then(isMatch => {
+                  if (isMatch) {
+                    const payload = {
+                      id: user.id,
+                      name: user.username
+                    };
+                    jwt.sign(payload, secret, { expiresIn: 36000 },
+                      (err, token) => {
+                        if (err){
+                          next(err)
+                        }else{
+                          res.json({token: `Bearer ${token}`});
+                        }
+                      });
+                  } else {
+                    const err = new Error("Password does not match")
+                    next(err)
+                  }
+                })
+                .catch((err) => next(err))
+              }
+          })
+          .catch((err) => next(err))
       }
-      //TODO: include validation
-      bcrypt.compare(password, user.password)
-        .then(isMatch => {
-          if (isMatch) {
-            const payload = {
-              id: user.id,
-              name: user.username
-            };
-            jwt.sign(payload, secret, { expiresIn: 36000 },
-              (err, token) => {
-                if (err){
-                  next(err)
-                }else{
-                  res.json({token: `Bearer ${token}`});
-                }
-              });
-          } else {
-            const err = new Error("Password does not match")
-            next(err)
-          }
-        })
-        .catch((err) => next(err))
     })
     .catch((err) => next(err))
 })
+
 
 //find user by id route
 router.get("/:id", passport.authenticate('jwt', {session: false}), (req, res, next) => {
