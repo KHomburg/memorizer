@@ -6,6 +6,7 @@ import Header from './components/layout/Header'
 import Landing from './components/layout/Landing'
 import Register from './components/pages/auth/Register'
 import Login from './components/pages/auth/Login'
+import Alert from './components/layout/Alert'
 
 
 //redux setup
@@ -20,6 +21,7 @@ function App() {
           <Header />
           <Route exact path="/" component={Landing} />
           <section className="containter">
+            <Alert />
             <Switch>
               <Route exact path="/users/register" component={Register} />
               <Route exact path="/users/login" component={Login} />
