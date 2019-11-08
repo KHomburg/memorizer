@@ -9,14 +9,6 @@ require('dotenv').config();
 const secret = process.env.SECRET
 const validate = require("../helpers/validation")
 
-var registerConstraints = {
-  username: {
-    presence: {
-      message: "Username is required"
-    }
-  }
-}
-
 //test route
 router.get("/", (req, res) => {
   res.json({ message: "this route is not defined" });
@@ -35,11 +27,9 @@ router.post("/register", (req, res, next) => {
             const err = new Error("E-mail already in use")
             next(err)
           } else {
-
             bcrypt.genSalt(10, (err, salt) => {
               if (err) next(err)
               bcrypt.hash(req.body.password, salt, (err, hash) => {
-                //TODO: include validation
                 if (err) next(err)
                 models.User.create(
                   {
@@ -64,47 +54,29 @@ router.post("/register", (req, res, next) => {
 })
 
 //login route
-router.post("/login", (req, res, next) => {
-  const email = req.body.email;
-  const password = req.body.password;
-  validate.validateLogin(req, res)
-    .then((validationErrors) => {
-      if(validationErrors){
-        res.json({errors: validationErrors}).status(500)
-      }else{
-        models.User.findOne({ where: { email: req.body.email } })
-          .then((user) => {
-            if (!user) {
-              const err = new Error("user not found")
-              next(err)
-            }else{
-              bcrypt.compare(password, user.password)
-                .then(isMatch => {
-                  if (isMatch) {
-                    const payload = {
-                      id: user.id,
-                      name: user.username
-                    };
-                    jwt.sign(payload, secret, { expiresIn: 36000 },
-                      (err, token) => {
-                        if (err){
-                          next(err)
-                        }else{
-                          res.json({token: `Bearer ${token}`});
-                        }
-                      });
-                  } else {
-                    const err = new Error("Password does not match")
-                    next(err)
-                  }
-                })
-                .catch((err) => next(err))
-              }
-          })
-          .catch((err) => next(err))
-      }
-    })
-    .catch((err) => next(err))
+router.post("/login", async (req, res, next) => {
+  try{
+    const validationErrors =  await validate.validateLogin(req, res)
+    if(validationErrors) res.json({errors: validationErrors}).status(500)
+
+    const user = await models.User.findOne({ where: { email: req.body.email } })
+    if(!user) res.json({errors: "User with this e-mail adress not found"})
+    
+    const isMatch = await bcrypt.compare(req.body.password, user.password)
+    if (isMatch) {
+      const payload = {
+        id: user.id,
+        name: user.username
+      };
+      jwt.sign(payload, secret, { expiresIn: 36000 }, (err, token) => {
+          err ? next(err): res.json({token: `Bearer ${token}`})
+        });
+    } else {
+      res.json({errors: "Wrong password"}).status(500)
+    }
+  }catch(error){
+    return next(error)
+  }
 })
 
 

@@ -44,7 +44,6 @@ const validateRegistration = (req, res) => {
         }
       }
     }
-    
     resolve(validate(req.body, registerConstraints, {format: "custom"}))
   })
 }
@@ -71,7 +70,6 @@ const validateLogin = (req, res) => {
         }
       },
     }
-    
     resolve(validate(req.body, loginConstraints, {format: "custom"}))
   })
 }
