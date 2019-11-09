@@ -19,13 +19,12 @@ router.post("/register", (req, res, next) => {
   validate.validateRegistration(req, res)
   .then((validationErrors) => {
     if(validationErrors){
-      res.json({errors: validationErrors}).status(500)
+      res.status(400).json({errors: validationErrors})
     }else{
       models.User.findOne({ where: { email: req.body.email } })
         .then((user) => {
           if (user) {
-            const err = new Error("E-mail already in use")
-            next(err)
+            res.status(400).json({errors: ["E-mail adress already in use"]})
           } else {
             bcrypt.genSalt(10, (err, salt) => {
               if (err) next(err)
@@ -57,10 +56,10 @@ router.post("/register", (req, res, next) => {
 router.post("/login", async (req, res, next) => {
   try{
     const validationErrors =  await validate.validateLogin(req, res)
-    if(validationErrors) res.json({errors: validationErrors}).status(500)
+    if(validationErrors) res.status(400).json({errors: validationErrors})
 
     const user = await models.User.findOne({ where: { email: req.body.email } })
-    if(!user) res.json({errors: "User with this e-mail adress not found"})
+    if(!user) res.status(400).json({errors: ["User with this e-mail adress not found"]})
     
     const isMatch = await bcrypt.compare(req.body.password, user.password)
     if (isMatch) {
@@ -72,7 +71,7 @@ router.post("/login", async (req, res, next) => {
           err ? next(err): res.json({token: `Bearer ${token}`})
         });
     } else {
-      res.json({errors: "Wrong password"}).status(500)
+      res.status(400).json({errors: "Wrong password"})
     }
   }catch(error){
     return next(error)
@@ -87,8 +86,7 @@ router.get("/:id", passport.authenticate('jwt', {session: false}), (req, res, ne
       if(user){
         res.json(user)
       }else{
-        const err = new Error("user not found")
-        next(err)
+        res.status(404).json({errors: ["User not found"]})
       }
     })
     .catch((err) => next(err))
@@ -101,8 +99,7 @@ router.get("/note/:id", passport.authenticate('jwt', {session: false}), (req, re
       if(note){
         res.json(note)
       }else{
-        const err = new Error("user could not be found; either note does not exist or internal error")
-        next(err)
+        res.status(404).json({errors: ["User not found"]})
       }
     })
     .catch((err) => next(err))

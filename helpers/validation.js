@@ -14,10 +14,10 @@ const validateRegistration = (req, res) => {
     var registerConstraints = {
       email: {
         presence: {
-          message: "Email is required"
+          message: "Email adress is required"
         },
         email: {
-          message: "You entered an invalid E-Mail"
+          message: "You entered an invalid E-Mail adress"
         }
       },
       username: {
