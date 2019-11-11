@@ -1,8 +1,12 @@
 import React, {Fragment, useState} from 'react';
+import {connect} from "react-redux";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import {setAlert} from "../../../actions/alert";
+import {login} from "../../../actions/auth";
+import PropTypes from 'prop-types';
 
-const Login = () => {
+const Login = ({setAlert, login}) => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -12,7 +16,7 @@ const Login = () => {
   const onChange = e => setFormData({...formData, [e.target.name]: e.target.value})
   const onSubmit = async e => {
     e.preventDefault()
-    console.log(formData)
+    login({email, password});
   }
 
   return (
@@ -36,4 +40,9 @@ const Login = () => {
   )
 }
 
-export default Login
+Login.propTypes={
+  setAlert: PropTypes.func.isRequired,
+  login: PropTypes.func.isRequired,
+}
+
+export default connect(null, {setAlert, login})(Login)

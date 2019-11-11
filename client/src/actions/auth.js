@@ -2,9 +2,33 @@ import axios from "axios";
 import {setAlert} from "./alert"
 import {
   REGISTER_SUCCESS,
-  REGISTER_FAIL
+  REGISTER_FAIL,
+  USER_LOADED,
+  AUTH_ERROR,
+  LOGIN_SUCCESS,
+  LOGIN_FAIL
 }from "./types";
+import setAuthToken from "../utils/setAuthToken"
 
+//TODO: refactor this function to user my strategy for getting currentUser from the backend
+//Load User
+//export const loadUser = () => async dispatch=>{
+//  if(localStorage.token){
+//    setAuthToken(localStorage.token)
+//  }
+//
+//  try{
+//    const res = await axios.get("/api/auth")
+//    dispatch({
+//      type: USER_LOADED,
+//      payload: res.data
+//    })
+//  }catch(err){
+//    dispatch({
+//      type: AUTH_ERROR
+//    })
+//  }
+//}
 
 //Register User
 export const register = ({username, email, password, password2}) => async dispatch => {
@@ -13,8 +37,9 @@ export const register = ({username, email, password, password2}) => async dispat
       "Content-Type": "application/json"
     }
   }
-
+  
   const body = JSON.stringify({username, email, password, password2})
+  console.log(body)
 
   try {
     const res = await axios.post("/api/users/register", body, config);
@@ -32,4 +57,35 @@ export const register = ({username, email, password, password2}) => async dispat
     })
   }
 }
+
+//Login User
+export const login = ({email, password}) => async dispatch => {
+  console.log("test")
+  const config = {
+    headers : {
+      "Content-Type": "application/json"
+    }
+  }
+
+  const body = JSON.stringify({email, password})
+  console.log(body)
+
+  try {
+    const res = await axios.post("/api/users/login", body, config);
+    console.log(res)
+    dispatch({
+      type: LOGIN_SUCCESS, 
+      payload: res.data
+    })
+  }catch (err) {
+    const errors = err.response.data.errors;
+    if(errors){
+      errors.forEach(error => dispatch(setAlert(error, "danger")))
+    }
+    dispatch({
+      type: LOGIN_FAIL
+    })
+  }
+}
+
 

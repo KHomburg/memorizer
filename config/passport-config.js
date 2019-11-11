@@ -20,7 +20,7 @@ module.exports = passport => {
           if (user) {
             return done(null, {
               id: user.id,
-              name: user.name,
+              name: user.username,
               email: user.email,
             });
           }

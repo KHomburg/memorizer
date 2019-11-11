@@ -1,4 +1,4 @@
-import React, {Fragment} from 'react';
+import React, {Fragment, useEffect} from 'react';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom' 
 import './styles/App.scss';
 
@@ -12,8 +12,19 @@ import Alert from './components/layout/Alert'
 //redux setup
 import {Provider} from "react-redux";
 import store from "./store"
+//TODO: check if necessary for authentication:
+//import {loadUser} from "./actions/auth"
+//import setAuthToken from "./utils/setAuthToken"
+//if(localStorage.token){
+//  setAuthToken(localStorage.token)
+//}
 
-function App() {
+const App = () => {
+  //TODO: add in authentication (maybe not here)
+  //useEffect(()=> {
+  //  store.dispatch(loadUser());
+  //}, [])
+
   return (
     <Provider store={store}>
       <Router>
