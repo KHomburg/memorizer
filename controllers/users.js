@@ -65,10 +65,11 @@ router.post("/login", async (req, res, next) => {
     if (isMatch) {
       const payload = {
         id: user.id,
+        email: user.email,
         name: user.username
       };
-      jwt.sign(payload, secret, { expiresIn: 36000 }, (err, token) => {
-          err ? next(err): res.json({token: `Bearer ${token}`})
+      jwt.sign(payload, secret, /*{ expiresIn: 36000 },*/ (err, token) => {
+          err ? next(err): res.json({token: `Bearer ${token}`, user: payload})
         });
     } else {
       res.status(400).json({errors: "Wrong password"})
@@ -77,6 +78,13 @@ router.post("/login", async (req, res, next) => {
     return next(error)
   }
 })
+
+//user authentication route for users that have a token
+router.get("/auth", passport.authenticate('jwt', {session: false}), (req, res, next) => {
+  console.log(req.user)
+  res.json({user: req.user})
+})
+
 
 
 //find user by id route

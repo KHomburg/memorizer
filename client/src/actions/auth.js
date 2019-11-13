@@ -8,27 +8,21 @@ import {
   LOGIN_SUCCESS,
   LOGIN_FAIL
 }from "./types";
-import setAuthToken from "../utils/setAuthToken"
 
-//TODO: refactor this function to user my strategy for getting currentUser from the backend
 //Load User
-//export const loadUser = () => async dispatch=>{
-//  if(localStorage.token){
-//    setAuthToken(localStorage.token)
-//  }
-//
-//  try{
-//    const res = await axios.get("/api/auth")
-//    dispatch({
-//      type: USER_LOADED,
-//      payload: res.data
-//    })
-//  }catch(err){
-//    dispatch({
-//      type: AUTH_ERROR
-//    })
-//  }
-//}
+export const loadUser = () => async dispatch=>{
+  try{
+    const res = await axios.get("/api/users/auth", {headers: {Authorization: localStorage.token}})
+    dispatch({
+      type: USER_LOADED,
+      payload: res.data
+    })
+  }catch(err){
+    dispatch({
+      type: AUTH_ERROR
+    })
+  }
+}
 
 //Register User
 export const register = ({username, email, password, password2}) => async dispatch => {
@@ -39,7 +33,6 @@ export const register = ({username, email, password, password2}) => async dispat
   }
   
   const body = JSON.stringify({username, email, password, password2})
-  console.log(body)
 
   try {
     const res = await axios.post("/api/users/register", body, config);
@@ -60,7 +53,6 @@ export const register = ({username, email, password, password2}) => async dispat
 
 //Login User
 export const login = ({email, password}) => async dispatch => {
-  console.log("test")
   const config = {
     headers : {
       "Content-Type": "application/json"
