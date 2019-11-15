@@ -3,7 +3,7 @@ import {setAlert} from "./alert"
 import {
   REGISTER_SUCCESS,
   REGISTER_FAIL,
-  USER_LOADED,
+  CURRENT_USER_LOADED,
   AUTH_ERROR,
   LOGIN_SUCCESS,
   LOGIN_FAIL,
@@ -15,7 +15,7 @@ export const loadUser = () => async dispatch=>{
   try{
     const res = await axios.get("/api/users/auth", {headers: {Authorization: localStorage.token}})
     dispatch({
-      type: USER_LOADED,
+      type: CURRENT_USER_LOADED,
       payload: res.data
     })
   }catch(err){
