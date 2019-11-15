@@ -8,6 +8,9 @@ import Register from './components/pages/auth/Register'
 import Login from './components/pages/auth/Login'
 import Alert from './components/layout/Alert'
 
+//routing components
+import PrivateRoute from "./components/routing/PrivateRoute" //component to check for authentication
+
 
 //redux setup
 import {Provider} from "react-redux";
@@ -16,7 +19,6 @@ import store from "./store"
 import {loadUser} from "./actions/auth"
 
 const App = () => {
-  //TODO: add in authentication (maybe not here)
   useEffect(()=> {
     store.dispatch(loadUser());
   }, [])
@@ -32,6 +34,7 @@ const App = () => {
             <Switch>
               <Route exact path="/users/register" component={Register} />
               <Route exact path="/users/login" component={Login} />
+              <PrivateRoute exact path="/test" component={Landing} />
             </Switch>
           </section>
         </Fragment>

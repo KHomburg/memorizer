@@ -8,7 +8,7 @@ const Header = ({auth: {isAuthenticated, loading}, logout }) => {
   return (
     <div>
       <div className="navbar navbar-expand-lg navbar-dark">
-        <a className="navbar-brand" href="#">Memorizer</a>
+        <a className="navbar-brand" href="/">Memorizer</a>
         <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span className="navbar-toggler-icon"></span>
         </button>
