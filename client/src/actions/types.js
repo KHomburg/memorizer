@@ -17,7 +17,11 @@ export const USER_ERROR = "USER_ERROR";
 
 //Get note information
 export const GET_NOTE = "GET_NOTE";
-export const NOTE_ERROR = "NOTE_ERROR";
+export const LOAD_NOTE_ERROR = "LOAD_NOTE_ERROR";
+export const CREATE_NOTE = "CREATE_NOTE";
+export const CREATE_NOTE_ERROR = "CREATE_NOTE_ERROR";
+
+
 
 
 
