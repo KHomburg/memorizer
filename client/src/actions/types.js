@@ -15,6 +15,11 @@ export const REMOVE_ALERT = "REMOVE_ALERT";
 export const GET_USER = "GET_USER";
 export const USER_ERROR = "USER_ERROR";
 
+//Get note information
+export const GET_NOTE = "GET_NOTE";
+export const NOTE_ERROR = "NOTE_ERROR";
+
+
 
 
 

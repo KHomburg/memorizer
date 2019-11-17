@@ -33,8 +33,7 @@ router.get("/:id", (req, res, next) => {
       if(note){
         res.json(note)
       }else{
-        const err = new Error("Note not found")
-        next(err)
+        res.status(404).json({errors: ["Note not found"]})
       }
     })
     .catch((err) => next(err))
@@ -54,8 +53,7 @@ router.put("/:id", (req, res, next) => {
         .then(note => res.json(note))
         .catch((err) => next(err))
       }else{
-        const err = new Error("note not found")
-        next(err)
+        res.status(404).json({errors: ["Note not found"]})
       }
     })
     .catch((err) => next(err))
