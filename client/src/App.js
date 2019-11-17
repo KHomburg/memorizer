@@ -7,6 +7,7 @@ import Landing from './components/layout/Landing'
 import Register from './components/pages/auth/Register'
 import Login from './components/pages/auth/Login'
 import Alert from './components/layout/Alert'
+import User from './components/pages/users/User'
 
 //routing components
 import PrivateRoute from "./components/routing/PrivateRoute" //component to check for authentication
@@ -34,6 +35,7 @@ const App = () => {
             <Switch>
               <Route exact path="/users/register" component={Register} />
               <Route exact path="/users/login" component={Login} />
+              <PrivateRoute exact path="/users/:id" component={User} />
               <PrivateRoute exact path="/test" component={Landing} />
             </Switch>
           </section>
