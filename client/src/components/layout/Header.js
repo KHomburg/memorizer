@@ -4,7 +4,7 @@ import {connect} from "react-redux"
 import PropTypes from 'prop-types';
 import {logout} from "../../actions/auth"
 
-const Header = ({auth: {isAuthenticated, loading}, logout }) => {
+const Header = ({auth: {isAuthenticated, loading, currentUser}, logout }) => {
   return (
     <div>
       <div className="navbar navbar-expand-lg navbar-dark">
@@ -33,6 +33,12 @@ const Header = ({auth: {isAuthenticated, loading}, logout }) => {
                 <Fragment>
                   <li className="nav-item">
                     <Link onClick={logout} className="nav-link">Logout</Link>
+                  </li>
+                  <li className="nav-item">
+                    <Link to={"/users/"+currentUser.id} className="nav-link">My Profile</Link>
+                  </li>
+                  <li className="nav-item">
+                    <Link to="/notes/new" className="nav-link">New Note</Link>
                   </li>
                 </Fragment>
             }

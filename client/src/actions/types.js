@@ -13,7 +13,9 @@ export const REMOVE_ALERT = "REMOVE_ALERT";
 
 //Get user information
 export const GET_USER = "GET_USER";
+export const LIST_USERS = "LIST_USERS";
 export const USER_ERROR = "USER_ERROR";
+export const LIST_USERS_ERROR = "LIST_USERS_ERROR";
 
 //Get note information
 export const GET_NOTE = "GET_NOTE";

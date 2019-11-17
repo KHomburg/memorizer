@@ -9,11 +9,6 @@ require('dotenv').config();
 const secret = process.env.SECRET
 const validate = require("../helpers/validation")
 
-//test route
-router.get("/", (req, res) => {
-  res.json({ message: "this route is not defined" });
-});
-
 //register route
 router.post("/register", (req, res, next) => {
   validate.validateRegistration(req, res)
@@ -98,6 +93,21 @@ router.get("/:id", passport.authenticate('jwt', {session: false}), (req, res, ne
       }
     })
     .catch((err) => next(err))
+});
+
+//find user by id route
+router.get("/", passport.authenticate('jwt', {session: false}), async (req, res, next) => {
+  
+  try{
+    const users = await models.User.findAll()
+    if(users){
+      res.json(users)
+    }else{
+      res.status(404).json({errors: ["No Users found"]})
+    }
+  }catch(err){
+    next(err)
+  }
 });
 
 //find note with user model by noteId
