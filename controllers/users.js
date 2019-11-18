@@ -76,28 +76,27 @@ router.post("/login", async (req, res, next) => {
 
 //user authentication route for users that have a token
 router.get("/auth", passport.authenticate('jwt', {session: false}), (req, res, next) => {
-  console.log(req.user)
   res.json({currentUser: req.user})
 })
 
 
 
 //find user by id route
-router.get("/:id", passport.authenticate('jwt', {session: false}), (req, res, next) => {
-  models.User.findByPk(req.params.id)
-    .then((user) => {
-      if(user){
-        res.json(user)
-      }else{
-        res.status(404).json({errors: ["User not found"]})
-      }
-    })
-    .catch((err) => next(err))
+router.get("/:id", passport.authenticate('jwt', {session: false}), async (req, res, next) => {
+  try{
+    const user = await models.User.findByPk(req.params.id)
+    if(user){
+      res.json(user)
+    }else{
+      res.status(404).json({errors: ["User not found"]})
+    }
+  }catch(err){
+    next(err)
+  }
 });
 
 //find user by id route
 router.get("/", passport.authenticate('jwt', {session: false}), async (req, res, next) => {
-  
   try{
     const users = await models.User.findAll()
     if(users){
@@ -111,16 +110,17 @@ router.get("/", passport.authenticate('jwt', {session: false}), async (req, res,
 });
 
 //find note with user model by noteId
-router.get("/note/:id", passport.authenticate('jwt', {session: false}), (req, res, next) => {
-  models.Note.findByPk(req.params.id, {include: [{model: models.User, as: "user"}]})
-    .then((note) => {
-      if(note){
-        res.json(note)
-      }else{
-        res.status(404).json({errors: ["User not found"]})
-      }
-    })
-    .catch((err) => next(err))
+router.get("/note/:id", passport.authenticate('jwt', {session: false}), async (req, res, next) => {
+  try{
+    const note = await models.Note.findByPk(req.params.id, {include: [{model: models.User, as: "user"}]})
+    if(note){
+      res.json(note)
+    }else{
+      res.status(404).json({errors: ["Note not found"]})
+    }
+  }catch(err){
+    next(err)
+  }
 });
 
 
