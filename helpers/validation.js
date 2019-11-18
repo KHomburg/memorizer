@@ -74,7 +74,27 @@ const validateLogin = (req, res) => {
   })
 }
 
+//Validation for note Input
+const validateNote = (req, res) => {
+  return new Promise((resolve, reject) =>{
+    var noteConstraints = {
+      title: {
+        presence: {
+          message: "Title is required"
+        },
+      },
+      text: {
+        presence: {
+          message: "Text is required"
+        }
+      },
+    }
+    resolve(validate(req.body, noteConstraints, {format: "custom"}))
+  })
+}
+
 module.exports = {
   validateRegistration,
   validateLogin,
+  validateNote,
 }
