@@ -1,4 +1,4 @@
-import { LOAD_NOTE_ERROR, GET_NOTE, CREATE_NOTE_ERROR, CREATE_NOTE } from "../actions/types";
+import { LOAD_NOTE_ERROR, GET_NOTE, CREATE_NOTE_ERROR, CREATE_NOTE, LIST_NOTES, LIST_NOTES_ERROR } from "../actions/types";
 
 const initialState = {
   note: null,
@@ -17,6 +17,12 @@ export default function(state= initialState, action){
         note: payload,
         loading: false
       }
+    case LIST_NOTES:
+      return{
+        ...state,
+        notes: payload,
+        loading: false
+      }
     case CREATE_NOTE:
       return{
         ...state,
@@ -30,6 +36,7 @@ export default function(state= initialState, action){
         loading: false
       }
     case LOAD_NOTE_ERROR:
+    case LIST_NOTES_ERROR:
       return{
         ...state,
         error: payload,

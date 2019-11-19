@@ -2,12 +2,14 @@ import axios from "axios"
 import {setAlert} from "./alert"
 import{
   GET_NOTE,
+  LIST_NOTES,
+  LIST_NOTES_ERROR,
   CREATE_NOTE,
   LOAD_NOTE_ERROR,
   CREATE_NOTE_ERROR
 } from "./types";
 
-//get user by id
+//get note by id
 export const getNote = (id) => async dispatch =>{
   try {
     const res = await axios.get("/api/notes/" + id, 
@@ -46,6 +48,25 @@ export const createNote = ({title, text}) => async dispatch => {
     }
     dispatch({
       type: CREATE_NOTE_ERROR
+    })
+  }
+}
+
+//list notes
+export const listNotes = () => async dispatch =>{
+  try {
+    const res = await axios.get("/api/notes", 
+      {headers: {Authorization: localStorage.token}}
+    )
+    console.log(res.data)
+    dispatch({
+      type: LIST_NOTES,
+      payload: res.data
+    })
+  }catch(err){
+    dispatch({
+      type: LIST_NOTES_ERROR,
+      payload: {msg: err.response.statusText, status: err.response.status}
     })
   }
 }

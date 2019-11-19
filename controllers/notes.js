@@ -42,6 +42,20 @@ router.get("/:id", async (req, res, next) => {
   }
 });
 
+//find all notes by id
+router.get("/", async (req, res, next) => {
+  try{
+    const notes = await models.Note.findAll({include: [{model: models.User, as: "user"}]})
+    if(notes){
+      res.json(notes)
+    }else{
+      res.status(404).json({errors: ["Notes not found"]})
+    }
+  }catch(err){
+    next(err)
+  }
+});
+
 //update note
 router.put("/:id", async (req, res, next) => {
   try{

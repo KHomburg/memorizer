@@ -12,6 +12,7 @@ import UserIndex from './components/pages/users/UserIndex'
 
 import Note from './components/pages/notes/Note'
 import CreateNote from './components/pages/notes/CreateNote'
+import NoteIndex from './components/pages/notes/NoteIndex'
 
 
 //routing components
@@ -44,6 +45,7 @@ const App = () => {
               <PrivateRoute exact path="/users/:id" component={User} />
               <PrivateRoute exact path="/notes/new" component={CreateNote} />
               <PrivateRoute exact path="/notes/:id" component={Note} />
+              <PrivateRoute exact path="/notes" component={NoteIndex} />
               <PrivateRoute exact path="/test" component={Landing} />
             </Switch>
           </section>
