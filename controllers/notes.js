@@ -8,8 +8,10 @@ const secret = process.env.SECRET
 
 //create a new note
 router.post("/new", async (req, res, next) => {
-    let tags = req.body.tags.split(",")
-    let tagsIds = []
+  if(req.body.tags){
+    var tags = req.body.tags.split(",")
+    var tagsIds = []
+  }
   try{
     const validationErrors = await validate.validateNote(req, res)
     if(validationErrors){
@@ -20,12 +22,11 @@ router.post("/new", async (req, res, next) => {
         text: req.body.text,
         userId: req.user.id,
       })
-      for (const tag of tags){
-        let newTag = await models.Tag.findOrCreate({where: {name: tag}})
-        tagsIds.push(newTag[0].id)
-      }
-
       if(tags){
+        for (const tag of tags){
+          let newTag = await models.Tag.findOrCreate({where: {name: tag}})
+          tagsIds.push(newTag[0].id)
+        }
         await tagsIds.forEach(tagId => {
           models.NotesTag.create({
             noteId: note.id,
@@ -33,6 +34,7 @@ router.post("/new", async (req, res, next) => {
           })
         })
       }
+
       res.json({
         message: "Note created",
         note

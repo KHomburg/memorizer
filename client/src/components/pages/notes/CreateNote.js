@@ -5,19 +5,33 @@ import Form from 'react-bootstrap/Form';
 import {setAlert} from "../../../actions/alert";
 import {createNote} from "../../../actions/note";
 import PropTypes from 'prop-types';
+import CreatableSelect from 'react-select/creatable';
 
 const CreateNote = ({setAlert, createNote}) => {
   const [formData, setFormData] = useState({
     title: "",
     text: "",
+    tags: "",
   });
 
   const {title, text} = formData;
+  let tags = []
   const onChange = e => setFormData({...formData, [e.target.name]: e.target.value})
   const onSubmit = async e => {
     e.preventDefault()
-    createNote({title, text});
+    createNote({title, text, tags});
   }
+
+  const handleChange = (newValue: any, actionMeta: any) => {
+    if(newValue != null){
+      tags = newValue.map(tag => tag.value).toString()
+    }else{
+      tags = []
+    }
+    //console.log(newValue);
+    //console.log(`action: ${actionMeta.action}`);
+    //console.groupEnd();
+  };
 
   return (
     <Fragment>
@@ -32,6 +46,12 @@ const CreateNote = ({setAlert, createNote}) => {
           <Form.Label>Text:</Form.Label>
           <Form.Control type="text" name="text" placeholder="Your Text" value={text} onChange={e => onChange(e)} />
         </Form.Group>
+        
+        <CreatableSelect
+          name="tags"
+          isMulti
+          onChange={handleChange}
+        />
         <Button variant="primary border-white" type="submit" value="create note">
           Create Note
         </Button>
