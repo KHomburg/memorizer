@@ -84,7 +84,7 @@ router.get("/auth", passport.authenticate('jwt', {session: false}), (req, res, n
 //find user by id route
 router.get("/:id", passport.authenticate('jwt', {session: false}), async (req, res, next) => {
   try{
-    const user = await models.User.findByPk(req.params.id)
+    const user = await models.User.findByPk(req.params.id, {attributes: ["id", "username", "email"]})
     if(user){
       res.json(user)
     }else{
@@ -98,7 +98,7 @@ router.get("/:id", passport.authenticate('jwt', {session: false}), async (req, r
 //find user by id route
 router.get("/", passport.authenticate('jwt', {session: false}), async (req, res, next) => {
   try{
-    const users = await models.User.findAll()
+    const users = await models.User.findAll({attributes: ["id", "username", "email"]})
     if(users){
       res.json(users)
     }else{
@@ -112,7 +112,7 @@ router.get("/", passport.authenticate('jwt', {session: false}), async (req, res,
 //find note with user model by noteId
 router.get("/note/:id", passport.authenticate('jwt', {session: false}), async (req, res, next) => {
   try{
-    const note = await models.Note.findByPk(req.params.id, {include: [{model: models.User, as: "user"}]})
+    const note = await models.Note.findByPk(req.params.id, {include: [{model: models.User, as: "user", attributes: ["id", "username", "email"]}]})
     if(note){
       res.json(note)
     }else{
