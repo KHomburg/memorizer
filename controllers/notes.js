@@ -2,6 +2,8 @@ const express = require("express");
 const router = express.Router();
 const models = require("../models")
 const validate = require("../helpers/validation")
+const Sequelize = require("sequelize")
+const Op = Sequelize.Op
 
 require('dotenv').config();
 const secret = process.env.SECRET
@@ -28,17 +30,12 @@ router.post("/new", async (req, res, next) => {
           let newTag = await models.Tag.findOrCreate({where: {name: tag}})
           tagsIds.push(newTag[0].id)
         }
-        await tagsIds.forEach(tagId => {
-          models.NotesTag.create({
-            noteId: note.id,
-            tagId: tagId
-          })
-        })
+        await note.setTags(tagsIds)
       }
-
+      const newNote = await models.Note.findByPk(note.id, {include: [{model: models.Tag, as: "tags", through: {attributes:[]}}]})
       res.json({
         message: "Note created",
-        note
+        newNote
       })
     }
   }catch(err){
@@ -81,13 +78,28 @@ router.put("/:id", async (req, res, next) => {
     if(validationErrors){
       res.status(400).json({errors: validationErrors})
     }else{
-      const note = await models.Note.findByPk(req.params.id)
+      const note = await models.Note.findByPk(req.params.id, {include: [{model: models.Tag, as: "tags", through: {attributes:[]}}]})
+      let tags = req.body.tags.split(",")
+
       if(note){
         const updatedNote = await note.update({
           title: req.body.title,
-          text: req.body.text
+          text: req.body.text,
+          content: req.body.content,
+          userId: req.user.id,
         })
-        res.json(updatedNote)
+
+        let tagsIds = []
+        if(tags){
+          for (const tag of tags){
+            let newTag = await models.Tag.findOrCreate({where: {name: tag}})
+            tagsIds.push(newTag[0].id)
+          }
+          await note.setTags(tagsIds)
+        }
+        const changedNote = await models.Note.findByPk(req.params.id, {include: [{model: models.Tag, as: "tags", through: {attributes:[]}}]})
+        res.json(changedNote)
+
       }else{
         res.status(404).json({errors: ["Note not found"]})
       }
