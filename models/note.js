@@ -24,6 +24,13 @@ module.exports = (sequelize, DataTypes) => {
         notEmpty: true, 
       }
     },
+    content: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+      validate: {
+        notEmpty: true, 
+      }
+    },
     userId: {
       type: DataTypes.INTEGER,
       allowNull: false,

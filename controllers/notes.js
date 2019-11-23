@@ -20,6 +20,7 @@ router.post("/new", async (req, res, next) => {
       const note = await models.Note.create({
         title: req.body.title,
         text: req.body.text,
+        content: req.body.content,
         userId: req.user.id,
       })
       if(tags){

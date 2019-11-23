@@ -3,7 +3,7 @@ const router = express.Router();
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const models = require("../models")
-const config = require("../config/config")
+const config = require("../config/secret")
 const bcrypt = require('bcryptjs');
 require('dotenv').config();
 const secret = process.env.SECRET
