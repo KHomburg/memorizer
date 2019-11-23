@@ -46,7 +46,8 @@ const CreateNote = ({setAlert, createNote}) => {
         <Form.Group controlId="">
           <Form.Label>Titel</Form.Label>
           <Form.Control type="text" name="title" placeholder="Your Title" value={title} 
-            onChange={e => onChange(e)} 
+            onChange={e => onChange(e)}
+            required
           />
         </Form.Group>
 

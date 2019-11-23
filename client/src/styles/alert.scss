@@ -1,0 +1,25 @@
+.alert-box{
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  width: 30%;
+  min-width: 300px;
+  z-index: 1000;
+}
+
+.alert{
+  position: relative;
+  left: 0;
+}
+
+.close-button{
+  position: absolute;
+  right: 8px;
+  top: 5px;
+  display: inline;
+  //float: right;
+  text-align: right;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+}
