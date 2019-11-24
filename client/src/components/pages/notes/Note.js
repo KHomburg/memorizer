@@ -18,9 +18,11 @@ const Note = ({ getNote, note: {note, loading} }) => {
         </Fragment>
       ) : (
         <Fragment>
-          <p>{note.title}</p>
-          <p>{note.text}</p>
+          <p>Title:    {note.title}</p>
+          <p>Raw Text:   {note.text}</p>
           <p>User Id: {note.userId}</p>
+          <p>Content:     {note.content}</p>
+          <p>Tags:     {note.tags.map(tag => tag.name + ", ")}</p>
         </Fragment>
       )}
     </Fragment>

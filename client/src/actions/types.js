@@ -23,7 +23,9 @@ export const LOAD_NOTE_ERROR = "LOAD_NOTE_ERROR";
 export const CREATE_NOTE = "CREATE_NOTE";
 export const CREATE_NOTE_ERROR = "CREATE_NOTE_ERROR";
 export const LIST_NOTES = "LIST_NOTES";
-export const LIST_NOTES_ERROR = "LIST_NOTES_ERROR"
+export const LIST_NOTES_ERROR = "LIST_NOTES_ERROR";
+export const UPDATE_NOTE = "UPDATE_NOTE";
+export const UPDATE_NOTE_ERROR = "UPDATE_NOTE_ERROR";
 
 
 

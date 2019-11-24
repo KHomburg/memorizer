@@ -10,7 +10,6 @@ const Users = ({ listUsers, user: {users, loading} }) => {
   useEffect(()=>{
     users = listUsers()
   }, [])
-  console.log(users)
   return (
     <Fragment>
       {users === null || loading ? (

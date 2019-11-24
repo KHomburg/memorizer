@@ -41,7 +41,7 @@ const CreateNote = ({setAlert, createNote}) => {
 
   return (
     <Fragment>
-      <h5>Login Form</h5>
+      <h5>Create a new note</h5>
       <Form onSubmit={e=>onSubmit(e)}>
         <Form.Group controlId="">
           <Form.Label>Titel</Form.Label>
