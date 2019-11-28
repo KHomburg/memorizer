@@ -1,6 +1,7 @@
 
 @import "theme";
 @import "../../node_modules/bootstrap/scss/bootstrap.scss";
-@import "../components/shared/form/form.scss";
+@import "form";
 @import "alert";
 @import "quill";
+@import "noteCard"

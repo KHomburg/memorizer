@@ -8,7 +8,9 @@ import{
   LOAD_NOTE_ERROR,
   CREATE_NOTE_ERROR,
   UPDATE_NOTE,
-  UPDATE_NOTE_ERROR
+  UPDATE_NOTE_ERROR,
+  MY_NOTES,
+  MY_NOTES_ERROR,
 } from "./types";
 
 //get note by id
@@ -68,6 +70,25 @@ export const listNotes = () => async dispatch =>{
   }catch(err){
     dispatch({
       type: LIST_NOTES_ERROR,
+      payload: {msg: err.response.statusText, status: err.response.status}
+    })
+  }
+}
+
+//list notes of current User
+export const myNotes = () => async dispatch =>{
+  try {
+    const res = await axios.get("/api/notes/mynotes", 
+      {headers: {Authorization: localStorage.token}}
+    )
+    console.log(res.data)
+    dispatch({
+      type: MY_NOTES,
+      payload: res.data
+    })
+  }catch(err){
+    dispatch({
+      type: MY_NOTES_ERROR,
       payload: {msg: err.response.statusText, status: err.response.status}
     })
   }

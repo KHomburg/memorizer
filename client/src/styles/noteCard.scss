@@ -1,0 +1,28 @@
+.card{
+  background-color: $gray-800;
+  border: 1px solid $gray-500;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.card-title{
+  color: $gray-100
+}
+
+.card-subtitle{
+  color: $gray-500
+}
+
+.card-text{
+  color: $gray-200;
+  margin-bottom: 5px;
+}
+
+.card-link{
+  color: $gray-500
+}
+
+.card-tags{
+  color: $gray-500;
+  margin-bottom: 5px;
+}

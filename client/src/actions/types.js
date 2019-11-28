@@ -26,6 +26,9 @@ export const LIST_NOTES = "LIST_NOTES";
 export const LIST_NOTES_ERROR = "LIST_NOTES_ERROR";
 export const UPDATE_NOTE = "UPDATE_NOTE";
 export const UPDATE_NOTE_ERROR = "UPDATE_NOTE_ERROR";
+export const MY_NOTES = "MY_NOTES";
+export const MY_NOTES_ERROR = "MY_NOTES_ERROR";
+
 
 
 

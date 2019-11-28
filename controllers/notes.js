@@ -43,6 +43,21 @@ router.post("/new", async (req, res, next) => {
   }
 });
 
+//find all notes of current user
+router.get("/mynotes", async (req, res, next) => {
+  console.log(req.user)
+  try{
+    const notes = await models.Note.findAll({where: {userId: req.user.id}, include: [{model: models.User, as: "user"}, {model: models.Tag, as: "tags", through: {attributes:[]}}]})
+    if(notes){
+      res.json(notes)
+    }else{
+      res.status(404).json({errors: ["Notes not found"]})
+    }
+  }catch(err){
+    next(err)
+  }
+});
+
 //find note by id
 router.get("/:id", async (req, res, next) => {
   try{
@@ -70,6 +85,8 @@ router.get("/", async (req, res, next) => {
     next(err)
   }
 });
+
+
 
 //update note
 router.put("/:id", async (req, res, next) => {
@@ -108,6 +125,8 @@ router.put("/:id", async (req, res, next) => {
     next(err)
   }
 });
+
+
 
 //find notes of user
 router.get("/user/:id", async (req, res, next) => {
