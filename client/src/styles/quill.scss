@@ -1,0 +1,15 @@
+.ql-stroke{
+  stroke: #e9ecef
+}
+.ql-snow{
+  stroke: #e9ecef;
+  margin: 1px;
+}
+
+.ql-snow .ql-stroke{
+  stroke: #e9ecef !important
+}
+
+.ql-picker-label{
+  color: #e9ecef;
+}
