@@ -17,7 +17,7 @@ const validateRegistration = (req, res) => {
           message: "Email adress is required"
         },
         email: {
-          message: "You entered an invalid E-Mail adress"
+          message: "You entered an invalid E-Mail address"
         }
       },
       username: {
@@ -93,8 +93,26 @@ const validateNote = (req, res) => {
   })
 }
 
+//Validation for updating user
+const validateUserUpdate = (req, res) => {
+  return new Promise((resolve, reject) =>{
+    var userUpdateConstraints = {
+      email: {
+        presence: {
+          message: "Email adress is required"
+        },
+        email: {
+          message: "You entered an invalid E-Mail address"
+        }
+      }
+    }
+    resolve(validate(req.body, userUpdateConstraints, {format: "custom"}))
+  })
+}
+
 module.exports = {
   validateRegistration,
   validateLogin,
   validateNote,
+  validateUserUpdate,
 }

@@ -40,6 +40,9 @@ const Header = ({auth: {isAuthenticated, loading, currentUser}, logout }) => {
                   <li className="nav-item">
                     <Link to="/notes/new" className="nav-link">New Note</Link>
                   </li>
+                  <li className="nav-item">
+                    <Link to="/notes/mynotes" className="nav-link">My Notes</Link>
+                  </li>
                 </Fragment>
             }
           </ul>

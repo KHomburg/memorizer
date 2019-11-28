@@ -123,6 +123,38 @@ router.get("/note/:id", passport.authenticate('jwt', {session: false}), async (r
   }
 });
 
+//edit users profile route
+router.put("/:id", passport.authenticate('jwt', {session: false}), async (req, res, next) => {
+  var userId = req.user.id
+  //if not username provided use old one
+  var newUsername = !req.body.username || req.body.username == "" ? req.user.username : req.body.username
+
+  if(userId == req.params.id){
+    try{
+      const validationErrors =  await validate.validateUserUpdate(req, res)
+      if(validationErrors) return res.status(400).json({errors: validationErrors})
+      const user = await models.User.findOne({ where: { id: req.user.id } })
+      if(user){
+        const updatedUser = await user.update({
+          email: req.body.email,
+          username: newUsername
+        })
+        res.json({
+          message: "user updated",
+          updatedUser
+        })
+
+      }else{
+        res.status(404).json({errors: ["User not found"]})
+      }
+    }catch(err){
+      next(err)
+    }
+  }else{
+    res.status(400).json({errors: ["You are not authorized to edit this users data"]})
+  }
+})
+
 
 
 
