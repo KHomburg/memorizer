@@ -96,6 +96,9 @@ router.put("/:id", async (req, res, next) => {
       return res.status(400).json({errors: validationErrors})
     }else{
       const note = await models.Note.findByPk(req.params.id, {include: [{model: models.Tag, as: "tags", through: {attributes:[]}}]})
+      if(req.user.id != note.userId){
+        return res.status(401).json({errors: ["Unauthorized to edit this note"]})
+      }
       let tags = req.body.tags.split(",")
 
       if(note){
@@ -124,8 +127,6 @@ router.put("/:id", async (req, res, next) => {
     next(err)
   }
 });
-
-
 
 //find notes of user
 router.get("/user/:id", async (req, res, next) => {
