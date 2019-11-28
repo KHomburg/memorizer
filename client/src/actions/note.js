@@ -98,7 +98,6 @@ export const myNotes = () => async dispatch =>{
 export const updateNote = ({title, text, tags, content}, id) => async dispatch =>{
   const config = {headers: {Authorization: localStorage.token, "Content-Type": "application/json"}}
   const body = JSON.stringify({title, text, tags, content})
-  console.log(body)
 
   try {
     const res = await axios.put("/api/notes/"+id, body, config)

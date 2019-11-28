@@ -93,7 +93,7 @@ router.put("/:id", async (req, res, next) => {
   try{
     const validationErrors = await validate.validateNote(req, res)
     if(validationErrors){
-      res.status(400).json({errors: validationErrors})
+      return res.status(400).json({errors: validationErrors})
     }else{
       const note = await models.Note.findByPk(req.params.id, {include: [{model: models.Tag, as: "tags", through: {attributes:[]}}]})
       let tags = req.body.tags.split(",")
@@ -116,7 +116,6 @@ router.put("/:id", async (req, res, next) => {
         }
         const changedNote = await models.Note.findByPk(req.params.id, {include: [{model: models.Tag, as: "tags", through: {attributes:[]}}]})
         res.json(changedNote)
-
       }else{
         res.status(404).json({errors: ["Note not found"]})
       }

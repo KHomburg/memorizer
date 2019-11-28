@@ -16,6 +16,8 @@ import Login from './components/pages/auth/Login'
 import Alert from './components/layout/Alert'
 import User from './components/pages/users/User'
 import UserIndex from './components/pages/users/UserIndex'
+import EditUser from './components/pages/users/EditUser'
+
 
 import Note from './components/pages/notes/Note'
 import CreateNote from './components/pages/notes/CreateNote'
@@ -57,6 +59,7 @@ const App = () => {
                   <Route exact path="/users/login" component={Login} />
                   <PrivateRoute exact path="/users" component={UserIndex} />
                   <PrivateRoute exact path="/users/:id" component={User} />
+                  <PrivateRoute exact path="/users/:id/edit" component={EditUser} />
                   <PrivateRoute exact path="/notes/new" component={CreateNote} />
                   <PrivateRoute exact path="/notes/mynotes" component={MyNotes} />
                   <PrivateRoute exact path="/notes/:id/edit" component={EditNote} />

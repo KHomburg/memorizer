@@ -126,17 +126,16 @@ router.get("/note/:id", passport.authenticate('jwt', {session: false}), async (r
 //edit users profile route
 router.put("/:id", passport.authenticate('jwt', {session: false}), async (req, res, next) => {
   var userId = req.user.id
-  //if not username provided use old one
+  //if certain params provided use old one
   var newUsername = !req.body.username || req.body.username == "" ? req.user.username : req.body.username
+  var newEmail = !req.body.email || req.body.email == "" ? req.user.email : req.body.email
 
   if(userId == req.params.id){
     try{
-      const validationErrors =  await validate.validateUserUpdate(req, res)
-      if(validationErrors) return res.status(400).json({errors: validationErrors})
       const user = await models.User.findOne({ where: { id: req.user.id } })
       if(user){
         const updatedUser = await user.update({
-          email: req.body.email,
+          email: newEmail,
           username: newUsername
         })
         res.json({

@@ -11,13 +11,15 @@ export const AUTH_ERROR = "AUTH_ERROR";
 export const SET_ALERT = "SET_ALERT";
 export const REMOVE_ALERT = "REMOVE_ALERT";
 
-//Get user information
+//User interactions
 export const GET_USER = "GET_USER";
 export const LIST_USERS = "LIST_USERS";
 export const USER_ERROR = "USER_ERROR";
 export const LIST_USERS_ERROR = "LIST_USERS_ERROR";
+export const EDIT_USER = "EDIT_USER";
+export const EDIT_USER_ERROR = "EDIT_USER_ERROR";
 
-//Get note information
+//Note interactions
 export const GET_NOTE = "GET_NOTE";
 export const LOAD_NOTE_ERROR = "LOAD_NOTE_ERROR";
 export const CREATE_NOTE = "CREATE_NOTE";

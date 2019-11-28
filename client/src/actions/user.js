@@ -4,7 +4,9 @@ import{
   GET_USER,
   USER_ERROR,
   LIST_USERS,  
-  LIST_USERS_ERROR
+  LIST_USERS_ERROR,
+  EDIT_USER,
+  EDIT_USER_ERROR
 } from "./types";
 
 //get user by id
@@ -38,6 +40,24 @@ export const listUsers = () => async dispatch =>{
   }catch(err){
     dispatch({
       type: LIST_USERS_ERROR,
+      payload: {msg: err.response.statusText, status: err.response.status}
+    })
+  }
+}
+
+//edit user
+export const editUser = ({email, username}, id) => async dispatch =>{
+  const config = {headers: {Authorization: localStorage.token, "Content-Type": "application/json"}}
+  const body = JSON.stringify({email, username})
+  try {
+    const res = await axios.put("/api/users/"+id, body, config)
+    dispatch({
+      type: EDIT_USER,
+      payload: res.data
+    })
+  }catch(err){
+    dispatch({
+      type: EDIT_USER_ERROR,
       payload: {msg: err.response.statusText, status: err.response.status}
     })
   }
