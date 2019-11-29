@@ -70,6 +70,14 @@ const EditNote = ({setAlert, updateNote, getNote, note: {note, loading}}) => {
             <Form.Group controlId="">
               <Form.Label>Text:</Form.Label>
               <ReactQuill name="content" value={content}
+                modules={{toolbar: [
+                  [{ 'header': '1'}, {'header': '2'}],
+                  ['bold', 'italic', 'underline', 'blockquote', "code-block"],
+                  [{'list': 'ordered'}, {'list': 'bullet'}, 
+                  {'indent': '-1'}, {'indent': '+1'}],
+                  ['link', /*'image'*/],
+                  ]}
+                }
                 onChange={(content, delta, source, editor) => quillChange(content, editor)} 
               />
             </Form.Group>
