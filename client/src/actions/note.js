@@ -33,9 +33,9 @@ export const getNote = (id) => async dispatch =>{
 }
 
 //Create new Note
-export const createNote = ({title, text, tags, content}) => async dispatch => {
+export const createNote = ({title, text, tags, content, isPublic}) => async dispatch => {
   const config = {headers: {Authorization: localStorage.token, "Content-Type": "application/json"}}
-  const body = JSON.stringify({title, text, tags, content})
+  const body = JSON.stringify({title, text, tags, content, isPublic})
   console.log(body)
 
   try {
@@ -95,9 +95,9 @@ export const myNotes = () => async dispatch =>{
 }
 
 //update note by id
-export const updateNote = ({title, text, tags, content}, id) => async dispatch =>{
+export const updateNote = ({title, text, tags, content, isPublic}, id) => async dispatch =>{
   const config = {headers: {Authorization: localStorage.token, "Content-Type": "application/json"}}
-  const body = JSON.stringify({title, text, tags, content})
+  const body = JSON.stringify({title, text, tags, content, isPublic})
 
   try {
     const res = await axios.put("/api/notes/"+id, body, config)

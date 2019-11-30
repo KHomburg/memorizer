@@ -24,6 +24,7 @@ router.post("/new", async (req, res, next) => {
         text: req.body.text,
         content: req.body.content,
         userId: req.user.id,
+        isPublic: req.body.isPublic
       })
       if(tags){
         for (const tag of tags){
@@ -107,6 +108,7 @@ router.put("/:id", async (req, res, next) => {
           text: req.body.text,
           content: req.body.content,
           userId: req.user.id,
+          isPublic: req.body.isPublic
         })
 
         let tagsIds = []

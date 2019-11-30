@@ -16,16 +16,19 @@ const CreateNote = ({setAlert, createNote}) => {
     text: "",
     tags: "",
     content: "",
+    isPublic: "",
   });
 
-  const {title, text, content} = formData;
+  const {title, text, content, isPublic} = formData;
   let tags = []
-  const onChange = e => setFormData({...formData, [e.target.name]: e.target.value})
+  const onChange = (e) => {setFormData({...formData, [e.target.name]: e.target.value})}
+  const checkChange = (e) => setFormData({...formData, [e.target.name]: e.target.checked})
+
   //setting the content of from editor including formatting:
   const quillChange = (content, editor) => {
     setFormData({...formData, content: content, text: editor.getText()})
-    console.log(content)
-    console.log(editor.getText())
+    //console.log(content)
+    //console.log(editor.getText())
   }
 
   const handleChange = (newValue: any, actionMeta: any) => {
@@ -36,7 +39,7 @@ const CreateNote = ({setAlert, createNote}) => {
   
   const onSubmit = async e => {
     e.preventDefault()
-    createNote({title, text, tags, content});
+    createNote({title, text, tags, content, isPublic});
   }
 
   return (
@@ -71,8 +74,11 @@ const CreateNote = ({setAlert, createNote}) => {
         <CreatableSelect
           name="tags"
           isMulti
-          onChange={handleChange}
+          onChange={newValue => {handleChange(newValue)}}
         />
+        <Form.Group controlId="formBasicCheckbox">
+          <Form.Check style={{color: "white"}} type="checkbox" name="isPublic" label="Make this note Public" checked={isPublic} value={isPublic} onChange={e => checkChange(e)}/>
+        </Form.Group>
         <Button variant="primary border-white" type="submit" value="create note">
           Create Note
         </Button>

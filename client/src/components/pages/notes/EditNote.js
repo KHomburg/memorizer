@@ -24,19 +24,21 @@ const EditNote = ({setAlert, updateNote, getNote, note: {note, loading}}) => {
         title: note.title,
         text: note.text,
         content: note.content,
-        tags: note.tags.map(tag => {return {label: tag.name, value: tag.name}})
+        tags: note.tags.map(tag => {return {label: tag.name, value: tag.name}}),
+        isPublic: Boolean(note.isPublic)
       }
     )
   }, [])
 
-  const {title, text, content, tags} = formData;
+  const {title, text, content, tags, isPublic} = formData;
   const onChange = e => setFormData({...formData, [e.target.name]: e.target.value})
 
   const quillChange = (content, editor) => {
     formData.content = content
     formData.text = editor.getText()
   }
-
+  const checkChange = (e) => setFormData({...formData, [e.target.name]: e.target.checked})
+  
   const handleChange = (newValue: any, actionMeta: any) => {
     console.log(newValue)
     if(newValue != null){
@@ -90,6 +92,9 @@ const EditNote = ({setAlert, updateNote, getNote, note: {note, loading}}) => {
               isMulti
               onChange={handleChange}
             />
+            <Form.Group controlId="formBasicCheckbox">
+              <Form.Check style={{color: "white"}} type="checkbox" name="isPublic" label="Make this note Public" checked={isPublic} value={isPublic} onChange={e => checkChange(e)}/>
+            </Form.Group>
             <Button variant="primary border-white" type="submit" value="create note">
               Update note
             </Button>
