@@ -46,9 +46,9 @@ export const listUsers = () => async dispatch =>{
 }
 
 //edit user
-export const editUser = ({email, username}, id) => async dispatch =>{
+export const editUser = ({email, username, profession, about}, id) => async dispatch =>{
   const config = {headers: {Authorization: localStorage.token, "Content-Type": "application/json"}}
-  const body = JSON.stringify({email, username})
+  const body = JSON.stringify({email, username, profession, about})
   try {
     const res = await axios.put("/api/users/"+id, body, config)
     dispatch({

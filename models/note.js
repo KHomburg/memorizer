@@ -34,10 +34,11 @@ module.exports = (sequelize, DataTypes) => {
     userId: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      //references: {         
-      //  model: 'User',
-      //  key: 'id'
-      //}
+    },
+    public: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+      allowNull: false,
     },
   });
   Note.associate = function(models) {

@@ -33,6 +33,12 @@ module.exports = (sequelize, DataTypes) => {
         notEmpty: true,
       }
     },
+    about: {
+      type: DataTypes.TEXT,
+    },
+    profession: {
+      type: DataTypes.STRING,
+    },
   });
   User.associate = function(models) {
     User.hasMany(models.Note, {foreignKey: "userId", as: 'note', onDelete: 'CASCADE'})

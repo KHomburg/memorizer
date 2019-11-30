@@ -13,13 +13,17 @@ const EditUser = ({setAlert, editUser}) => {
   const [formData, setFormData] = useState({
     email: "",
     username: "",
+    profession: "",
+    about: "",
   });
 
-  const {email, username} = formData;
+  
+
+  const {email, username, profession, about} = formData;
   const onChange = e => setFormData({...formData, [e.target.name]: e.target.value})
   const onSubmit = async e => {
     e.preventDefault()
-    editUser({email, username}, id);
+    editUser({email, username, profession, about}, id);
   }
 
   return (
@@ -34,6 +38,14 @@ const EditUser = ({setAlert, editUser}) => {
         <Form.Group controlId="formBasicPassword">
           <Form.Label>Password</Form.Label>
           <Form.Control type="text" name="username" placeholder="Username" value={username} onChange={e => onChange(e)} />
+        </Form.Group>
+        <Form.Group controlId="formProfession">
+          <Form.Label>Profession</Form.Label>
+          <Form.Control type="text" name="profession" placeholder="Your Profession" value={profession} onChange={e => onChange(e)} />
+        </Form.Group>
+        <Form.Group controlId="formAbout">
+          <Form.Label>About you</Form.Label>
+          <Form.Control as="textarea" type="textarea" name="about" placeholder="About You" value={about} onChange={e => onChange(e)} />
         </Form.Group>
         <Button variant="primary border-white" type="submit" value="Submit">
           Submit

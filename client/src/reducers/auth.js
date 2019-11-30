@@ -26,11 +26,9 @@ export default function(state = initialState, action) {
         currentUser: payload.currentUser
       }
     case REGISTER_SUCCESS:
-      localStorage.setItem("token", payload.token);
       return{
         ...state,
         ...payload,
-        isAuthenticated: true,
         loading: false
       }
     case AUTH_ERROR:

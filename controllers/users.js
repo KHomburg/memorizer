@@ -129,6 +129,9 @@ router.put("/:id", passport.authenticate('jwt', {session: false}), async (req, r
   //if certain params provided use old one
   var newUsername = !req.body.username || req.body.username == "" ? req.user.username : req.body.username
   var newEmail = !req.body.email || req.body.email == "" ? req.user.email : req.body.email
+  var newAbout = !req.body.about || req.body.about == "" ? req.user.about : req.body.about
+  var newProfession = !req.body.profession || req.body.profession == "" ? req.user.profession : req.body.profession
+
 
   if(userId == req.params.id){
     try{
@@ -136,7 +139,9 @@ router.put("/:id", passport.authenticate('jwt', {session: false}), async (req, r
       if(user){
         const updatedUser = await user.update({
           email: newEmail,
-          username: newUsername
+          username: newUsername,
+          profession: newAbout,
+          about: newProfession
         })
         res.json({
           message: "user updated",
