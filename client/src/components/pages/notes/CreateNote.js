@@ -14,13 +14,12 @@ const CreateNote = ({setAlert, createNote}) => {
   const [formData, setFormData] = useState({
     title: "",
     text: "",
-    tags: "",
+    tags: [],
     content: "",
-    isPublic: "",
+    isPublic: false,
   });
 
-  const {title, text, content, isPublic} = formData;
-  let tags = []
+  const {title, text, content, isPublic, tags} = formData;
   const onChange = (e) => {setFormData({...formData, [e.target.name]: e.target.value})}
   const checkChange = (e) => setFormData({...formData, [e.target.name]: e.target.checked})
 
@@ -31,10 +30,13 @@ const CreateNote = ({setAlert, createNote}) => {
     //console.log(editor.getText())
   }
 
-  const handleChange = (newValue: any, actionMeta: any) => {
+  const handleChange = async (newValue: any, actionMeta: any) => {
     if(newValue != null){
-      tags = newValue.map(tag => tag.value).toString()
-    }else{tags = []}
+      let newTags = await newValue.map(tag => tag.value).toString()
+      setFormData({...formData, tags: newTags})
+    }else{
+      setFormData({...formData, tags: []})
+    }
   };
   
   const onSubmit = async e => {
