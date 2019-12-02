@@ -13,22 +13,31 @@ import Loading from "../../layout/Loading"
 
 
 const EditNote = ({setAlert, updateNote, getNote, note: {note, loading}}) => {
-  let [formData, setFormData] = useState({});
-  let {id} = useParams()
-
-  useEffect(async () =>{
-    note = await getNote(id)
-    setFormData(
-      {
-        ...formData,
+  let [formData, setFormData] = useState({
         title: note.title,
         text: note.text,
         content: note.content,
         tags: note.tags.map(tag => {return {label: tag.name, value: tag.name}}),
         isPublic: Boolean(note.isPublic)
-      }
-    )
-  }, [])
+  });
+  let {id} = useParams()
+
+  useEffect(() =>{
+    const noteData = async () => {
+      note = await getNote(id)
+      setFormData(
+        {
+          ...formData,
+          title: note.title,
+          text: note.text,
+          content: note.content,
+          tags: note.tags.map(tag => {return {label: tag.name, value: tag.name}}),
+          isPublic: Boolean(note.isPublic)
+        }
+      )
+    }
+    noteData()
+  }, [id])
 
   const {title, text, content, tags, isPublic} = formData;
   const onChange = e => setFormData({...formData, [e.target.name]: e.target.value})
@@ -40,7 +49,6 @@ const EditNote = ({setAlert, updateNote, getNote, note: {note, loading}}) => {
   const checkChange = (e) => setFormData({...formData, [e.target.name]: e.target.checked})
   
   const handleChange = (newValue: any, actionMeta: any) => {
-    console.log(newValue)
     if(newValue != null){
       setFormData({...formData, tags: newValue})
     }else{tags = []}

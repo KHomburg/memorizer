@@ -6,7 +6,7 @@ import {setAlert} from "../../../actions/alert";
 import {register} from "../../../actions/auth";
 import PropTypes from 'prop-types';
 
-const Register = ({setAlert, register}) => {
+const Register = ({setAlert, register, history}) => {
   const [formData, setFormData] = useState({
     username: "",
     email: "",
@@ -21,7 +21,7 @@ const Register = ({setAlert, register}) => {
     if(password !== password2){
       setAlert("Passwords do not match!", "danger")
     }else{
-      register({username, email, password, password2});
+      register({username, email, password, password2}, history);
     }
   }
 

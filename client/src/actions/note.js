@@ -33,18 +33,18 @@ export const getNote = (id) => async dispatch =>{
 }
 
 //Create new Note
-export const createNote = ({title, text, tags, content, isPublic}) => async dispatch => {
+export const createNote = (formData, history) => async dispatch => {
   const config = {headers: {Authorization: localStorage.token, "Content-Type": "application/json"}}
-  const body = JSON.stringify({title, text, tags, content, isPublic})
+  const body = JSON.stringify(formData)
   console.log(body)
 
   try {
     const res = await axios.post("/api/notes/new", body, config);
-    console.log(res)
     dispatch({
       type: CREATE_NOTE, 
       payload: res.data
     })
+    history.push('/notes/'+ res.data.note.id)
   }catch (err) {
     const errors = err.response.data.errors;
     if(errors){
@@ -62,7 +62,6 @@ export const listNotes = () => async dispatch =>{
     const res = await axios.get("/api/notes", 
       {headers: {Authorization: localStorage.token}}
     )
-    console.log(res.data)
     dispatch({
       type: LIST_NOTES,
       payload: res.data
@@ -81,7 +80,6 @@ export const myNotes = () => async dispatch =>{
     const res = await axios.get("/api/notes/mynotes", 
       {headers: {Authorization: localStorage.token}}
     )
-    console.log(res.data)
     dispatch({
       type: MY_NOTES,
       payload: res.data
@@ -95,10 +93,9 @@ export const myNotes = () => async dispatch =>{
 }
 
 //update note by id
-export const updateNote = ({title, text, tags, content, isPublic}, id) => async dispatch =>{
+export const updateNote = (formData, id) => async dispatch =>{
   const config = {headers: {Authorization: localStorage.token, "Content-Type": "application/json"}}
-  const body = JSON.stringify({title, text, tags, content, isPublic})
-
+  const body = JSON.stringify(formData)
   try {
     const res = await axios.put("/api/notes/"+id, body, config)
     dispatch({

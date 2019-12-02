@@ -4,12 +4,13 @@ import {connect} from "react-redux"
 import PropTypes from 'prop-types';
 import {getNote} from "../../../actions/note"
 import Loading from "../../layout/Loading"
+import Button from 'react-bootstrap/Button';
 
 const Note = ({ getNote, note: {note, loading} }) => {
   let {id} = useParams()
   useEffect(()=>{
     note = getNote(id)
-  }, [])
+  }, [id])
   return (
     <Fragment>
       {note === null || loading ? (
@@ -23,6 +24,11 @@ const Note = ({ getNote, note: {note, loading} }) => {
           <p>User Id: {note.userId}</p>
           <p>Content:     {note.content}</p>
           <p>Tags:     {note.tags.map(tag => tag.name + ", ")}</p>
+          <Link to={`/notes/${note.id}/edit`}>
+            <Button variant="primary border-white">
+              Edit this note
+            </Button>
+          </Link>
         </Fragment>
       )}
     </Fragment>

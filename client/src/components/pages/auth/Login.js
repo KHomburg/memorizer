@@ -6,7 +6,7 @@ import {setAlert} from "../../../actions/alert";
 import {login} from "../../../actions/auth";
 import PropTypes from 'prop-types';
 
-const Login = ({setAlert, login}) => {
+const Login = ({setAlert, login, history}) => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -16,7 +16,7 @@ const Login = ({setAlert, login}) => {
   const onChange = e => setFormData({...formData, [e.target.name]: e.target.value})
   const onSubmit = async e => {
     e.preventDefault()
-    login({email, password});
+    login({email, password}, history);
   }
 
   return (

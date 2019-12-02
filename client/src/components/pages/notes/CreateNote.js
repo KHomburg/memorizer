@@ -10,7 +10,7 @@ import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css'
 
 
-const CreateNote = ({setAlert, createNote}) => {
+const CreateNote = ({setAlert, createNote, history}) => {
   const [formData, setFormData] = useState({
     title: "",
     text: "",
@@ -41,7 +41,7 @@ const CreateNote = ({setAlert, createNote}) => {
   
   const onSubmit = async e => {
     e.preventDefault()
-    createNote({title, text, tags, content, isPublic});
+    createNote(formData, history);
   }
 
   return (

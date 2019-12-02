@@ -84,7 +84,7 @@ router.get("/auth", passport.authenticate('jwt', {session: false}), (req, res, n
 //find user by id route
 router.get("/:id", passport.authenticate('jwt', {session: false}), async (req, res, next) => {
   try{
-    const user = await models.User.findByPk(req.params.id, {attributes: ["id", "username", "email"]})
+    const user = await models.User.findByPk(req.params.id, {attributes: ["id", "username", "email", "profession", "about"]})
     if(user){
       res.json(user)
     }else{
@@ -140,8 +140,8 @@ router.put("/:id", passport.authenticate('jwt', {session: false}), async (req, r
         const updatedUser = await user.update({
           email: newEmail,
           username: newUsername,
-          profession: newAbout,
-          about: newProfession
+          profession: newProfession,
+          about: newAbout,
         })
         res.json({
           message: "user updated",

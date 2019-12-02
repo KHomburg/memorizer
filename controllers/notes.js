@@ -36,7 +36,7 @@ router.post("/new", async (req, res, next) => {
       const newNote = await models.Note.findByPk(note.id, {include: [{model: models.Tag, as: "tags", through: {attributes:[]}}]})
       res.json({
         message: "Note created",
-        newNote
+        note: newNote,
       })
     }
   }catch(err){

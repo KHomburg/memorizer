@@ -19,6 +19,7 @@ export const getUser = (id) => async dispatch =>{
       type: GET_USER,
       payload: res.data
     })
+    return(res.data)
   }catch(err){
     dispatch({
       type: USER_ERROR,

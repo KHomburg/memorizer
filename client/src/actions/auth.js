@@ -26,21 +26,20 @@ export const loadUser = () => async dispatch=>{
 }
 
 //Register User
-export const register = ({username, email, password, password2}) => async dispatch => {
+export const register = ({username, email, password, password2}, history) => async dispatch => {
   const config = {
     headers : {
       "Content-Type": "application/json"
     }
   }
-  
   const body = JSON.stringify({username, email, password, password2})
-
   try {
     const res = await axios.post("/api/users/register", body, config);
     dispatch({
       type: REGISTER_SUCCESS,
       payload: res.data
     })
+    history.push('/users/login')
   }catch (err) {
     const errors = err.response.data.errors;
     if(errors){
@@ -53,7 +52,7 @@ export const register = ({username, email, password, password2}) => async dispat
 }
 
 //Login User
-export const login = ({email, password}) => async dispatch => {
+export const login = ({email, password}, history) => async dispatch => {
   const config = {
     headers : {
       "Content-Type": "application/json"
@@ -70,6 +69,7 @@ export const login = ({email, password}) => async dispatch => {
       type: LOGIN_SUCCESS, 
       payload: res.data
     })
+    history.push("/notes")
   }catch (err) {
     const errors = err.response.data.errors;
     if(errors){

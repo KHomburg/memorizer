@@ -1,14 +1,29 @@
-import React, {Fragment, useState} from 'react';
+import React, {Fragment, useState, useEffect} from 'react';
 import {connect} from "react-redux";
 import {useParams} from 'react-router-dom'
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import {setAlert} from "../../../actions/alert";
-import {editUser} from "../../../actions/user";
+import {editUser, getUser} from "../../../actions/user";
 import PropTypes from 'prop-types';
 
-const EditUser = ({setAlert, editUser}) => {
+const EditUser = ({setAlert, editUser, getUser, user: {user, loading}}) => {
   let {id} = useParams()
+
+  useEffect(()=>{
+    const userData = async () => {
+      user = await getUser(id)
+      setFormData({
+        ...formData,
+        email: user.email,
+        username: user.username,
+        profession: user.profession,
+        about: user.about
+      })
+      console.log(user)
+    }
+    userData()
+  }, [id])
 
   const [formData, setFormData] = useState({
     email: "",
@@ -28,7 +43,7 @@ const EditUser = ({setAlert, editUser}) => {
 
   return (
     <Fragment>
-      <h5>Login Form</h5>
+      <h5>Edit Profile</h5>
       <Form onSubmit={e=>onSubmit(e)}>
         <Form.Group controlId="formBasicEmail">
           <Form.Label>Email address</Form.Label>
@@ -56,8 +71,17 @@ const EditUser = ({setAlert, editUser}) => {
 }
 
 EditUser.propTypes={
+  getUser: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired,
   setAlert: PropTypes.func.isRequired,
   editUser: PropTypes.func.isRequired,
 }
 
-export default connect(null, {setAlert, editUser})(EditUser)
+const mapStateToProps = state => ({
+  auth: state.auth,
+  user: state.user
+})
+
+
+export default connect(mapStateToProps, {setAlert, editUser, getUser})(EditUser)
