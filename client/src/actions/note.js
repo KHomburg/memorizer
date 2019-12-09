@@ -44,11 +44,13 @@ export const createNote = (formData, history) => async dispatch => {
       type: CREATE_NOTE, 
       payload: res.data
     })
-    history.push('/notes/'+ res.data.note.id)
+    history.push('/notes/'+ res.data.id)
   }catch (err) {
-    const errors = err.response.data.errors;
-    if(errors){
-      errors.forEach(error => dispatch(setAlert(error, "danger")))
+    if(err.response.data.errors){
+      const errors = err.response.data.errors;
+      if(errors){
+        errors.forEach(error => dispatch(setAlert(error, "danger")))
+      }
     }
     dispatch({
       type: CREATE_NOTE_ERROR

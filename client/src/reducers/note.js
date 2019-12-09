@@ -33,7 +33,7 @@ export default function(state= initialState, action){
     case CREATE_NOTE:
       return{
         ...state,
-        note: payload.note,
+        note: payload,
         loading: false
       }
     case CREATE_NOTE_ERROR:

@@ -32,10 +32,10 @@ router.post("/register", (req, res, next) => {
                     email: req.body.email.toLowerCase(),
                   }
                 )
-                .then(user => res.json({
-                  message: "user created",
-                  user
-                }))
+                .then(user => {
+                  user.password = "hidden"
+                  res.json(user)
+                })
                 .catch((err) => next(err))
               }, null)
             })
@@ -132,7 +132,6 @@ router.put("/:id", passport.authenticate('jwt', {session: false}), async (req, r
   var newAbout = !req.body.about || req.body.about == "" ? req.user.about : req.body.about
   var newProfession = !req.body.profession || req.body.profession == "" ? req.user.profession : req.body.profession
 
-
   if(userId == req.params.id){
     try{
       const user = await models.User.findOne({ where: { id: req.user.id } })
@@ -143,10 +142,8 @@ router.put("/:id", passport.authenticate('jwt', {session: false}), async (req, r
           profession: newProfession,
           about: newAbout,
         })
-        res.json({
-          message: "user updated",
-          updatedUser
-        })
+        updatedUser.password = "hidden"
+        res.json(updatedUser)
 
       }else{
         res.status(404).json({errors: ["User not found"]})

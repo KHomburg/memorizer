@@ -34,10 +34,7 @@ router.post("/new", async (req, res, next) => {
         await note.setTags(tagsIds)
       }
       const newNote = await models.Note.findByPk(note.id, {include: [{model: models.Tag, as: "tags", through: {attributes:[]}}]})
-      res.json({
-        message: "Note created",
-        note: newNote,
-      })
+      res.json(newNote)
     }
   }catch(err){
     next(err)
@@ -146,7 +143,7 @@ router.delete("/:id", async (req, res, next) => {
     const note = await models.Note.findByPk(req.params.id)
     if(note){
       note.destroy()
-      .then(note => res.json({message: "note removed"}))
+      .then(note => res.status(204))
     }else{
       res.status(404).json({errors: ["Note not found"]})
     }
