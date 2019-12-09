@@ -31,20 +31,20 @@ const Register = ({setAlert, register, history}) => {
       <Form onSubmit={e=>onSubmit(e)}>
       <Form.Group controlId="formBasicName">
           <Form.Label>Username</Form.Label>
-          <Form.Control type="text" name="username" placeholder="Enter Username" value={username} onChange={e => onChange(e)} />
+          <Form.Control type="text" name="username" placeholder="Enter Username" value={username} onChange={e => onChange(e)} required/>
         </Form.Group>
         <Form.Group controlId="formBasicEmail">
           <Form.Label>Email address</Form.Label>
-          <Form.Control type="email" name="email" placeholder="Enter E-mail" value={email} onChange={e => onChange(e)} />
+          <Form.Control type="email" name="email" placeholder="Enter E-mail" value={email} onChange={e => onChange(e)} required/>
         </Form.Group>
 
         <Form.Group controlId="formBasicPassword">
           <Form.Label>Password</Form.Label>
-          <Form.Control type="password" name="password" placeholder="Password" value={password} onChange={e => onChange(e)} />
+          <Form.Control type="password" name="password" placeholder="Password" value={password} onChange={e => onChange(e)} required/>
         </Form.Group>
         <Form.Group controlId="formBasicPassword2">
           <Form.Label>Password Validation</Form.Label>
-          <Form.Control type="password" name="password2" placeholder="Password validation" value={password2} onChange={e => onChange(e)} />
+          <Form.Control type="password" name="password2" placeholder="Password validation" value={password2} onChange={e => onChange(e)} required/>
         </Form.Group>
         <Button variant="primary border-white" type="submit" value="register">
           Register

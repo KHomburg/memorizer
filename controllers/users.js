@@ -54,7 +54,7 @@ router.post("/login", async (req, res, next) => {
     if(validationErrors) res.status(400).json({errors: validationErrors})
 
     const user = await models.User.findOne({ where: { email: req.body.email } })
-    if(!user) res.status(400).json({errors: ["User with this e-mail adress not found"]})
+    if(!user) res.status(400).json({errors: ["Entered E-Mail address is unknown"]})
     
     const isMatch = await bcrypt.compare(req.body.password, user.password)
     if (isMatch) {
@@ -67,7 +67,7 @@ router.post("/login", async (req, res, next) => {
           err ? next(err): res.json({token: `Bearer ${token}`, currentUser: payload})
         });
     } else {
-      res.status(400).json({errors: "Wrong password"})
+      res.status(400).json({errors: ["Wrong password"]})
     }
   }catch(error){
     return next(error)

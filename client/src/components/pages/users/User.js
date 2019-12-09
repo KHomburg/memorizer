@@ -6,7 +6,7 @@ import {getUser} from "../../../actions/user"
 import Loading from "../../layout/Loading"
 import Button from 'react-bootstrap/Button';
 
-const User = ({ getUser, user: {user, loading}, auth: {currentUser} }) => {
+const User = ({ getUser, user: {user, loading}, auth: {currentUser}}) => {
   let {id} = useParams()
   useEffect(()=>{
     user = getUser(id)
@@ -22,7 +22,7 @@ const User = ({ getUser, user: {user, loading}, auth: {currentUser} }) => {
           <p>{user.id}</p>
           <p>{user.username}</p>
           <p>{user.email}</p>
-          {currentUser.id == id || currentUser === null ? (
+          {currentUser != null && currentUser.id == id ? (
             <Fragment>
               <Link to={`/users/${user.id}/edit`}>
                 <Button variant="primary border-white">

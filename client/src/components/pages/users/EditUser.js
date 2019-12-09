@@ -7,22 +7,21 @@ import {setAlert} from "../../../actions/alert";
 import {editUser, getUser} from "../../../actions/user";
 import PropTypes from 'prop-types';
 
-const EditUser = ({setAlert, editUser, getUser, user: {user, loading}}) => {
-  let {id} = useParams()
+const EditUser = ({setAlert, editUser, getUser, user: {user, loading}, auth: {currentUser}}) => {
+  const {id} = useParams()
 
   useEffect(()=>{
-    const userData = async () => {
+    const userData = async (id, currentUser) => {
       user = await getUser(id)
-      setFormData({
-        ...formData,
-        email: user.email,
-        username: user.username,
-        profession: user.profession,
-        about: user.about
-      })
-      console.log(user)
+        setFormData({
+          ...formData,
+          email: user.email,
+          username: user.username,
+          profession: user.profession,
+          about: user.about
+        })
     }
-    userData()
+    userData(id, currentUser)
   }, [id])
 
   const [formData, setFormData] = useState({
@@ -43,29 +42,43 @@ const EditUser = ({setAlert, editUser, getUser, user: {user, loading}}) => {
 
   return (
     <Fragment>
-      <h5>Edit Profile</h5>
-      <Form onSubmit={e=>onSubmit(e)}>
-        <Form.Group controlId="formBasicEmail">
-          <Form.Label>Email address</Form.Label>
-          <Form.Control type="email" name="email" placeholder="Enter email" value={email} onChange={e => onChange(e)} />
-        </Form.Group>
+      {
+        currentUser && user && currentUser.id == user.id ?(
+          <Fragment>
+            <h5>Edit Profile</h5>
+            <Form onSubmit={e=>onSubmit(e)}>
+              <Form.Group controlId="formBasicEmail">
+                <Form.Label>Email address</Form.Label>
+                <Form.Control type="email" name="email" placeholder="Enter email" value={email} onChange={e => onChange(e)} />
+              </Form.Group>
+      
+              <Form.Group controlId="formBasicPassword">
+                <Form.Label>Password</Form.Label>
+                <Form.Control type="text" name="username" placeholder="Username" value={username} onChange={e => onChange(e)} />
+              </Form.Group>
+              <Form.Group controlId="formProfession">
+                <Form.Label>Profession</Form.Label>
+                <Form.Control type="text" name="profession" placeholder="Your Profession" value={profession} onChange={e => onChange(e)} />
+              </Form.Group>
+              <Form.Group controlId="formAbout">
+                <Form.Label>About you</Form.Label>
+                <Form.Control as="textarea" type="textarea" name="about" placeholder="About You" value={about} onChange={e => onChange(e)} />
+              </Form.Group>
+              <Button variant="primary border-white" type="submit" value="Submit">
+                Submit
+              </Button>
+            </Form>
+          </Fragment>
+        ):(
+          <Fragment>
+            <p>
+              You are not authorized to edit this profile
+            </p>
+          </Fragment>
+        )
+      }
+      
 
-        <Form.Group controlId="formBasicPassword">
-          <Form.Label>Password</Form.Label>
-          <Form.Control type="text" name="username" placeholder="Username" value={username} onChange={e => onChange(e)} />
-        </Form.Group>
-        <Form.Group controlId="formProfession">
-          <Form.Label>Profession</Form.Label>
-          <Form.Control type="text" name="profession" placeholder="Your Profession" value={profession} onChange={e => onChange(e)} />
-        </Form.Group>
-        <Form.Group controlId="formAbout">
-          <Form.Label>About you</Form.Label>
-          <Form.Control as="textarea" type="textarea" name="about" placeholder="About You" value={about} onChange={e => onChange(e)} />
-        </Form.Group>
-        <Button variant="primary border-white" type="submit" value="Submit">
-          Submit
-        </Button>
-      </Form>
     </Fragment>
   )
 }
