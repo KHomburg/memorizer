@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import Card from "react-bootstrap/Card"
 
 const NoteReference = ({
-  note: {id, title, text, user}
+  note: {id, title, text, user, tags}
 }) => {
   return (
     <div>
@@ -13,7 +13,8 @@ const NoteReference = ({
           <Link to={`/notes/${id}`}>
             <Card.Title>{title}</Card.Title>
           </Link>
-          <div className="card-tags">Tags</div>
+          <div className="card-tags">Tags: {tags ? tags.map(tag => tag.name + ", ") : null}</div>
+
           <Card.Text>
             {text}
           </Card.Text>

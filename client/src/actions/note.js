@@ -11,6 +11,8 @@ import{
   UPDATE_NOTE_ERROR,
   MY_NOTES,
   MY_NOTES_ERROR,
+  DELETE_NOTE,
+  DELETE_NOTE_ERROR
 } from "./types";
 
 //get note by id
@@ -109,6 +111,30 @@ export const updateNote = (formData, id) => async dispatch =>{
     dispatch({
       type: UPDATE_NOTE_ERROR,
       payload: {msg: err.response.statusText, status: err.response.status}
+    })
+  }
+}
+
+//Delete a Note by its id
+export const deleteNote = (id, history) => async dispatch => {
+  const config = {headers: {Authorization: localStorage.token, "Content-Type": "application/json"}}
+  try {
+    const res = await axios.delete("/api/notes/"+id, config)
+    dispatch({
+      type: DELETE_NOTE, 
+      payload: res.data
+    })
+    history.push('/notes')
+  }catch (err) {
+    console.log(err)
+    if(err.response.data.errors){
+      const errors = err.response.data.errors;
+      if(errors){
+        errors.forEach(error => dispatch(setAlert(error, "danger")))
+      }
+    }
+    dispatch({
+      type: DELETE_NOTE_ERROR
     })
   }
 }

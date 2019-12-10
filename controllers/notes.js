@@ -141,11 +141,11 @@ router.get("/user/:id", async (req, res, next) => {
 router.delete("/:id", async (req, res, next) => {
   try{
     const note = await models.Note.findByPk(req.params.id)
-    if(note){
-      note.destroy()
-      .then(note => res.status(204))
+    if(note && (note.userId == req.user.id)){
+      const deleted = await note.destroy()
+      res.status(200).json(deleted)
     }else{
-      res.status(404).json({errors: ["Note not found"]})
+      res.status(500).json({errors: ["Note not found, or this user is not authorized to delete"]})
     }
   }catch(err){
     next(err)

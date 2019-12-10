@@ -30,6 +30,9 @@ export const UPDATE_NOTE = "UPDATE_NOTE";
 export const UPDATE_NOTE_ERROR = "UPDATE_NOTE_ERROR";
 export const MY_NOTES = "MY_NOTES";
 export const MY_NOTES_ERROR = "MY_NOTES_ERROR";
+export const DELETE_NOTE = "DELETE_NOTE";
+export const DELETE_NOTE_ERROR = "DELETE_NOTE_ERROR";
+
 
 
 
