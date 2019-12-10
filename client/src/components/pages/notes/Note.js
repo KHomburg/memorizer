@@ -29,7 +29,7 @@ const Note = ({ getNote, note: {note, loading}, history, deleteNote, auth: {curr
           <p>Raw Text:   {note.text}</p>
           <p>User Id: {note.userId}</p>
           <p>Content:     </p>
-          <div dangerouslySetInnerHTML={{__html: note.content}} />
+          <div className="content" dangerouslySetInnerHTML={{__html: note.content}} />
           <p>Tags: {note.tags ? note.tags.map(tag => tag.name + ", ") : null}</p>
 
           {note.userId == currentUser.id ? (

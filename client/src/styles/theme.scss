@@ -9,7 +9,7 @@ $gray-500: #adb5bd !default;
 $gray-600: #6c757d !default;
 $gray-700: #495057 !default;
 $gray-800: #343a40 !default;
-$gray-900: #212529 !default;
+$gray-900: #181a1b !default;
 $black:    #000 !default;
 
 $blue:    #007bff !default;
@@ -22,6 +22,11 @@ $yellow:  #ffc107 !default;
 $green:   #28a745 !default;
 $teal:    #20c997 !default;
 $cyan:    #17a2b8 !default;
+$dark-red:     #2c0509 !default;
+$dark-blue:     #0b052c !default;
+$pre-bg: #23241f;
+
+
 
 $theme-colors:(
     "primary":    $gray-900,
