@@ -18,7 +18,7 @@ const NoteReference = ({
           <Card.Text>
             {text}
           </Card.Text>
-          <Card.Link href="#">{user.username}</Card.Link>
+          <Card.Link href={`/users/${user.id}`}>{user.username}</Card.Link>
           <Card.Link href="#">Date</Card.Link>
         </Card.Body>
       </Card>

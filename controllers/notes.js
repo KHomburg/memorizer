@@ -45,7 +45,16 @@ router.post("/new", async (req, res, next) => {
 router.get("/mynotes", async (req, res, next) => {
   console.log(req.user)
   try{
-    const notes = await models.Note.findAll({where: {userId: req.user.id}, include: [{model: models.User, as: "user"}, {model: models.Tag, as: "tags", through: {attributes:[]}}]})
+    //TODO: limit user data sent as response
+    const notes = await models.Note.findAll({
+      where: {userId: req.user.id}, 
+      include: [
+        {model: models.User, as: "user"}, 
+        {model: models.Tag, as: "tags", through: {attributes:[]}}
+      ],
+      order: [
+        ['createdAt', 'DESC'],
+      ]})
     if(notes){
       res.json(notes)
     }else{
@@ -70,10 +79,16 @@ router.get("/:id", async (req, res, next) => {
   }
 });
 
-//find all notes by id
+//find all notes
 router.get("/", async (req, res, next) => {
   try{
-    const notes = await models.Note.findAll({include: [{model: models.User, as: "user"}, {model: models.Tag, as: "tags", through: {attributes:[]}}]})
+    //TODO: limit user data sent as response
+    //TODO: limit notes search to public notes or make it admin restricted
+    const notes = await models.Note.findAll({
+      include: [{model: models.User, as: "user"}, {model: models.Tag, as: "tags", through: {attributes:[]}}],
+      order: [
+        ['createdAt', 'DESC'],
+      ]})
     if(notes){
       res.json(notes)
     }else{
@@ -130,7 +145,11 @@ router.put("/:id", async (req, res, next) => {
 //find notes of user
 router.get("/user/:id", async (req, res, next) => {
   try{
-    const notes = await models.Note.findAll({where: {userId : req.params.id}})
+    const notes = await models.Note.findAll({
+      where: {userId : req.params.id},
+      order: [
+        ['createdAt', 'DESC'],
+      ]})
     res.json(notes)
   }catch(err){
     next(err)
