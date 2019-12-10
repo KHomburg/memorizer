@@ -52,10 +52,10 @@ const Note = ({ getNote, note: {note, loading}, history, deleteNote, auth: {curr
               <Modal.Title>Are you sure you want to delete this Note?</Modal.Title>
             </Modal.Header>
             <Modal.Footer>
-              <Button variant="secondary" onClick={handleClose}>
-                Close
+              <Button variant="primary border-white" onClick={handleClose}>
+                No, keep it!
               </Button>
-              <Button variant="primary" onClick={removeNote}>
+              <Button variant="primary border-white" onClick={removeNote}>
                 Yes, delete this Note!
               </Button>
             </Modal.Footer>
