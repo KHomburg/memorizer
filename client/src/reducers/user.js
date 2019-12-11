@@ -1,4 +1,4 @@
-import { USER_ERROR, GET_USER, LIST_USERS, LIST_USERS_ERROR, EDIT_USER, EDIT_USER_ERROR} from "../actions/types";
+import { USER_ERROR, GET_USER, LIST_USERS, LIST_USERS_ERROR, EDIT_USER, EDIT_USER_ERROR, DELETE_USER, DELETE_USER_ERROR} from "../actions/types";
 
 const initialState = {
   user: null,
@@ -27,10 +27,16 @@ export default function(state= initialState, action){
     case USER_ERROR:
     case LIST_USERS_ERROR:
     case EDIT_USER_ERROR:
+    case DELETE_USER_ERROR:
       return{
         ...state,
         error: payload,
         loading: false
+      }
+    case DELETE_USER:
+      localStorage.removeItem("token");
+      return{
+        state: null
       }
     default:
       return state

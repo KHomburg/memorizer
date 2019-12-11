@@ -2,13 +2,15 @@ import React, {Fragment, useState, useEffect} from 'react';
 import {connect} from "react-redux";
 import {useParams} from 'react-router-dom'
 import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import {setAlert} from "../../../actions/alert";
-import {editUser, getUser} from "../../../actions/user";
+import {editUser, getUser, deleteUser} from "../../../actions/user";
 import PropTypes from 'prop-types';
 
-const EditUser = ({setAlert, editUser, getUser, user: {user, loading}, auth: {currentUser}}) => {
+const EditUser = ({setAlert, editUser, getUser, deleteUser, user: {user, loading}, auth: {currentUser}, history}) => {
   const {id} = useParams()
+  let password = ""
 
   useEffect(()=>{
     const userData = async (id, currentUser) => {
@@ -24,6 +26,7 @@ const EditUser = ({setAlert, editUser, getUser, user: {user, loading}, auth: {cu
     userData(id, currentUser)
   }, [id])
 
+  //set form data
   const [formData, setFormData] = useState({
     email: "",
     username: "",
@@ -31,14 +34,24 @@ const EditUser = ({setAlert, editUser, getUser, user: {user, loading}, auth: {cu
     about: "",
   });
 
-  
 
+  //updating frontend for form data changes
   const {email, username, profession, about} = formData;
   const onChange = e => setFormData({...formData, [e.target.name]: e.target.value})
   const onSubmit = async e => {
     e.preventDefault()
     editUser({email, username, profession, about}, id);
   }
+
+  //for user deletion form
+  const [deletePassword, setDeletePassword] = useState("")
+  const deletePasswordChange = e => setDeletePassword(e.target.value)
+
+  //for deletion Modal:
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+  const removeUser = () => deleteUser(deletePassword, id, history)
 
   return (
     <Fragment>
@@ -67,7 +80,26 @@ const EditUser = ({setAlert, editUser, getUser, user: {user, loading}, auth: {cu
               <Button variant="primary border-white" type="submit" value="Submit">
                 Submit
               </Button>
+              <Button variant="primary border-white" onClick={handleShow}>
+                Delete this Profile
+              </Button>
             </Form>
+
+            <Modal show={show} onHide={handleClose}>
+              <Modal.Header closeButton>
+                <Modal.Title>Are you sure you want to delete this Profile?</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>Enter you password here to delete your profile:</Modal.Body>
+              <Form.Control type="text" name="deletePassword" placeholder="Enter your password" value={deletePassword} onChange={e => deletePasswordChange(e)} />
+              <Modal.Footer>
+                <Button variant="primary border-white" onClick={handleClose}>
+                  No, keep it!
+                </Button>
+                <Button variant="primary border-white" onClick={removeUser}>
+                  Yes, delete this Profile!
+                </Button>
+              </Modal.Footer>
+            </Modal>
           </Fragment>
         ):(
           <Fragment>
@@ -97,4 +129,4 @@ const mapStateToProps = state => ({
 })
 
 
-export default connect(mapStateToProps, {setAlert, editUser, getUser})(EditUser)
+export default connect(mapStateToProps, {setAlert, editUser, getUser, deleteUser})(EditUser)

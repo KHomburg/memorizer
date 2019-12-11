@@ -6,7 +6,9 @@ import{
   LIST_USERS,  
   LIST_USERS_ERROR,
   EDIT_USER,
-  EDIT_USER_ERROR
+  EDIT_USER_ERROR,
+  DELETE_USER,
+  DELETE_USER_ERROR,
 } from "./types";
 
 //get user by id
@@ -60,6 +62,32 @@ export const editUser = ({email, username, profession, about}, id) => async disp
     dispatch({
       type: EDIT_USER_ERROR,
       payload: {msg: err.response.statusText, status: err.response.status}
+    })
+  }
+}
+
+//Delete a User by its id
+export const deleteUser = (password, id, history) => async dispatch => {
+  const config = {Authorization: localStorage.token, "Content-Type": "application/json"}
+
+  try {
+    const res = await axios.delete("/api/users/"+id, {data: {password: password}, headers: config})
+    dispatch({
+      type: DELETE_USER, 
+      payload: res.data
+    })
+    history.push('/')
+  }catch (err) {
+    console.log(err.response)
+
+    if(err.response.data.errors){
+      const errors = err.response.data.errors;
+      if(errors){
+        errors.forEach(error => dispatch(setAlert(error, "danger")))
+      }
+    }
+    dispatch({
+      type: DELETE_USER_ERROR
     })
   }
 }

@@ -42,7 +42,7 @@ module.exports = (sequelize, DataTypes) => {
     },
   });
   Note.associate = function(models) {
-    Note.belongsTo(models.User, {foreignKey: 'userId', as: 'user'})
+    Note.belongsTo(models.User, {foreignKey: 'userId', as: 'user'}) //TODO: foreign key declaration maybe wrong
     Note.belongsToMany(models.Tag, {through: "NotesTag", as: "tags", foreignKey: "noteId"})
   };
   return Note;

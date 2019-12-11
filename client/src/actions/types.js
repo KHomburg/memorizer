@@ -18,6 +18,10 @@ export const USER_ERROR = "USER_ERROR";
 export const LIST_USERS_ERROR = "LIST_USERS_ERROR";
 export const EDIT_USER = "EDIT_USER";
 export const EDIT_USER_ERROR = "EDIT_USER_ERROR";
+export const DELETE_USER = "DELETE_USER";
+export const DELETE_USER_ERROR = "DELETE_USER_ERROR";
+
+
 
 //Note interactions
 export const GET_NOTE = "GET_NOTE";

@@ -160,14 +160,14 @@ router.put("/:id", passport.authenticate('jwt', {session: false}), async (req, r
 //delete user
 router.delete("/:id", passport.authenticate('jwt', {session: false}), async (req, res, next) => {
   try{
-    if(!req.body.password) res.status(400).json({errors: ["You need to enter your password"]})
-    if(req.params.id != req.user.id) res.status(400).json({errors: ["You are not authorized to delete this profile"]})
+    if(!req.body.password) return res.status(401).json({errors: ["You need to enter your password"]})
+    if(req.params.id != req.user.id) return res.status(401).json({errors: ["You are not authorized to delete this profile"]})
 
     const user = await models.User.findOne({ where: { email: req.user.email } })
-    if(!user) res.status(400).json({errors: ["Unexpected Error: your profile was not found"]})
+    if(!user) return res.status(404).json({errors: ["Unexpected Error: your profile was not found"]})
 
     const isMatch = await bcrypt.compare(req.body.password, user.password)
-    if(!isMatch) res.status(400).json({errors: ["Wrong password"]})
+    if(!isMatch) return res.status(401).json({errors: ["Wrong password"]})
     
     if (isMatch) {
       const deleted = await user.destroy()

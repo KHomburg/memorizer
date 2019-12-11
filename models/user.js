@@ -41,7 +41,7 @@ module.exports = (sequelize, DataTypes) => {
     },
   });
   User.associate = function(models) {
-    User.hasMany(models.Note, {foreignKey: "userId", as: 'note', onDelete: 'CASCADE'})
+    User.hasMany(models.Note, {foreignKey: "userId", as: 'note', onDelete: 'CASCADE', hooks:true})
   };
   return User;
 };
