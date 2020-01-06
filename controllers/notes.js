@@ -10,7 +10,7 @@ const secret = process.env.SECRET
 
 //create a new note
 router.post("/new", async (req, res, next) => {
-  if(req.body.tags){
+  if(req.body.tags != [] && req.body.tags != ""){
     var tags = req.body.tags.split(",")
     var tagsIds = []
   }
@@ -99,8 +99,6 @@ router.get("/", async (req, res, next) => {
   }
 });
 
-
-
 //update note
 router.put("/:id", async (req, res, next) => {
   try{
@@ -166,6 +164,35 @@ router.delete("/:id", async (req, res, next) => {
     }else{
       res.status(500).json({errors: ["Note not found, or this user is not authorized to delete"]})
     }
+  }catch(err){
+    next(err)
+  }
+});
+
+//create a new note
+router.post("/filter", async (req, res, next) => {
+  const term = req.body.term
+  console.log(term)
+  try{
+    const notes = await models.Note.findAll({
+      where: {
+        [Op.or]:[
+          {text:{
+            [Op.iLike]: term}
+          },
+          {
+            title:{
+              [Op.iLike]: term}
+          }
+        ],
+        text:{
+          [Op.like]: term}
+        },
+      order: [
+        ['createdAt', 'DESC'],
+      ]
+    })
+    res.status(200).json(notes)
   }catch(err){
     next(err)
   }
