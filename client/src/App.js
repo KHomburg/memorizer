@@ -7,6 +7,8 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Header from './components/layout/Header'
+import Sidenav from "./components/layout/Sidenav"
+import SidenavCollabse from "./components/layout/Sidenav-collabse"
 
 
 //PAGES
@@ -48,6 +50,8 @@ const App = () => {
       <Router>
         <Fragment>
           <Header />
+          <Sidenav />
+          <SidenavCollabse />
           <Container>
             <Row>
               <Col>

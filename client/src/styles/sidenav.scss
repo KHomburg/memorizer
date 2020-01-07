@@ -1,0 +1,45 @@
+//TODO: add media querries for sidenav to be only shown on large screens
+
+.sidenav {
+  height: 100%;
+  width: 50px;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: #111;
+  overflow-x: hidden;
+  padding-top: 20px;
+}
+
+.sidenav a {
+  width: 100%;
+  padding: 5px 5px 5px 5px;
+  text-align: center;
+  text-decoration: none;
+  fill: #818181 !important;
+  color: #818181;
+  display: block;
+}
+
+.sidenav img {
+  fill: #818181 !important; //does not work, dont know why
+  color: #818181;
+}
+
+.sidenav a:hover {
+  fill: #333232;
+  //color: #f1f1f1;
+  background-color: #333232;
+}
+
+.main {
+  margin-left: 160px; /* Same as the width of the sidenav */
+  font-size: 28px; /* Increased text to enable scrolling */
+  padding: 0px 10px;
+}
+
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 18px;}
+}

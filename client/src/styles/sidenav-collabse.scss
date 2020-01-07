@@ -1,0 +1,34 @@
+//TODO: add media querries for sidenav to be only shown on large screens
+
+.sidenav-collabse {
+  margin-left: 50px;
+  width: 0px;
+  height: 100%;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: #111;
+  overflow-x: hidden;
+  padding-top: 20px;
+}
+
+.collabsible-open{
+  width: 350px;
+}
+
+.sidenav a {
+  width: 100%;
+  padding: 5px 5px 5px 5px;
+  text-align: center;
+  text-decoration: none;
+  fill: #818181 !important;
+  color: #818181;
+  display: block;
+}
+
+.close-icon{
+  position: relative;
+  top: 5px;
+  right: 5px;
+}
