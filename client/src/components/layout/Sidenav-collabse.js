@@ -19,9 +19,8 @@ const SidenavCollabse = () => {
 
   return (    
     <Fragment>
-      
-      <div id="sidenav-collabse" className="sidenav-collabse" onClick={close}>
-        <img className="close-icon" src={closeIcon} height="20px" width="20px"/>
+      <div id="sidenav-collabse" className="sidenav-collabse">
+        <img className="close-icon" src={closeIcon} onClick={close} height="20px" width="20px"/>
         <h2>Headline here</h2>
         
         <Form.Group controlId="formBasicEmail">

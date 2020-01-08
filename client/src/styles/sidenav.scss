@@ -8,12 +8,12 @@
   top: 0;
   left: 0;
   background-color: #111;
-  overflow-x: hidden;
   padding-top: 20px;
   border-right: solid 1px $gray-600;
 }
 
 .sidenav a {
+  height: 40px;
   width: 100%;
   padding: 5px 5px 5px 5px;
   text-align: center;
@@ -31,7 +31,7 @@
 .sidenav a:hover {
   fill: #333232;
   //color: #f1f1f1;
-  background-color: #333232;
+  background-color: $gray-600;
 }
 
 .main {

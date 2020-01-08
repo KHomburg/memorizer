@@ -48,22 +48,22 @@ const Sidenav = ({listNotes, myNotes, logout, auth: {isAuthenticated, loading, c
       (!loading && isAuthenticated) && 
         <Fragment>
           <div className="sidenav">
-            <Link onClick={e => open(e)}>
-              <img src={searchIcon} height="20px" width="20px"/>
+            <Link onClick={e => open(e)} data-tooltip="Search" data-tooltip-location="right">
+              <img src={searchIcon} height="20px" width="20px" />
             </Link>
-            <Link onClick={e => openMyNotes(e)}>
+            <Link onClick={e => openMyNotes(e)} data-tooltip="My Notes" data-tooltip-location="right">
               <img src={myContentIcon} height="20px" width="20px"/>
             </Link>
-            <Link onClick={e => openAllNotes(e)}>
+            <Link onClick={e => openAllNotes(e)} data-tooltip="All Notes" data-tooltip-location="right">
               <img src={contentIcon} height="20px" width="20px"/>
             </Link>
-            <Link to="/notes/new" onClick={close}>
+            <Link to="/notes/new" onClick={close} data-tooltip="Write a Note" data-tooltip-location="right">
               <img src={createIcon} height="20px" width="20px"/>
             </Link>
-            <Link to={"/users/"+currentUser.id} onClick={close}>
+            <Link to={"/users/"+currentUser.id} onClick={close} data-tooltip="My Profile" data-tooltip-location="right">
               <img src={profileIcon} height="20px" width="20px"/>
             </Link>
-            <Link to="/notes/new" onClick={logout}>
+            <Link onClick={logout} data-tooltip="Logout" data-tooltip-location="right">
               <img src={logoutIcon} height="20px" width="20px"/>
             </Link>
           </div>
