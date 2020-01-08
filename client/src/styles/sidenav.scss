@@ -10,6 +10,7 @@
   background-color: #111;
   overflow-x: hidden;
   padding-top: 20px;
+  border-right: solid 1px $gray-600;
 }
 
 .sidenav a {
@@ -17,14 +18,14 @@
   padding: 5px 5px 5px 5px;
   text-align: center;
   text-decoration: none;
-  fill: #818181 !important;
-  color: #818181;
+  fill: $gray-600 !important;
+  color: $gray-600;
   display: block;
 }
 
 .sidenav img {
-  fill: #818181 !important; //does not work, dont know why
-  color: #818181;
+  fill: $gray-600 !important; //does not work, dont know why
+  color: $gray-600;
 }
 
 .sidenav a:hover {

@@ -1,4 +1,4 @@
-import React, {Fragment, useEffect} from 'react'
+import React, {Fragment, useEffect, useState} from 'react'
 import {Link} from 'react-router-dom'
 import {connect} from "react-redux"
 import PropTypes from 'prop-types';
@@ -7,9 +7,9 @@ import Loading from "../../layout/Loading"
 import NoteReference from "./NoteReference"
 
 const Notes = ({ listNotes, note: {notes, loading} }) => {
-  useEffect(()=>{
-    notes = listNotes()
-  }, [])
+  //useEffect(()=>{
+  //  notes = listNotes()
+  //}, [])
   return (
     <Fragment>
       {notes === null || loading ? (

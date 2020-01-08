@@ -169,7 +169,7 @@ router.delete("/:id", async (req, res, next) => {
   }
 });
 
-//create a new note
+//search notes by term
 router.post("/filter", async (req, res, next) => {
   const term = req.body.term
   console.log(term)

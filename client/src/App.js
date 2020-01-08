@@ -49,7 +49,6 @@ const App = () => {
     <Provider store={store}>
       <Router>
         <Fragment>
-          <Header />
           <Sidenav />
           <SidenavCollabse />
           <Container>
