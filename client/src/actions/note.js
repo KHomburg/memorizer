@@ -12,7 +12,8 @@ import{
   MY_NOTES,
   MY_NOTES_ERROR,
   DELETE_NOTE,
-  DELETE_NOTE_ERROR
+  DELETE_NOTE_ERROR,
+  SEARCH_PUBLIC_NOTES,
 } from "./types";
 
 //get note by id
@@ -38,7 +39,6 @@ export const getNote = (id) => async dispatch =>{
 export const createNote = (formData, history) => async dispatch => {
   const config = {headers: {Authorization: localStorage.token, "Content-Type": "application/json"}}
   const body = JSON.stringify(formData)
-  console.log(body)
 
   try {
     const res = await axios.post("/api/notes/new", body, config);
@@ -135,6 +135,28 @@ export const deleteNote = (id, history) => async dispatch => {
     }
     dispatch({
       type: DELETE_NOTE_ERROR
+    })
+  }
+}
+
+//search and list result for public notes
+export const searchPublicNotes = (term) => async dispatch =>{
+  const config = {headers: {Authorization: localStorage.token, "Content-Type": "application/json"}}
+  const body = JSON.stringify({term})
+  console.log("test")
+  console.log(body)
+
+  try {
+    const res = await axios.post("/api/notes/filter", body, config);
+    console.log(res.data)
+    dispatch({
+      type: SEARCH_PUBLIC_NOTES, 
+      payload: res.data
+    })
+  }catch(err){
+    dispatch({
+      type: LIST_NOTES_ERROR,
+      payload: {msg: err.response.statusText, status: err.response.status}
     })
   }
 }

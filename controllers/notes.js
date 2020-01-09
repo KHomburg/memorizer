@@ -181,6 +181,10 @@ router.post("/filter", async (req, res, next) => {
     `, {
       //model: models.Notes, //<= part of the doc, but don't know why
       replacements: { query: term },
+      include: [
+        {model: models.User, as: "user"}, 
+        {model: models.Tag, as: "tags", through: {attributes:[]}}
+      ],
     });
     res.status(200).json(notes[0])
   }catch(err){

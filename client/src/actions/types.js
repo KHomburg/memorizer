@@ -21,8 +21,6 @@ export const EDIT_USER_ERROR = "EDIT_USER_ERROR";
 export const DELETE_USER = "DELETE_USER";
 export const DELETE_USER_ERROR = "DELETE_USER_ERROR";
 
-
-
 //Note interactions
 export const GET_NOTE = "GET_NOTE";
 export const LOAD_NOTE_ERROR = "LOAD_NOTE_ERROR";
@@ -36,6 +34,12 @@ export const MY_NOTES = "MY_NOTES";
 export const MY_NOTES_ERROR = "MY_NOTES_ERROR";
 export const DELETE_NOTE = "DELETE_NOTE";
 export const DELETE_NOTE_ERROR = "DELETE_NOTE_ERROR";
+export const SEARCH_PUBLIC_NOTES = "SEARCH_PUBLIC_NOTES";
+
+//Sidebar interactions
+export const SIDENAVE_PUBLIC_NOTES = "SIDENAVE_PUBLIC_NOTES";
+export const SIDENAVE_MY_NOTES = "SIDENAVE_MY_NOTES";
+
 
 
 

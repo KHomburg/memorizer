@@ -2,8 +2,11 @@ import React, {Fragment} from 'react'
 import {Link} from 'react-router-dom'
 import {connect} from "react-redux"
 import PropTypes from 'prop-types';
+
+//state actions
 import {listNotes, myNotes} from "../../actions/note"
 import {logout} from "../../actions/auth"
+import {sidenavPublicNotes, sidenavMyNotes} from "../../actions/sidenav"
 
 //ICONS
 import searchIcon from "../../icons/search_icon.svg"
@@ -15,7 +18,7 @@ import logoutIcon from "../../icons/logout_icon.svg"
 
 //import {logout} from "../../actions/auth"
 
-const Sidenav = ({listNotes, myNotes, logout, auth: {isAuthenticated, loading, currentUser},}) => {
+const Sidenav = ({listNotes, myNotes, logout, sidenavPublicNotes, sidenavMyNotes, auth: {isAuthenticated, loading, currentUser},}) => {
   const open = (e) => {
     if(document.getElementsByClassName("collabsible-open").length > 0){
     }else{
@@ -32,12 +35,14 @@ const Sidenav = ({listNotes, myNotes, logout, auth: {isAuthenticated, loading, c
   const openAllNotes = (e) => {
     e.preventDefault()
     listNotes()
+    sidenavPublicNotes()
     open()
   }
 
   const openMyNotes = (e) => {
     e.preventDefault()
     myNotes()
+    sidenavMyNotes()
     open()
   }
 
@@ -73,19 +78,18 @@ const Sidenav = ({listNotes, myNotes, logout, auth: {isAuthenticated, loading, c
   )
 }
 
-//Header.propTypes = {
-//  logout: PropTypes.func.isRequired,
-//  auth: PropTypes.object.isRequired,
-//}
-
-//  auth: state.auth
-//})
-
 const mapStateToProps = state => ({
   auth: state.auth,
   listNotes: PropTypes.func.isRequired,
   myNotes: PropTypes.func.isRequired,
   logout: PropTypes.func.isRequired,
+  sidenavPublicNotes: PropTypes.func.isRequired,
 })
 
-export default connect(mapStateToProps, {listNotes, myNotes, logout})(Sidenav)
+export default connect(mapStateToProps, {
+  listNotes, 
+  myNotes, 
+  logout, 
+  sidenavPublicNotes,
+  sidenavMyNotes,
+})(Sidenav)

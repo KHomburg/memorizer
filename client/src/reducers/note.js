@@ -1,4 +1,4 @@
-import { LOAD_NOTE_ERROR, GET_NOTE, CREATE_NOTE_ERROR, CREATE_NOTE, LIST_NOTES, LIST_NOTES_ERROR, UPDATE_NOTE_ERROR, UPDATE_NOTE, MY_NOTES, MY_NOTES_ERROR, DELETE_NOTE, DELETE_NOTE_ERROR } from "../actions/types";
+import { LOAD_NOTE_ERROR, GET_NOTE, CREATE_NOTE_ERROR, CREATE_NOTE, LIST_NOTES, LIST_NOTES_ERROR, UPDATE_NOTE_ERROR, UPDATE_NOTE, MY_NOTES, MY_NOTES_ERROR, DELETE_NOTE, DELETE_NOTE_ERROR, SEARCH_PUBLIC_NOTES } from "../actions/types";
 
 const initialState = {
   note: {
@@ -25,6 +25,7 @@ export default function(state= initialState, action){
       }
     case LIST_NOTES:
     case MY_NOTES:
+    case SEARCH_PUBLIC_NOTES:
       return{
         ...state,
         notes: payload,
