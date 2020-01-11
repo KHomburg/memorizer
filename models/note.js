@@ -40,10 +40,26 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: false,
       allowNull: false,
     },
-  });
+  },
+  
+  );
   Note.associate = function(models) {
     Note.belongsTo(models.User, {foreignKey: 'userId', as: 'user'}) //TODO: foreign key declaration maybe wrong
     Note.belongsToMany(models.Tag, {through: "NotesTag", as: "tags", foreignKey: "noteId"})
   };
+
+  //search for notes by a term
+  Note.searchFilter = function(term){
+    console.log("test")
+    return this.sequelize.query(`
+      SELECT "id", "userId", "title", "text", "content", "createdAt", "updatedAt" 
+      FROM "Notes"
+      WHERE ts_search @@ plainto_tsquery('simple', :query);
+      `, {
+      model: Note,
+      replacements: { query: term },
+      }
+    );
+  }
   return Note;
 };

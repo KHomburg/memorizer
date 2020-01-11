@@ -174,19 +174,8 @@ router.post("/filter", async (req, res, next) => {
   const term = req.body.term
   console.log(term)
   try{
-    const notes = await models.sequelize.query(`
-      SELECT "id", "userId", "title", "text", "content", "createdAt", "updatedAt" 
-      FROM "Notes"
-      WHERE ts_search @@ plainto_tsquery('simple', :query);
-    `, {
-      //model: models.Notes, //<= part of the doc, but don't know why
-      replacements: { query: term },
-      include: [
-        {model: models.User, as: "user"}, 
-        {model: models.Tag, as: "tags", through: {attributes:[]}}
-      ],
-    });
-    res.status(200).json(notes[0])
+    const notes = await models.Note.searchFilter(term)
+    res.status(200).json(notes)
   }catch(err){
     next(err)
   }
