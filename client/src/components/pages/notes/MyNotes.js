@@ -4,7 +4,7 @@ import {connect} from "react-redux"
 import PropTypes from 'prop-types';
 import {myNotes} from "../../../actions/note"
 import Loading from "../../layout/Loading"
-import NoteReference from "./NoteReference"
+import NoteReference from "../../shared/note/NoteReference"
 
 const Notes = ({ myNotes, note: {notes, loading} }) => {
   useEffect(()=>{

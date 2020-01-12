@@ -13,12 +13,9 @@ const NoteReference = ({
           <Link to={`/notes/${id}`}>
             <Card.Title>{title}</Card.Title>
           </Link>
-          <div className="card-tags">Tags: {tags ? tags.map(tag => tag.name + ", ") : null}</div>
-
           <Card.Text>
             {text}
           </Card.Text>
-          <Card.Link href={`/users/${user.id}`}>{user.username}</Card.Link>
           <Card.Link href="#">Date</Card.Link>
         </Card.Body>
       </Card>
