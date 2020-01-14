@@ -10,7 +10,6 @@ const Notes = ({ myNotes, note: {notes, loading} }) => {
   useEffect(()=>{
     notes = myNotes()
   }, [])
-  console.log(notes)
   return (
     <Fragment>
       {notes === null || loading ? (

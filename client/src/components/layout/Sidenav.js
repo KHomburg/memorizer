@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 //state actions
 import {listNotes, myNotes} from "../../actions/note"
 import {logout} from "../../actions/auth"
-import {sidenavPublicNotes, sidenavMyNotes, closeCollabse} from "../../actions/sidenav"
+import {sidenavPublicNotes, sidenavMyNotes, closeCollabse, openSearch} from "../../actions/sidenav"
 
 //ICONS
 import searchIcon from "../../icons/search_icon.svg"
@@ -19,25 +19,16 @@ import sidenav from '../../reducers/sidenav';
 
 //import {logout} from "../../actions/auth"
 
-const Sidenav = ({listNotes, myNotes, closeCollabse, logout, sidenavPublicNotes, sidenavMyNotes, auth: {isAuthenticated, loading, currentUser},}) => {
+const Sidenav = ({closeCollabse, logout, sidenavPublicNotes, openSearch, sidenavMyNotes, auth: {isAuthenticated, loading, currentUser},}) => {
 
-  const open = (e) => {
-    console.log("test")
-  }
-
-  const close = () => {
-    closeCollabse()
-  }
   const openAllNotes = (e) => {
     e.preventDefault()
     sidenavPublicNotes()
-    open()
   }
 
   const openMyNotes = (e) => {
     e.preventDefault()
     sidenavMyNotes()
-    open()
   }
 
 
@@ -47,7 +38,7 @@ const Sidenav = ({listNotes, myNotes, closeCollabse, logout, sidenavPublicNotes,
       (!loading && isAuthenticated) && 
         <Fragment>
           <div className="sidenav">
-            <Link onClick={e => open(e)} data-tooltip="Search" data-tooltip-location="right">
+            <Link onClick={() => openSearch()} data-tooltip="Search" data-tooltip-location="right">
               <img src={searchIcon} height="20px" width="20px" />
             </Link>
             <Link onClick={e => openMyNotes(e)} data-tooltip="My Notes" data-tooltip-location="right">
@@ -88,4 +79,5 @@ export default connect(mapStateToProps, {
   sidenavPublicNotes,
   sidenavMyNotes,
   closeCollabse,
+  openSearch,
 })(Sidenav)

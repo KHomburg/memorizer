@@ -144,8 +144,6 @@ export const deleteNote = (id, history) => async dispatch => {
 export const searchPublicNotes = (term) => async dispatch =>{
   const config = {headers: {Authorization: localStorage.token, "Content-Type": "application/json"}}
   const body = JSON.stringify({term})
-  console.log("test")
-  console.log(body)
 
   try {
     const res = await axios.post("/api/notes/filter", body, config);

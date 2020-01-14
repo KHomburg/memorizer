@@ -26,7 +26,7 @@ const Notes = ({ listNotes, sidenav: {notes, loading} }) => {
                 </Fragment>
               ))
             ) : (
-              <p>test</p>
+              null
             )}
           </div>
         </Fragment>

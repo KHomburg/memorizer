@@ -9,12 +9,12 @@ import closeIcon from "../../icons/close_icon.svg.png"
 
 //state actions
 import {searchPublicNotes} from "../../actions/note"
-import {closeCollabse} from "../../actions/sidenav"
+import {closeCollabse, searchPublicNotesSidenav} from "../../actions/sidenav"
 
 
 //import {logout} from "../../actions/auth"
 
-const SidenavCollabse = ({sidenav, searchPublicNotes, closeCollabse, auth: {isAuthenticated, loading, currentUser},}) => {
+const SidenavCollabse = ({sidenav, searchPublicNotes, closeCollabse, searchPublicNotesSidenav, auth: {isAuthenticated, loading, currentUser},}) => {
   const [searchTerm, setSearchTerm] = useState({
     term: "",
   });
@@ -23,7 +23,7 @@ const SidenavCollabse = ({sidenav, searchPublicNotes, closeCollabse, auth: {isAu
   const onChange = e => setSearchTerm(e.target.value)
   const onSubmit = async e => {
     e.preventDefault()
-    searchPublicNotes(searchTerm)
+    searchPublicNotesSidenav(searchTerm)
   }
 
   const close = () => {
@@ -62,6 +62,7 @@ const mapStateToProps = state => ({
   sidenav: state.sidenav,
   searchPublicNotes: PropTypes.func.isRequired,
   closeCollabse: PropTypes.func.isRequired,
+  searchPublicNotesSidenav: PropTypes.func.isRequired,
 })
 
-export default connect(mapStateToProps, {searchPublicNotes, closeCollabse})(SidenavCollabse)
+export default connect(mapStateToProps, {searchPublicNotes, closeCollabse, searchPublicNotesSidenav})(SidenavCollabse)
