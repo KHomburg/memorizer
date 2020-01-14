@@ -32,7 +32,7 @@ const Note = ({ getNote, note: {note, loading}, history, deleteNote, auth: {curr
           <div className="content" dangerouslySetInnerHTML={{__html: note.content}} />
           <p>Tags: {note.tags ? note.tags.map(tag => tag.name + ", ") : null}</p>
 
-          {note.userId == currentUser.id ? (
+          {currentUser && note.userId == currentUser.id ? (
             <Fragment>
             <Link to={`/notes/${note.id}/edit`}>
               <Button variant="primary border-white">

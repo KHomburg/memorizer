@@ -2,6 +2,7 @@ import axios from "axios"
 import {setAlert} from "./alert"
 import{
   GET_NOTE,
+  GET_NOTE_ERROR,
   LIST_NOTES,
   LIST_NOTES_ERROR,
   CREATE_NOTE,
@@ -29,7 +30,7 @@ export const getNote = (id) => async dispatch =>{
     return(res.data)
   }catch(err){
     dispatch({
-      type: CREATE_NOTE_ERROR,
+      type: GET_NOTE_ERROR,
       payload: {msg: err.response.statusText, status: err.response.status}
     })
   }

@@ -23,6 +23,7 @@ export const DELETE_USER_ERROR = "DELETE_USER_ERROR";
 
 //Note interactions
 export const GET_NOTE = "GET_NOTE";
+export const GET_NOTE_ERROR = "GET_NOTE_ERROR";
 export const LOAD_NOTE_ERROR = "LOAD_NOTE_ERROR";
 export const CREATE_NOTE = "CREATE_NOTE";
 export const CREATE_NOTE_ERROR = "CREATE_NOTE_ERROR";

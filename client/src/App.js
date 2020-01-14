@@ -50,12 +50,13 @@ const App = () => {
     <Provider store={store}>
       <Router>
         <Fragment>
+          <Header />
           <Sidenav />
           <SidenavCollabse />
           <Container>
             <Row>
               <Col>
-              <Route exact path="/" component={Landing} />
+              <Route exact path="/" component={NoteIndex} />
               <section className="containter">
                 <Alert />
                 <Switch>
