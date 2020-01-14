@@ -7,6 +7,7 @@ import './styles/App.scss';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import Spacer from './components/layout/Spacer';
 import Header from './components/layout/Header'
 import Sidenav from "./components/layout/Sidenav"
 import SidenavCollabse from "./components/layout/Sidenav-collabse"
@@ -55,6 +56,7 @@ const App = () => {
           <SidenavCollabse />
           <Container>
             <Row>
+              <Spacer />
               <Col>
               <Route exact path="/" component={NoteIndex} />
               <section className="containter">

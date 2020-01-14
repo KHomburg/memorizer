@@ -1,0 +1,9 @@
+.basic-spacer{
+  width: 50px;
+}
+
+.collabse-spacer{
+  @media (min-width: 992px) {
+    width: 350px;
+  }
+}
