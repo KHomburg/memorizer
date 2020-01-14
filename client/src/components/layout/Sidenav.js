@@ -34,14 +34,12 @@ const Sidenav = ({listNotes, myNotes, logout, sidenavPublicNotes, sidenavMyNotes
 
   const openAllNotes = (e) => {
     e.preventDefault()
-    listNotes()
     sidenavPublicNotes()
     open()
   }
 
   const openMyNotes = (e) => {
     e.preventDefault()
-    myNotes()
     sidenavMyNotes()
     open()
   }

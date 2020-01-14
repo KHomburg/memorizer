@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom'
 import {connect} from "react-redux"
 import PropTypes from 'prop-types';
 import Form from 'react-bootstrap/Form';
-import NoteList from "../shared/note/NotesList"
+import NoteList from "../shared/note/SidenavNotesList"
 import searchIcon from "../../icons/search_icon.svg"
 import closeIcon from "../../icons/close_icon.svg.png"
 

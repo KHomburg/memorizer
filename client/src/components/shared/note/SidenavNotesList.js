@@ -6,7 +6,7 @@ import {listNotes} from "../../../actions/note"
 import Loading from "../../layout/Loading"
 import NoteReference from "./NoteReference"
 
-const Notes = ({ listNotes, note: {notes, loading} }) => {
+const Notes = ({ listNotes, sidenav: {notes, loading} }) => {
   //useEffect(()=>{
   //  notes = listNotes()
   //}, [])
@@ -38,12 +38,12 @@ const Notes = ({ listNotes, note: {notes, loading} }) => {
 Notes.propTypes = {
   listNotes: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
-  note: PropTypes.object.isRequired
+  sidenav: PropTypes.object.isRequired
 }
 
 const mapStateToProps = state => ({
   auth: state.auth,
-  note: state.note
+  sidenav: state.sidenav
 })
 
 export default connect(mapStateToProps, {listNotes})(Notes)

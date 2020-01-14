@@ -9,8 +9,12 @@ import{
 export const sidenavPublicNotes = () => async dispatch =>{
   try {
     console.log("test")
+    const res = await axios.get("/api/notes", 
+      {headers: {Authorization: localStorage.token}}
+    )
     dispatch({
       type: SIDENAVE_PUBLIC_NOTES,
+      payload: res.data,
     })
     //return()
   }catch(err){
@@ -26,8 +30,12 @@ export const sidenavPublicNotes = () => async dispatch =>{
 export const sidenavMyNotes = () => async dispatch =>{
   try {
     console.log("test")
+    const res = await axios.get("/api/notes/mynotes", 
+      {headers: {Authorization: localStorage.token}}
+    )
     dispatch({
       type: SIDENAVE_MY_NOTES,
+      payload: res.data
     })
     //return()
   }catch(err){

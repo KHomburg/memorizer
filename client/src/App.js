@@ -24,7 +24,7 @@ import EditUser from './components/pages/users/EditUser'
 
 import Note from './components/pages/notes/Note'
 import CreateNote from './components/pages/notes/CreateNote'
-
+import NoteIndex from './components/pages/notes/NoteIndex'
 import EditNote from './components/pages/notes/EditNote'
 import MyNotes from './components/pages/notes/MyNotes'
 
@@ -68,6 +68,7 @@ const App = () => {
                   <PrivateRoute exact path="/notes/mynotes" component={MyNotes} />
                   <PrivateRoute exact path="/notes/:id/edit" component={EditNote} />
                   <PrivateRoute exact path="/notes/:id" component={Note} />
+                  <PrivateRoute exact path="/notes" component={NoteIndex} />
                   <PrivateRoute exact path="/test" component={Landing} />
                 </Switch>
               </section>
