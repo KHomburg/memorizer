@@ -2,14 +2,16 @@ const express = require("express");
 const router = express.Router();
 const models = require("../models")
 const validate = require("../helpers/validation")
+const passport = require("passport");
 const Sequelize = require("sequelize")
 const Op = Sequelize.Op
 
 require('dotenv').config();
 const secret = process.env.SECRET
 
+
 //create a new note
-router.post("/new", async (req, res, next) => {
+router.post("/new", passport.authenticate('jwt', {session: false}), async (req, res, next) => {
   if(req.body.tags != [] && req.body.tags != ""){
     var tags = req.body.tags.split(",")
     var tagsIds = []
@@ -42,7 +44,7 @@ router.post("/new", async (req, res, next) => {
 });
 
 //find all notes of current user
-router.get("/mynotes", async (req, res, next) => {
+router.get("/mynotes", passport.authenticate('jwt', {session: false}), async (req, res, next) => {
   console.log(req.user)
   try{
     //TODO: limit user data sent as response
@@ -100,7 +102,7 @@ router.get("/", async (req, res, next) => {
 });
 
 //update note
-router.put("/:id", async (req, res, next) => {
+router.put("/:id", passport.authenticate('jwt', {session: false}), async (req, res, next) => {
   try{
     const validationErrors = await validate.validateNote(req, res)
     if(validationErrors){
@@ -141,7 +143,7 @@ router.put("/:id", async (req, res, next) => {
 });
 
 //find notes of user
-router.get("/user/:id", async (req, res, next) => {
+router.get("/user/:id", passport.authenticate('jwt', {session: false}), async (req, res, next) => {
   try{
     const notes = await models.Note.findAll({
       where: {userId : req.params.id},
@@ -155,7 +157,7 @@ router.get("/user/:id", async (req, res, next) => {
 });
 
 //delete note by user
-router.delete("/:id", async (req, res, next) => {
+router.delete("/:id", passport.authenticate('jwt', {session: false}), async (req, res, next) => {
   try{
     const note = await models.Note.findByPk(req.params.id)
     if(note && (note.userId == req.user.id)){

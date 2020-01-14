@@ -62,7 +62,7 @@ Routing:
 */
 //app.use("/", start.routing);
 app.use("/api/users", users.routing);
-app.use("/api/notes", passport.authenticate('jwt', {session: false}), notes.routing);
+app.use("/api/notes", notes.routing);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
