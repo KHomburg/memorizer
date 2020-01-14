@@ -1,4 +1,4 @@
-import {SIDENAVE_PUBLIC_NOTES, SIDENAVE_MY_NOTES} from "../actions/types";
+import {SIDENAV_PUBLIC_NOTES, SIDENAV_MY_NOTES, CLOSE_COLLABSE} from "../actions/types";
 
 const initialState = {
   open: false,
@@ -12,7 +12,7 @@ export default function(state= initialState, action){
   const {type, payload} = action;
 
   switch(type){
-    case SIDENAVE_PUBLIC_NOTES:
+    case SIDENAV_PUBLIC_NOTES:
       return{
         ...state,
         open: true,
@@ -20,13 +20,18 @@ export default function(state= initialState, action){
         notes: payload,
         loading: false,
       }
-    case SIDENAVE_MY_NOTES:
+    case SIDENAV_MY_NOTES:
       return{
         ...state,
         open: true,
         notesListType: "My Notes",
         notes: payload,
         loading: false,
+      }
+    case CLOSE_COLLABSE:
+      return{
+        ...state,
+        open: false,
       }
     default:
       return state

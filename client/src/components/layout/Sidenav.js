@@ -1,4 +1,4 @@
-import React, {Fragment} from 'react'
+import React, {Fragment, useEffect} from 'react'
 import {Link} from 'react-router-dom'
 import {connect} from "react-redux"
 import PropTypes from 'prop-types';
@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 //state actions
 import {listNotes, myNotes} from "../../actions/note"
 import {logout} from "../../actions/auth"
-import {sidenavPublicNotes, sidenavMyNotes} from "../../actions/sidenav"
+import {sidenavPublicNotes, sidenavMyNotes, closeCollabse} from "../../actions/sidenav"
 
 //ICONS
 import searchIcon from "../../icons/search_icon.svg"
@@ -15,23 +15,19 @@ import createIcon from "../../icons/create_note_icon.svg"
 import myContentIcon from "../../icons/mycontent_icon.svg"
 import profileIcon from "../../icons/profile_icon.svg"
 import logoutIcon from "../../icons/logout_icon.svg"
+import sidenav from '../../reducers/sidenav';
 
 //import {logout} from "../../actions/auth"
 
-const Sidenav = ({listNotes, myNotes, logout, sidenavPublicNotes, sidenavMyNotes, auth: {isAuthenticated, loading, currentUser},}) => {
+const Sidenav = ({listNotes, myNotes, closeCollabse, logout, sidenavPublicNotes, sidenavMyNotes, auth: {isAuthenticated, loading, currentUser},}) => {
+
   const open = (e) => {
-    if(document.getElementsByClassName("collabsible-open").length > 0){
-    }else{
-      var elem = document.getElementById("sidenav-collabse");
-      elem.classList.add("collabsible-open")
-    }
+    console.log("test")
   }
 
   const close = () => {
-    var elem = document.getElementById("sidenav-collabse");
-    elem.classList.remove("collabsible-open")
+    closeCollabse()
   }
-
   const openAllNotes = (e) => {
     e.preventDefault()
     sidenavPublicNotes()
@@ -60,10 +56,10 @@ const Sidenav = ({listNotes, myNotes, logout, sidenavPublicNotes, sidenavMyNotes
             <Link onClick={e => openAllNotes(e)} data-tooltip="All Notes" data-tooltip-location="right">
               <img src={contentIcon} height="20px" width="20px"/>
             </Link>
-            <Link to="/notes/new" onClick={close} data-tooltip="Write a Note" data-tooltip-location="right">
+            <Link to="/notes/new" onClick={() => closeCollabse()} data-tooltip="Write a Note" data-tooltip-location="right">
               <img src={createIcon} height="20px" width="20px"/>
             </Link>
-            <Link to={"/users/"+currentUser.id} onClick={close} data-tooltip="My Profile" data-tooltip-location="right">
+            <Link to={"/users/"+currentUser.id} onClick={() => closeCollabse()} data-tooltip="My Profile" data-tooltip-location="right">
               <img src={profileIcon} height="20px" width="20px"/>
             </Link>
             <Link onClick={logout} data-tooltip="Logout" data-tooltip-location="right">
@@ -82,6 +78,7 @@ const mapStateToProps = state => ({
   myNotes: PropTypes.func.isRequired,
   logout: PropTypes.func.isRequired,
   sidenavPublicNotes: PropTypes.func.isRequired,
+  closeCollabse: PropTypes.func.isRequired,
 })
 
 export default connect(mapStateToProps, {
@@ -90,4 +87,5 @@ export default connect(mapStateToProps, {
   logout, 
   sidenavPublicNotes,
   sidenavMyNotes,
+  closeCollabse,
 })(Sidenav)
