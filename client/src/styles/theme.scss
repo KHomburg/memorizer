@@ -46,3 +46,27 @@ $text-muted: $gray-600 !default;
 p, h1, h2, h3, h4, h5, h6{
   color: $gray-200;
 }
+
+
+/*Scrollbar*/
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 10px $gray-200; 
+  //border-radius: 10px;
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: $gray-800; 
+  //border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: $gray-600; 
+}

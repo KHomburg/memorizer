@@ -67,6 +67,30 @@ router.get("/mynotes", passport.authenticate('jwt', {session: false}), async (re
   }
 });
 
+//search notes by term
+router.get("/filter", async (req, res, next) => {
+  const term = req.body.term
+  console.log(term)
+  try{
+    const notes = await models.Note.searchFilter(term)
+    res.status(200).json(notes)
+  }catch(err){
+    next(err)
+  }
+});
+
+//search notes by term
+router.get("/users/:id/filter", async (req, res, next) => {
+  const term = req.body.term
+  const userId = req.params.id
+  try{
+    const notes = await models.Note.searchFilterUsersNotes(term, userId)
+    res.status(200).json(notes)
+  }catch(err){
+    next(err)
+  }
+});
+
 //find note by id
 router.get("/:id", async (req, res, next) => {
   try{
@@ -171,16 +195,6 @@ router.delete("/:id", passport.authenticate('jwt', {session: false}), async (req
   }
 });
 
-//search notes by term
-router.post("/filter", async (req, res, next) => {
-  const term = req.body.term
-  console.log(term)
-  try{
-    const notes = await models.Note.searchFilter(term)
-    res.status(200).json(notes)
-  }catch(err){
-    next(err)
-  }
-});
+
 
 module.exports = router;

@@ -37,11 +37,7 @@ export default function(state = initialState, action) {
     case LOGOUT:
       localStorage.removeItem("token");
       return{
-        ...state,
-        token: null,
-        isAuthenticated: false,
-        loading: false,
-        currentUser: null
+        undefined
       }
     case LOGIN_SUCCESS:
       localStorage.setItem("token", payload.token);
