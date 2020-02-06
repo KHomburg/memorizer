@@ -146,14 +146,12 @@ export const searchPublicNotes = (term) => async dispatch =>{
     {
       Authorization: localStorage.token,
       "Content-Type": "application/json"
-      
+
     }
   }
-  const body = JSON.stringify({term})
 
   try {
-    console.log("TEEEEEEEEEEST")
-    const res = await axios.get("/api/notes/filter", body, config);
+    const res = await axios.get("/api/notes?search="+term, config);
     console.log(res.data)
     dispatch({
       type: SEARCH_PUBLIC_NOTES, 
