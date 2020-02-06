@@ -58,7 +58,7 @@ router.get("/mynotes", passport.authenticate('jwt', {session: false}), async (re
         ['createdAt', 'DESC'],
       ]})
     if(notes){
-      res.json(notes)
+      res.status(200).json(notes)
     }else{
       res.status(404).json({errors: ["Notes not found"]})
     }
@@ -98,7 +98,7 @@ router.get("/", async (req, res, next) => {
       })
     }
     if(notes){
-      res.json(notes)
+      res.status(200).json(notes)
     }else{
       res.status(404).json({errors: ["Notes not found"]})
     }
