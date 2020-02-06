@@ -68,18 +68,6 @@ router.get("/mynotes", passport.authenticate('jwt', {session: false}), async (re
 });
 
 //search notes by term
-router.get("/filter", async (req, res, next) => {
-  const term = req.body.term
-  console.log(term)
-  try{
-    const notes = await models.Note.searchFilter(term)
-    res.status(200).json(notes)
-  }catch(err){
-    next(err)
-  }
-});
-
-//search notes by term
 router.get("/users/:id/filter", async (req, res, next) => {
   const term = req.body.term
   const userId = req.params.id
@@ -108,13 +96,19 @@ router.get("/:id", async (req, res, next) => {
 //find all notes
 router.get("/", async (req, res, next) => {
   try{
+    let notes
     //TODO: limit user data sent as response
     //TODO: limit notes search to public notes or make it admin restricted
-    const notes = await models.Note.findAll({
-      include: [{model: models.User, as: "user"}, {model: models.Tag, as: "tags", through: {attributes:[]}}],
-      order: [
-        ['createdAt', 'DESC'],
-      ]})
+    if(req.query.search){
+      notes = await models.Note.searchFilter(req.query.search)
+    }else{
+      notes = await models.Note.findAll({
+        include: [{model: models.User, as: "user"}, {model: models.Tag, as: "tags", through: {attributes:[]}}],
+        order: [
+          ['createdAt', 'DESC'],
+        ]
+      })
+    }
     if(notes){
       res.json(notes)
     }else{

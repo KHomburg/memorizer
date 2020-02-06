@@ -142,11 +142,18 @@ export const deleteNote = (id, history) => async dispatch => {
 
 //search and list result for public notes
 export const searchPublicNotes = (term) => async dispatch =>{
-  const config = {headers: {Authorization: localStorage.token, "Content-Type": "application/json"}}
+  const config = {headers: 
+    {
+      Authorization: localStorage.token,
+      "Content-Type": "application/json"
+      
+    }
+  }
   const body = JSON.stringify({term})
 
   try {
-    const res = await axios.post("/api/notes/filter", body, config);
+    console.log("TEEEEEEEEEEST")
+    const res = await axios.get("/api/notes/filter", body, config);
     console.log(res.data)
     dispatch({
       type: SEARCH_PUBLIC_NOTES, 

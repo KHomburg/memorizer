@@ -86,7 +86,7 @@ export const searchPublicNotesSidenav = (term) => async dispatch =>{
   const body = JSON.stringify({term})
 
   try {
-    const res = await axios.post("/api/notes/filter", body, config);
+    const res = await axios.get("/api/notes/filter", body, config);
     console.log(res.data)
     dispatch({
       type: SEARCH_PUBLIC_NOTES_SIDENAV, 
