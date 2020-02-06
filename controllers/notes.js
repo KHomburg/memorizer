@@ -67,18 +67,6 @@ router.get("/mynotes", passport.authenticate('jwt', {session: false}), async (re
   }
 });
 
-//search notes by term
-router.get("/users/:id/filter", async (req, res, next) => {
-  const term = req.body.term
-  const userId = req.params.id
-  try{
-    const notes = await models.Note.searchFilterUsersNotes(term, userId)
-    res.status(200).json(notes)
-  }catch(err){
-    next(err)
-  }
-});
-
 //find note by id
 router.get("/:id", async (req, res, next) => {
   try{
@@ -163,12 +151,19 @@ router.put("/:id", passport.authenticate('jwt', {session: false}), async (req, r
 //find notes of user
 router.get("/user/:id", passport.authenticate('jwt', {session: false}), async (req, res, next) => {
   try{
-    const notes = await models.Note.findAll({
-      where: {userId : req.params.id},
-      order: [
-        ['createdAt', 'DESC'],
-      ]})
-    res.json(notes)
+    let notes
+    if(req.query.search){
+      notes = await models.Note.searchFilterUsersNotes(req.query.search, req.params.id)
+      res.status(200).json(notes)
+    }else{
+      notes = await models.Note.findAll({
+        where: {userId : req.params.id},
+        order: [
+          ['createdAt', 'DESC'],
+        ]})
+      res.status(200).json(notes)
+    }
+
   }catch(err){
     next(err)
   }
