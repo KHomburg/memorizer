@@ -45,10 +45,14 @@ router.post("/new", passport.authenticate('jwt', {session: false}), async (req, 
 
 //find all notes of current user
 router.get("/mynotes", passport.authenticate('jwt', {session: false}), async (req, res, next) => {
-  console.log(req.user)
+  console.log(req.user.id)
   try{
-    //TODO: limit user data sent as response
-    const notes = await models.Note.findAll({
+    let notes
+    if(req.query.search){
+      notes = await models.Note.searchFilterUsersNotes(req.query.search, req.user.id)
+    }else{
+      //TODO: limit user data sent as response
+      notes = await models.Note.findAll({
       where: {userId: req.user.id}, 
       include: [
         {model: models.User, as: "user"}, 
@@ -57,11 +61,13 @@ router.get("/mynotes", passport.authenticate('jwt', {session: false}), async (re
       order: [
         ['createdAt', 'DESC'],
       ]})
+    }
     if(notes){
       res.status(200).json(notes)
     }else{
       res.status(404).json({errors: ["Notes not found"]})
     }
+
   }catch(err){
     next(err)
   }
@@ -154,14 +160,18 @@ router.get("/user/:id", passport.authenticate('jwt', {session: false}), async (r
     let notes
     if(req.query.search){
       notes = await models.Note.searchFilterUsersNotes(req.query.search, req.params.id)
-      res.status(200).json(notes)
     }else{
       notes = await models.Note.findAll({
         where: {userId : req.params.id},
         order: [
           ['createdAt', 'DESC'],
-        ]})
+        ]
+      })
+    }
+    if(notes){
       res.status(200).json(notes)
+    }else{
+      res.status(404).json({errors: ["Notes not found"]})
     }
 
   }catch(err){
