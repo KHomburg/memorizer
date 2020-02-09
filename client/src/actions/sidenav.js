@@ -6,6 +6,7 @@ import{
   CLOSE_COLLABSE,
   OPEN_SEARCH,
   SEARCH_PUBLIC_NOTES_SIDENAV,
+  SEARCH_MY_NOTES_SIDENAV,
 } from "./types";
 
 //get note by id
@@ -90,6 +91,27 @@ export const searchPublicNotesSidenav = (term) => async dispatch =>{
     console.log(res.data)
     dispatch({
       type: SEARCH_PUBLIC_NOTES_SIDENAV, 
+      payload: res.data
+    })
+  }catch(err){
+    //dispatch({
+    //  type: LIST_NOTES_ERROR,
+    //  payload: {msg: err.response.statusText, status: err.response.status}
+    //})
+    console.log("sidenav error: ", err)
+  }
+}
+
+//search and list result for public notes
+export const searchMyNotesSidenav = (term) => async dispatch =>{
+  const config = {headers: {Authorization: localStorage.token, "Content-Type": "application/json"}}
+  const body = JSON.stringify({term})
+
+  try {
+    const res = await axios.get("/api/notes/mynotes?search="+term, config);
+    console.log(res.data)
+    dispatch({
+      type: SEARCH_MY_NOTES_SIDENAV, 
       payload: res.data
     })
   }catch(err){
