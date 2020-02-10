@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const models = require("../models")
 const validate = require("../helpers/validation")
+const authorize = require("../helpers/authorize")
 const passport = require("passport");
 const Sequelize = require("sequelize")
 const Op = Sequelize.Op
@@ -74,11 +75,17 @@ router.get("/mynotes", passport.authenticate('jwt', {session: false}), async (re
 });
 
 //find note by id
-router.get("/:id", async (req, res, next) => {
+router.get("/:id", authorize.getUser,
+async (req, res, next) => {
   try{
-    const note = await models.Note.findOne({where: {id: req.params.id}, include:[{model: models.Tag, as: "tags", through: {attributes:[]}}]})
-    if(note){
+    const note = await models.Note.findOne({
+      where: {id: req.params.id}, 
+      include:[{model: models.Tag, as: "tags", through: {attributes:[]}}]
+    })
+    if(note && ((note.userId == req.user.id) || (note.isPublic))){
       res.json(note)
+    }else if(note){
+      res.status(401).send("Unauthorized")
     }else{
       res.status(404).json({errors: ["Note not found"]})
     }
@@ -114,7 +121,7 @@ router.get("/", async (req, res, next) => {
 });
 
 //update note
-router.put("/:id", passport.authenticate('jwt', {session: false}), async (req, res, next) => {
+router.put("/:id", async (req, res, next) => {
   try{
     const validationErrors = await validate.validateNote(req, res)
     if(validationErrors){
