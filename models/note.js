@@ -50,11 +50,10 @@ module.exports = (sequelize, DataTypes) => {
 
   //search for notes by a term
   Note.searchFilter = function(term){
-    console.log("test")
     return this.sequelize.query(`
       SELECT "id", "userId", "title", "text", "content", "createdAt", "updatedAt" 
       FROM "Notes"
-      WHERE ts_search @@ plainto_tsquery('simple', :query);
+      WHERE "isPublic" = true AND ts_search @@ plainto_tsquery('simple', :query);
       `, {
       model: Note,
       replacements: { query: term },
@@ -64,11 +63,10 @@ module.exports = (sequelize, DataTypes) => {
 
     //search for notes by a term
     Note.searchFilterUsersNotes = function(term, user_id){
-      console.log("test")
       return this.sequelize.query(`
         SELECT "id", "userId", "title", "text", "content", "createdAt", "updatedAt" 
         FROM "Notes"
-        WHERE "userId" = :ID AND ts_search @@ plainto_tsquery('simple', :query);
+        WHERE "userId" = :ID AND "isPublic" = true AND ts_search @@ plainto_tsquery('simple', :query);
         `, {
         model: Note,
         replacements: { query: term, ID: user_id },
