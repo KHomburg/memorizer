@@ -169,7 +169,10 @@ router.get("/user/:id", passport.authenticate('jwt', {session: false}), async (r
       notes = await models.Note.searchFilterUsersNotes(req.query.search, req.params.id)
     }else{
       notes = await models.Note.findAll({
-        where: {userId : req.params.id},
+        where: {
+          userId : req.params.id,
+          isPublic: true
+        },
         order: [
           ['createdAt', 'DESC'],
         ]
