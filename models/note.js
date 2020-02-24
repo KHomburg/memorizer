@@ -51,7 +51,7 @@ module.exports = (sequelize, DataTypes) => {
   //search for notes by a term
   Note.searchFilter = function(term){
     return this.sequelize.query(`
-      SELECT "id", "userId", "title", "text", "content", "createdAt", "updatedAt" 
+      SELECT "id", "userId", "title", "text", "content", "createdAt", "updatedAt", "isPublic" 
       FROM "Notes"
       WHERE "isPublic" = true AND ts_search @@ plainto_tsquery('simple', :query);
       `, {
@@ -64,7 +64,7 @@ module.exports = (sequelize, DataTypes) => {
     //search for notes by a term
     Note.searchFilterUsersNotes = function(term, user_id){
       return this.sequelize.query(`
-        SELECT "id", "userId", "title", "text", "content", "createdAt", "updatedAt" 
+        SELECT "id", "userId", "title", "text", "content", "createdAt", "updatedAt", "isPublic" 
         FROM "Notes"
         WHERE "userId" = :ID AND "isPublic" = true AND ts_search @@ plainto_tsquery('simple', :query);
         `, {
@@ -73,5 +73,20 @@ module.exports = (sequelize, DataTypes) => {
         }
       );
     }
+
+    //search for notes by a term
+    Note.searchFilterMyNotes = function(term, user_id){
+      return this.sequelize.query(`
+        SELECT "id", "userId", "title", "text", "content", "createdAt", "updatedAt", "isPublic" 
+        FROM "Notes"
+        WHERE "userId" = :ID AND ts_search @@ plainto_tsquery('simple', :query);
+        `, {
+        model: Note,
+        replacements: { query: term, ID: user_id },
+        }
+      );
+    }
+
+
   return Note;
 };

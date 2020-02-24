@@ -46,11 +46,10 @@ router.post("/new", passport.authenticate('jwt', {session: false}), async (req, 
 
 //find all notes of current user
 router.get("/mynotes", passport.authenticate('jwt', {session: false}), async (req, res, next) => {
-  console.log(req.user.id)
   try{
     let notes
     if(req.query.search){
-      notes = await models.Note.searchFilterUsersNotes(req.query.search, req.user.id)
+      notes = await models.Note.searchFilterMyNotes(req.query.search, req.user.id)
     }else{
       //TODO: limit user data sent as response
       notes = await models.Note.findAll({
