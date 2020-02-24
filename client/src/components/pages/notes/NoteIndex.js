@@ -18,7 +18,7 @@ const Notes = ({ listNotes, note: {notes, loading} }) => {
         </Fragment>
       ) : (
         <Fragment>
-          <div>
+          <div className="main-container">
             {notes.length > 0 ? (
               notes.map(note => (
                 <Fragment>

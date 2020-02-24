@@ -2,9 +2,10 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Card from "react-bootstrap/Card"
+import Badge from 'react-bootstrap/Badge';
 
 const NoteReference = ({
-  note: {id, title, text, user, tags}
+  note: {id, title, text, user, tags, createdAt}
 }) => {
   return (
     <div>
@@ -16,7 +17,9 @@ const NoteReference = ({
           <Card.Text>
             {text}
           </Card.Text>
-          <Card.Link href="#">Date</Card.Link>
+            <div>{tags ? tags.map(tag => <Badge variant="secondary" className="margin">{tag.name}</Badge>) : null}</div>
+          <Card.Link href="#">{createdAt}</Card.Link>
+          
         </Card.Body>
       </Card>
     </div>

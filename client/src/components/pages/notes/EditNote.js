@@ -68,45 +68,47 @@ const EditNote = ({setAlert, updateNote, getNote, note: {note, loading}}) => {
       ): (
         <Fragment>
           <h5>Edit your Note</h5>
-          <Form onSubmit={e=>onSubmit(e)}>
-            <Form.Group controlId="">
-              <Form.Label>Title</Form.Label>
-              <Form.Control type="text" name="title" value={title} 
-                onChange={title => onChange(title)}
-                required
-              />
-            </Form.Group>
+          <div className="main-container">
+            <Form onSubmit={e=>onSubmit(e)}>
+              <Form.Group controlId="">
+                <Form.Label>Title</Form.Label>
+                <Form.Control type="text" name="title" value={title} 
+                  onChange={title => onChange(title)}
+                  required
+                />
+              </Form.Group>
 
-            <Form.Group controlId="">
-              <Form.Label>Text:</Form.Label>
-              <ReactQuill name="content" value={content}
-                modules={{toolbar: [
-                  [{ 'header': '1'}, {'header': '2'}],
-                  ['bold', 'italic', 'underline', 'blockquote', "code-block"],
-                  [{'list': 'ordered'}, {'list': 'bullet'}, 
-                  {'indent': '-1'}, {'indent': '+1'}],
-                  ['link', /*'image'*/],
-                  ]}
-                }
-                onChange={(content, delta, source, editor) => quillChange(content, editor)} 
+              <Form.Group controlId="">
+                <Form.Label>Text:</Form.Label>
+                <ReactQuill name="content" value={content}
+                  modules={{toolbar: [
+                    [{ 'header': '1'}, {'header': '2'}],
+                    ['bold', 'italic', 'underline', 'blockquote', "code-block"],
+                    [{'list': 'ordered'}, {'list': 'bullet'}, 
+                    {'indent': '-1'}, {'indent': '+1'}],
+                    ['link', /*'image'*/],
+                    ]}
+                  }
+                  onChange={(content, delta, source, editor) => quillChange(content, editor)} 
+                />
+              </Form.Group>
+              <Form.Group controlId="">
+                <Form.Control type="hidden" name="text" value={text}/>
+              </Form.Group>     
+              <CreatableSelect
+                name="tags"
+                value={tags}
+                isMulti
+                onChange={handleChange}
               />
-            </Form.Group>
-            <Form.Group controlId="">
-              <Form.Control type="hidden" name="text" value={text}/>
-            </Form.Group>     
-            <CreatableSelect
-              name="tags"
-              value={tags}
-              isMulti
-              onChange={handleChange}
-            />
-            <Form.Group controlId="formBasicCheckbox">
-              <Form.Check style={{color: "white"}} type="checkbox" name="isPublic" label="Make this note Public" checked={isPublic} value={isPublic} onChange={e => checkChange(e)}/>
-            </Form.Group>
-            <Button variant="primary border-white" type="submit" value="create note">
-              Update note
-            </Button>
-          </Form>
+              <Form.Group controlId="formBasicCheckbox">
+                <Form.Check style={{color: "white"}} type="checkbox" name="isPublic" label="Make this note Public" checked={isPublic} value={isPublic} onChange={e => checkChange(e)}/>
+              </Form.Group>
+              <Button variant="primary border-white" type="submit" value="create note">
+                Update note
+              </Button>
+            </Form>
+          </div>
         </Fragment>
       ) }
     </Fragment>

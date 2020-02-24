@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import {getNote, deleteNote} from "../../../actions/note"
 import Loading from "../../layout/Loading"
 import Button from 'react-bootstrap/Button';
+import Badge from 'react-bootstrap/Badge';
 import Modal from 'react-bootstrap/Modal';
 
 const Note = ({ getNote, note: {note, loading}, history, deleteNote, auth: {currentUser}} ) => {
@@ -25,27 +26,26 @@ const Note = ({ getNote, note: {note, loading}, history, deleteNote, auth: {curr
         </Fragment>
       ) : (
         <Fragment>
-          <p>Title:    {note.title}</p>
-          <p>Raw Text:   {note.text}</p>
-          <p>User Id: {note.userId}</p>
-          <p>Content:     </p>
-          <div className="content" dangerouslySetInnerHTML={{__html: note.content}} />
-          <p>Tags: {note.tags ? note.tags.map(tag => tag.name + ", ") : null}</p>
+          <div className="main-container">
+            <h1>Title:    {note.title}</h1>
+            <div className="content" dangerouslySetInnerHTML={{__html: note.content}} />
+            <div>{note.tags ? note.tags.map(tag => <Badge variant="secondary" className="margin">{tag.name}</Badge>) : null}</div>
 
-          {currentUser && note.userId == currentUser.id ? (
-            <Fragment>
-            <Link to={`/notes/${note.id}/edit`}>
-              <Button variant="primary border-white">
-                Edit this note
+            {currentUser && note.userId == currentUser.id ? (
+              <Fragment>
+              <Link to={`/notes/${note.id}/edit`}>
+                <Button variant="primary border-white" className="margin">
+                  Edit this note
+                </Button>
+              </Link>
+              <Button variant="primary border-white" onClick={handleShow}>
+                Delete this note
               </Button>
-            </Link>
-            <Button variant="primary border-white" onClick={handleShow}>
-              Delete this note
-            </Button>
-            </Fragment>
-          ):(
-            null
-          ) }
+              </Fragment>
+            ):(
+              null
+            ) }
+          </div>
 
           <Modal show={show} onHide={handleClose}>
             <Modal.Header closeButton>
