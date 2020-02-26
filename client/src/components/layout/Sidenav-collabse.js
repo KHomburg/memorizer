@@ -35,13 +35,31 @@ const SidenavCollabse = ({sidenav, searchPublicNotes, closeCollabse, searchPubli
     closeCollabse()
   }
 
+  /**
+   * trigger load of new notes
+   */
+  const getScroll = async () => {
+    try{
+      const elmnt = await document.getElementById("sidenav-collabse");
+      var scrollPos = await elmnt.scrollTop;
+      var scollHeight = await elmnt.scrollHeight;
+      console.log(scollHeight)
+      console.log(scrollPos)
+      console.log("test")
+    } catch {
+      console.log("error scolling sidenav")
+    }
+
+  }
+
+
   //TODO: switch for which search should be performed
 
   return (    
     <Fragment>
       {
         (!loading && isAuthenticated && sidenav.open) && 
-        <div id="sidenav-collabse" className="sidenav-collabse collabsible-open">
+        <div id="sidenav-collabse" className="sidenav-collabse collabsible-open" onScroll={e => getScroll()}>
           <img className="close-icon" src={closeIcon} onClick={close} height="20px" width="20px"/>
           <h2>{sidenav.notesListType}</h2>
           {(sidenav.notesListType == "Public Notes") ? (
