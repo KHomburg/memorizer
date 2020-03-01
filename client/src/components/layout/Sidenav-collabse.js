@@ -34,18 +34,28 @@ const SidenavCollabse = ({sidenav, searchPublicNotes, closeCollabse, searchPubli
   const close = () => {
     closeCollabse()
   }
-
+  var loading = false
   /**
    * trigger load of new notes
    */
   const getScroll = async () => {
     try{
-      const elmnt = await document.getElementById("sidenav-collabse");
-      var scrollPos = await elmnt.scrollTop;
-      var scollHeight = await elmnt.scrollHeight;
-      console.log(scollHeight)
-      console.log(scrollPos)
-      console.log("test")
+      var loader = await document.getElementById("loader");
+      var clientHeight = await window.innerHeight
+      var loadNotes = 0 < (clientHeight - loader.getBoundingClientRect().bottom)
+
+      //TODO: also set a loading notes states to prevent many unnecessary requests
+      if(!loading && loadNotes){
+        //start loading notes
+        loading = true
+        console.log("start loading")
+      }else if(loading && loadNotes){
+        //do nothing
+        console.log("still loading")
+      }else if(loading && !loadNotes){
+        //notes probably loaded
+        loading = false
+      }
     } catch {
       console.log("error scolling sidenav")
     }
@@ -79,6 +89,11 @@ const SidenavCollabse = ({sidenav, searchPublicNotes, closeCollabse, searchPubli
 
 
           <NoteList />
+          <div id="loader">
+            <h2>
+              loading...
+            </h2>
+          </div>
         </div>
       }
       </Fragment>

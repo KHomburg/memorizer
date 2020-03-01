@@ -14,7 +14,7 @@ const NoteReference = ({
           <Link to={`/notes/${id}`}>
             <Card.Title>{title}</Card.Title>
           </Link>
-          <Card.Text>
+          <Card.Text className="preview-txt">
             {text}
           </Card.Text>
             <div>{tags ? tags.map(tag => <Badge variant="secondary" className="margin">{tag.name}</Badge>) : null}</div>

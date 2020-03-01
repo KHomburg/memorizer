@@ -46,10 +46,13 @@ router.post("/new", passport.authenticate('jwt', {session: false}), async (req, 
 
 //find all notes of current user
 router.get("/mynotes", passport.authenticate('jwt', {session: false}), async (req, res, next) => {
+  let limit = req.query.limit ? req.query.limit : 20
+  let offset = req.query.offset ? req.query.offset : 0
+  let search = req.query.search
   try{
     let notes
-    if(req.query.search){
-      notes = await models.Note.searchFilterMyNotes(req.query.search, req.user.id)
+    if(search){
+      notes = await models.Note.searchFilterMyNotes(search, req.user.id, limit, offset)
     }else{
       //TODO: limit user data sent as response
       notes = await models.Note.findAll({
@@ -96,13 +99,18 @@ async (req, res, next) => {
 //find all notes
 router.get("/", async (req, res, next) => {
   try{
+    let limit = req.query.limit ? req.query.limit : 20
+    let offset = req.query.offset ? req.query.offset : 0
+    let search = req.query.search
     let notes
     //TODO: limit user data sent as response
     //TODO: limit notes search to public notes or make it admin restricted
-    if(req.query.search){
-      notes = await models.Note.searchFilter(req.query.search)
+    if(search){
+      notes = await models.Note.searchFilter(search, limit, offset)
     }else{
       notes = await models.Note.findAll({
+        limit: limit,
+        offest: offset,
         include: [{model: models.User, as: "user"}, {model: models.Tag, as: "tags", through: {attributes:[]}}],
         order: [
           ['createdAt', 'DESC'],
@@ -162,10 +170,13 @@ router.put("/:id", async (req, res, next) => {
 
 //find notes of user
 router.get("/user/:id", passport.authenticate('jwt', {session: false}), async (req, res, next) => {
+  let limit = req.query.limit ? req.query.limit : 20
+  let offset = req.query.offset ? req.query.offset : 0
+  let search = req.query.search
   try{
     let notes
-    if(req.query.search){
-      notes = await models.Note.searchFilterUsersNotes(req.query.search, req.params.id)
+    if(search){
+      notes = await models.Note.searchFilterUsersNotes(search, req.user.id, limit, offset)
     }else{
       notes = await models.Note.findAll({
         where: {

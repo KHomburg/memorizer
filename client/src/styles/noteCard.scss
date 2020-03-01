@@ -26,3 +26,9 @@
   color: $gray-500;
   margin-bottom: 5px;
 }
+
+.preview-txt{
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}

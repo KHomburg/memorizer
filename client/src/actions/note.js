@@ -15,6 +15,8 @@ import{
   DELETE_NOTE,
   DELETE_NOTE_ERROR,
   SEARCH_PUBLIC_NOTES,
+  GET_PAGINATED_NOTES,
+  GET_PAGINATED_NOTES_ERROR,
 } from "./types";
 
 //get note by id
