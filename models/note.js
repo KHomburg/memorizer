@@ -53,13 +53,14 @@ module.exports = (sequelize, DataTypes) => {
     return this.sequelize.query(`
       SELECT "id", "userId", "title", "text", "content", "createdAt", "updatedAt", "isPublic" 
       FROM "Notes"
-      WHERE "isPublic" = true AND ts_search @@ plainto_tsquery('simple', :query)
+      WHERE "isPublic" = true` + (term ? ` AND ts_search @@ plainto_tsquery('simple', :query)` : "")+
+      `
       ORDER BY "createdAt" DESC
       OFFSET :offset
       LIMIT :limit;
       `, {
       model: Note,
-      replacements: { query: term, limit: limit, offset: offset },
+      replacements: { query: term, offset: offset, limit: limit},
       }
     );
   }
@@ -69,7 +70,8 @@ module.exports = (sequelize, DataTypes) => {
     return this.sequelize.query(`
       SELECT "id", "userId", "title", "text", "content", "createdAt", "updatedAt", "isPublic" 
       FROM "Notes"      
-      WHERE "userId" = :ID AND "isPublic" = true AND ts_search @@ plainto_tsquery('simple', :query)
+      WHERE "userId" = :ID AND "isPublic" = true` + (term ? ` AND ts_search @@ plainto_tsquery('simple', :query)` : "")+
+      `
       ORDER BY "createdAt" DESC
       OFFSET :offset
       LIMIT :limit;
@@ -85,7 +87,8 @@ module.exports = (sequelize, DataTypes) => {
     return this.sequelize.query(`
       SELECT "id", "userId", "title", "text", "content", "createdAt", "updatedAt", "isPublic" 
       FROM "Notes"
-      WHERE "userId" = :ID AND ts_search @@ plainto_tsquery('simple', :query)
+      WHERE "userId" = :ID` + (term ? ` AND ts_search @@ plainto_tsquery('simple', :query)` : "")+
+      `
       ORDER BY "createdAt" DESC
       OFFSET :offset
       LIMIT :limit;
