@@ -1,4 +1,4 @@
-import React, {Fragment, useEffect} from 'react'
+import React, {Fragment, useEffect, useSate} from 'react'
 import {Link} from 'react-router-dom'
 import {connect} from "react-redux"
 import PropTypes from 'prop-types';
@@ -23,12 +23,12 @@ const Sidenav = ({closeCollabse, logout, sidenavPublicNotes, openSearch, sidenav
 
   const openAllNotes = (e) => {
     e.preventDefault()
-    sidenavPublicNotes()
+    sidenavPublicNotes(0)
   }
 
   const openMyNotes = (e) => {
     e.preventDefault()
-    sidenavMyNotes()
+    sidenavMyNotes(0)
   }
 
 

@@ -7,18 +7,42 @@ import{
   OPEN_SEARCH,
   SEARCH_PUBLIC_NOTES_SIDENAV,
   SEARCH_MY_NOTES_SIDENAV,
+  ADD_PAGINATED_NOTES,
 } from "./types";
 
+/*
+for all note fetchers add: if(page  > 1 ) -> ADD_NOTES reducer
+*/
+
 //get note by id
-export const sidenavPublicNotes = () => async dispatch =>{
+export const sidenavPublicNotes = (page) => async dispatch =>{
+  var limit = 20
+  var offset = page * 20
+  console.log(page)
+  console.log(offset)
+
   try {
-    const res = await axios.get("/api/notes", 
-      {headers: {Authorization: localStorage.token}}
-    )
-    dispatch({
-      type: SIDENAV_PUBLIC_NOTES,
-      payload: res.data,
-    })
+    if(page>0){
+      const res = await axios.get("/api/notes?" + "limit=" + limit + "&offset=" + offset, 
+        {headers: {Authorization: localStorage.token}}
+      )
+      let data = {notes: res.data, page: page+1}
+      console.log(res.data)
+      //let data = res.data
+      dispatch({
+        type: ADD_PAGINATED_NOTES,
+        payload: data,
+      })
+    }else{
+      const res = await axios.get("/api/notes?" + "limit=" + limit, 
+        {headers: {Authorization: localStorage.token}}
+      )
+      dispatch({
+        type: SIDENAV_PUBLIC_NOTES,
+        payload: res.data,
+      })
+    }
+
     //return()
   }catch(err){
     //dispatch({

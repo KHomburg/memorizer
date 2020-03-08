@@ -2,14 +2,10 @@ import React, {Fragment, useEffect, useState} from 'react'
 import {Link} from 'react-router-dom'
 import {connect} from "react-redux"
 import PropTypes from 'prop-types';
-import {listNotes} from "../../../actions/note"
 import Loading from "../../layout/Loading"
 import NoteReference from "./NoteReference"
 
-const Notes = ({ listNotes, sidenav: {notes, loading} }) => {
-  //useEffect(()=>{
-  //  notes = listNotes()
-  //}, [])
+const Notes = ({sidenav: {notes, loading} }) => {
   return (
     <Fragment>
       {notes === null || loading ? (
@@ -36,7 +32,6 @@ const Notes = ({ listNotes, sidenav: {notes, loading} }) => {
 }
 
 Notes.propTypes = {
-  listNotes: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   sidenav: PropTypes.object.isRequired
 }
@@ -46,4 +41,4 @@ const mapStateToProps = state => ({
   sidenav: state.sidenav
 })
 
-export default connect(mapStateToProps, {listNotes})(Notes)
+export default connect(mapStateToProps)(Notes)

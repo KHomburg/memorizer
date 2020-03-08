@@ -46,12 +46,12 @@ router.post("/new", passport.authenticate('jwt', {session: false}), async (req, 
 
 //find all notes of current user
 router.get("/mynotes", passport.authenticate('jwt', {session: false}), async (req, res, next) => {
-  let limit = req.query.limit ? req.query.limit : 20
+  let limit = req.query.limit ? req.query.limit : 50
   let offset = req.query.offset ? req.query.offset : 0
   let search = req.query.search ? req.query.search : false
   try{
     let notes
-    if(search || limit || offset){
+    if(search){
       notes = await models.Note.searchFilterMyNotes(search, req.user.id, limit, offset)
     }else{
       //TODO: limit user data sent as response
@@ -99,13 +99,14 @@ async (req, res, next) => {
 //find all notes
 router.get("/", async (req, res, next) => {
   try{
-    let limit = req.query.limit ? req.query.limit : 20
+    
+    let limit = req.query.limit ? req.query.limit : 50
     let offset = req.query.offset ? req.query.offset : 0
     let search = req.query.search ? req.query.search : false
     let notes
     //TODO: limit user data sent as response
     //TODO: limit notes search to public notes or make it admin restricted
-    if(search || limit || offset){
+    if(search){
       notes = await models.Note.searchFilter(search, limit, offset)
     }else{
       notes = await models.Note.findAll({
@@ -170,12 +171,12 @@ router.put("/:id", async (req, res, next) => {
 
 //find notes of user
 router.get("/user/:id", passport.authenticate('jwt', {session: false}), async (req, res, next) => {
-  let limit = req.query.limit ? req.query.limit : 20
+  let limit = req.query.limit ? req.query.limit : 50
   let offset = req.query.offset ? req.query.offset : 0
   let search = req.query.search ? req.query.search : false
   try{
     let notes
-    if(search || limit || offset){
+    if(search){
       notes = await models.Note.searchFilterUsersNotes(search, req.user.id, limit, offset)
     }else{
       notes = await models.Note.findAll({
