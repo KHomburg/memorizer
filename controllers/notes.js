@@ -56,7 +56,9 @@ router.get("/mynotes", passport.authenticate('jwt', {session: false}), async (re
     }else{
       //TODO: limit user data sent as response
       notes = await models.Note.findAll({
-      where: {userId: req.user.id}, 
+      where: {userId: req.user.id},
+      offset: offset,
+      limit: limit,
       include: [
         {model: models.User, as: "user"}, 
         {model: models.Tag, as: "tags", through: {attributes:[]}}
@@ -110,9 +112,12 @@ router.get("/", async (req, res, next) => {
       notes = await models.Note.searchFilter(search, limit, offset)
     }else{
       notes = await models.Note.findAll({
+        offset: offset,
         limit: limit,
-        offest: offset,
-        include: [{model: models.User, as: "user"}, {model: models.Tag, as: "tags", through: {attributes:[]}}],
+        include: [
+          {model: models.User, as: "user"}, 
+          {model: models.Tag, as: "tags", through: {attributes:[]}}
+        ],
         order: [
           ['createdAt', 'DESC'],
         ]
