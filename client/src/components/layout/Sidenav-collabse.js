@@ -30,9 +30,9 @@ const SidenavCollabse = ({sidenav, sidenavPublicNotes, sidenavMyNotes, closeColl
   //search notes depending on which type of notes the sidenav currently displays
   const searchNotes = async e => {
     e.preventDefault()
-    if(sidenav.notesListType == "Public Notes"){
+    if(sidenav.notesListType == "Public Notes" || sidenav.notesListType == "Search Public Notes"){
       searchPublicNotesSidenav(searchTerm, 0)
-    }else if (sidenav.notesListType == "My Notes"){
+    }else if (sidenav.notesListType == "My Notes" || sidenav.notesListType == "Search My Notes"){
       searchMyNotesSidenav(searchTerm, 0)
     }
   }
@@ -92,14 +92,14 @@ const SidenavCollabse = ({sidenav, sidenavPublicNotes, sidenavMyNotes, closeColl
         <div id="sidenav-collabse" className="sidenav-collabse collabsible-open" onScroll={e => getScroll()}>
           <img className="close-icon" src={closeIcon} onClick={close} height="20px" width="20px"/>
           <h2>{sidenav.notesListType}</h2>
-          {(sidenav.notesListType == "Public Notes") ? (
+          {(sidenav.notesListType == "Public Notes" || sidenav.notesListType == "Search Public Notes") ? (
             <Form onSubmit={e=>searchNotes(e)}>
               <Form.Group controlId="formBasic">
                 <Form.Control type="text" name="term" placeholder="Search" value={term} onChange={e => onChange(e)} required/>
               </Form.Group>
             </Form>) : null
           }
-          {(sidenav.notesListType == "My Notes") ? (
+          {(sidenav.notesListType == "My Notes" || sidenav.notesListType == "Search My Notes") ? (
             <Form onSubmit={e=>searchNotes(e)}>
               <Form.Group controlId="formBasic">
                 <Form.Control type="text" name="term" placeholder="Search" value={term} onChange={e => onChange(e)} required/>
