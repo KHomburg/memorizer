@@ -29,6 +29,7 @@ export default function(state= initialState, action){
         notesListType: "My Notes",
         notes: payload,
         loading: false,
+        page: 1,
       }
     case CLOSE_COLLABSE:
       return{
@@ -48,24 +49,29 @@ export default function(state= initialState, action){
         ...state,
         open: true,
         notesListType: "Search Public Notes",
-        notes: payload,
-        loading: false
+        notes: payload.notes,
+        term: payload.term,
+        loading: false,
+        page: 1
       }
     case SEARCH_MY_NOTES_SIDENAV:
       return{
         ...state,
         open: true,
         notesListType: "Search My Notes",
-        notes: payload,
+        notes: payload.notes,
+        term: payload.term,
+        loading: false,
         page: 1,
-        loading: false
+        
       }
     case ADD_PAGINATED_NOTES:
       return{
         ...state,
         notes: [...state.notes, ...payload.notes],
         loading: false,
-        page: payload.page
+        page: payload.page,
+        term: payload.term
       }
     default:
       return state

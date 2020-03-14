@@ -37,9 +37,9 @@ const SidenavCollabse = ({sidenav, sidenavPublicNotes, sidenavMyNotes, closeColl
   const searchNotes = async e => {
     e.preventDefault()
     if(sidenav.notesListType == "Public Notes"){
-      searchPublicNotesSidenav(searchTerm)
+      searchPublicNotesSidenav(searchTerm, 0)
     }else if (sidenav.notesListType == "My Notes"){
-      searchMyNotesSidenav(searchTerm)
+      searchMyNotesSidenav(searchTerm, 0)
     }
   }
 
@@ -57,7 +57,29 @@ const SidenavCollabse = ({sidenav, sidenavPublicNotes, sidenavMyNotes, closeColl
       var loadNotes = 0 < (clientHeight - loader.getBoundingClientRect().bottom)
       if(!sidenav.loading && loadNotes){
         //load more notes
-        sidenavPublicNotes(sidenavPaginate)
+        switch(sidenav.notesListType){
+          case "Public Notes":
+            {
+              sidenavPublicNotes(sidenavPaginate)
+              break
+            }
+          case "My Notes":
+            {
+              sidenavMyNotes(sidenavPaginate)
+              break
+            }
+          case "Search Public Notes":
+            {
+              searchPublicNotesSidenav(sidenav.term, sidenavPaginate)
+              break
+            }
+          case "Search My Notes":
+            {
+              searchMyNotesSidenav(sidenav.term, sidenavPaginate)
+              break
+            }
+        }
+        
         setSidenavNotes(sidenavPaginate+1)
         sidenav.loading = true;
       }else if(sidenav.loading && loadNotes){
