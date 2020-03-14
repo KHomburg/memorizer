@@ -3,28 +3,22 @@ import {Link} from 'react-router-dom'
 import {connect} from "react-redux"
 import PropTypes from 'prop-types';
 import Form from 'react-bootstrap/Form';
+import Card from "react-bootstrap/Card";
 import NoteList from "../shared/note/SidenavNotesList"
-import searchIcon from "../../icons/search_icon.svg"
 import closeIcon from "../../icons/close_icon.svg.png"
+
 
 //state actions
 import {searchPublicNotes} from "../../actions/note"
 import {closeCollabse, searchPublicNotesSidenav, searchMyNotesSidenav, sidenavPublicNotes, sidenavMyNotes} from "../../actions/sidenav"
 
-
-//import {logout} from "../../actions/auth"
-
 const SidenavCollabse = ({sidenav, sidenavPublicNotes, sidenavMyNotes, closeCollabse, searchPublicNotesSidenav, searchMyNotesSidenav, auth: {isAuthenticated, loading, currentUser}}) => {
   
   //get and set state of current pagination
-  //const [sidenavPaginate, setSidenavNotes] = useState(1);
   const [sidenavPaginate, setSidenavNotes] = useState(sidenav.page);
 
   //set loading state
-  useEffect(() => {
-    loading = loading
-  })
-
+  useEffect(() => {loading = loading})
 
   //set term for search
   const [searchTerm, setSearchTerm] = useState({
@@ -43,9 +37,7 @@ const SidenavCollabse = ({sidenav, sidenavPublicNotes, sidenavMyNotes, closeColl
     }
   }
 
-  const close = () => {
-    closeCollabse()
-  }
+  const close = () => {closeCollabse()}
   
   /**
    * trigger load of new notes
@@ -79,7 +71,6 @@ const SidenavCollabse = ({sidenav, sidenavPublicNotes, sidenavMyNotes, closeColl
               break
             }
         }
-        
         setSidenavNotes(sidenavPaginate+1)
         sidenav.loading = true;
       }else if(sidenav.loading && loadNotes){
@@ -91,7 +82,6 @@ const SidenavCollabse = ({sidenav, sidenavPublicNotes, sidenavMyNotes, closeColl
       console.log("error loading more notes in sidenav")
     }
   }
-
 
   //TODO: switch for which search should be performed
 
@@ -119,11 +109,23 @@ const SidenavCollabse = ({sidenav, sidenavPublicNotes, sidenavMyNotes, closeColl
 
           <NoteList />
 
-          <div id="loader">
-            <h2>
-              loading...
-            </h2>
-          </div>
+          {(!sidenav.isEnd) ? (
+            <div id="loader">
+              <Card>
+                <Card.Body>
+                  <h2>loading...</h2>
+                </Card.Body>
+              </Card>
+            </div>
+            ) : (
+              <div>
+                <Card>
+                  <Card.Body>
+                    <h2>no more notes</h2>
+                  </Card.Body>
+                </Card>
+              </div>
+            )}
         </div>
       }
       </Fragment>

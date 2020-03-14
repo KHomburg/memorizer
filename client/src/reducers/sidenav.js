@@ -6,6 +6,7 @@ const initialState = {
   notes: "",
   loading: true,
   page: 0,
+  isEnd: false,
   error: {}
 }
 
@@ -18,8 +19,9 @@ export default function(state= initialState, action){
         ...state,
         open: true,
         notesListType: "Public Notes",
-        notes: payload,
+        notes: payload.notes,
         loading: false,
+        isEnd: payload.isEnd,
         page: 1,
       }
     case SIDENAV_MY_NOTES:
@@ -27,8 +29,9 @@ export default function(state= initialState, action){
         ...state,
         open: true,
         notesListType: "My Notes",
-        notes: payload,
+        notes: payload.notes,
         loading: false,
+        isEnd: payload.isEnd,
         page: 1,
       }
     case CLOSE_COLLABSE:
@@ -52,6 +55,7 @@ export default function(state= initialState, action){
         notes: payload.notes,
         term: payload.term,
         loading: false,
+        isEnd: payload.isEnd,
         page: 1
       }
     case SEARCH_MY_NOTES_SIDENAV:
@@ -62,6 +66,7 @@ export default function(state= initialState, action){
         notes: payload.notes,
         term: payload.term,
         loading: false,
+        isEnd: payload.isEnd,
         page: 1,
         
       }
@@ -71,7 +76,8 @@ export default function(state= initialState, action){
         notes: [...state.notes, ...payload.notes],
         loading: false,
         page: payload.page,
-        term: payload.term
+        term: payload.term,
+        isEnd: payload.isEnd,
       }
     default:
       return state

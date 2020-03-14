@@ -24,7 +24,8 @@ export const sidenavPublicNotes = (page) => async dispatch =>{
       const res = await axios.get("/api/notes?" + "limit=" + limit + "&offset=" + offset, 
         {headers: {Authorization: localStorage.token}}
       )
-      let data = {notes: res.data, page: page+1}
+      let isEnd = (res.data.length == 0) ? (true) : (false)
+      let data = {notes: res.data, page: page+1, isEnd: isEnd}
       dispatch({
         type: ADD_PAGINATED_NOTES,
         payload: data,
@@ -33,9 +34,11 @@ export const sidenavPublicNotes = (page) => async dispatch =>{
       const res = await axios.get("/api/notes?" + "limit=" + limit, 
         {headers: {Authorization: localStorage.token}}
       )
+      let isEnd = (res.data.length < 19) ? (true) : (false)
+      let data = {notes: res.data, isEnd: isEnd}
       dispatch({
         type: SIDENAV_PUBLIC_NOTES,
-        payload: res.data,
+        payload: data,
       })
     }
   }catch(err){
@@ -56,7 +59,8 @@ export const sidenavMyNotes = (page) => async dispatch =>{
       const res = await axios.get("/api/notes/mynotes?" + "limit=" + limit + "&offset=" + offset, 
         {headers: {Authorization: localStorage.token}}
       )
-      let data = {notes: res.data, page: page+1}
+      let isEnd = (res.data.length == 0) ? (true) : (false)
+      let data = {notes: res.data, page: page+1, isEnd: isEnd}
       dispatch({
         type: ADD_PAGINATED_NOTES,
         payload: data,
@@ -65,9 +69,11 @@ export const sidenavMyNotes = (page) => async dispatch =>{
       const res = await axios.get("/api/notes/mynotes?" + "limit=" + limit, 
         {headers: {Authorization: localStorage.token}}
       )
+      let isEnd = (res.data.length < 19) ? (true) : (false)
+      let data = {notes: res.data, isEnd: isEnd}
       dispatch({
         type: SIDENAV_MY_NOTES,
-        payload: res.data,
+        payload: data,
       })
     }
   }catch(err){
@@ -121,7 +127,8 @@ export const searchPublicNotesSidenav = (term, page) => async dispatch =>{
       const res = await axios.get("/api/notes?search="+ term + "&limit=" + limit + "&offset=" + offset, 
         config
       )
-      let data = {notes: res.data, page: page+1, term: term}
+      let isEnd = (res.data.length == 0) ? (true) : (false)
+      let data = {notes: res.data, page: page+1, term: term, isEnd: isEnd}
       dispatch({
         type: ADD_PAGINATED_NOTES,
         payload: data,
@@ -130,7 +137,8 @@ export const searchPublicNotesSidenav = (term, page) => async dispatch =>{
       const res = await axios.get("/api/notes?search="+ term + "&limit=" + limit, 
         config
       )
-      let data = {notes: res.data, term: term}
+      let isEnd = (res.data.length < 19) ? (true) : (false)
+      let data = {notes: res.data, term: term, isEnd: isEnd}
       dispatch({
         type: SEARCH_PUBLIC_NOTES_SIDENAV,
         payload: data,
@@ -155,16 +163,16 @@ export const searchMyNotesSidenav = (term, page) => async dispatch =>{
       const res = await axios.get("/api/notes/mynotes?search="+ term + "&limit=" + limit + "&offset=" + offset, 
         config
       )
-      let data = {notes: res.data, page: page+1, term: term}
+      let isEnd = (res.data.length == 0) ? (true) : (false)
+      let data = {notes: res.data, page: page+1, term: term, isEnd: isEnd}
       dispatch({
         type: ADD_PAGINATED_NOTES,
         payload: data,
       })
     }else{
-      const res = await axios.get("/api/notes/mynotes?search="+ term + "&limit=" + limit, 
-        config
-      )
-      let data = {notes: res.data, term: term}
+      const res = await axios.get("/api/notes/mynotes?search="+ term + "&limit=" + limit, config)
+      let isEnd = (res.data.length < 19) ? (true) : (false)
+      let data = {notes: res.data, term: term, isEnd: isEnd}
       dispatch({
         type: SEARCH_MY_NOTES_SIDENAV,
         payload: data,
