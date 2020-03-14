@@ -20,6 +20,11 @@ const SidenavCollabse = ({sidenav, sidenavPublicNotes, sidenavMyNotes, closeColl
   //const [sidenavPaginate, setSidenavNotes] = useState(1);
   const [sidenavPaginate, setSidenavNotes] = useState(sidenav.page);
 
+  //set loading state
+  useEffect(() => {
+    loading = loading
+  })
+
 
   //set term for search
   const [searchTerm, setSearchTerm] = useState({
@@ -41,44 +46,28 @@ const SidenavCollabse = ({sidenav, sidenavPublicNotes, sidenavMyNotes, closeColl
   const close = () => {
     closeCollabse()
   }
-
   
   /**
    * trigger load of new notes
    */
-  var loading = false
   const getScroll = async () => {
     try{
       var loader = await document.getElementById("loader");
       var clientHeight = await window.innerHeight
       var loadNotes = 0 < (clientHeight - loader.getBoundingClientRect().bottom)
-
-      //TODO: also set a loading notes states to prevent many unnecessary requests
-      if(!loading && loadNotes){
-        //set loading state to loading
-        //increase state of page by 1
-        //get type of notesList
+      if(!sidenav.loading && loadNotes){
         //load more notes
-        loading = true
         sidenavPublicNotes(sidenavPaginate)
-        
-        //increase pagination
         setSidenavNotes(sidenavPaginate+1)
-        
-
-        
-        //console.log("start loading")
-      }else if(loading && loadNotes){
-        //do nothing
-        //console.log("still loading")
-      }else if(loading && !loadNotes){
+        sidenav.loading = true;
+      }else if(sidenav.loading && loadNotes){
+      }else if(sidenav.loading && !loadNotes){
         //notes probably loaded
-        loading = false
+        sidenav.loading = false
       }
     } catch {
-      console.log("error scolling sidenav")
+      console.log("error loading more notes in sidenav")
     }
-
   }
 
 
