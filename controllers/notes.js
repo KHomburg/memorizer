@@ -10,7 +10,6 @@ const Op = Sequelize.Op
 require('dotenv').config();
 const secret = process.env.SECRET
 
-
 //create a new note
 router.post("/new", passport.authenticate('jwt', {session: false}), async (req, res, next) => {
   if(req.body.tags != [] && req.body.tags != ""){
