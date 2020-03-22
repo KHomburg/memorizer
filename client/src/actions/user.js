@@ -23,6 +23,10 @@ export const getUser = (id) => async dispatch =>{
     })
     return(res.data)
   }catch(err){
+    const errors = err.response.data.errors;
+    if(errors){
+      errors.forEach(error => dispatch(setAlert(error, "danger")))
+    }
     dispatch({
       type: USER_ERROR,
       payload: {msg: err.response.statusText, status: err.response.status}
@@ -41,6 +45,10 @@ export const listUsers = () => async dispatch =>{
       payload: res.data
     })
   }catch(err){
+    const errors = err.response.data.errors;
+    if(errors){
+      errors.forEach(error => dispatch(setAlert(error, "danger")))
+    }
     dispatch({
       type: LIST_USERS_ERROR,
       payload: {msg: err.response.statusText, status: err.response.status}
@@ -59,6 +67,10 @@ export const editUser = ({email, username, profession, about}, id) => async disp
       payload: res.data
     })
   }catch(err){
+    const errors = err.response.data.errors;
+    if(errors){
+      errors.forEach(error => dispatch(setAlert(error, "danger")))
+    }
     dispatch({
       type: EDIT_USER_ERROR,
       payload: {msg: err.response.statusText, status: err.response.status}
@@ -69,7 +81,6 @@ export const editUser = ({email, username, profession, about}, id) => async disp
 //Delete a User by its id
 export const deleteUser = (password, id, history) => async dispatch => {
   const config = {Authorization: localStorage.token, "Content-Type": "application/json"}
-
   try {
     const res = await axios.delete("/api/users/"+id, {data: {password: password}, headers: config})
     dispatch({
@@ -78,8 +89,6 @@ export const deleteUser = (password, id, history) => async dispatch => {
     })
     history.push('/')
   }catch (err) {
-    console.log(err.response)
-
     if(err.response.data.errors){
       const errors = err.response.data.errors;
       if(errors){

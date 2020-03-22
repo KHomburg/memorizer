@@ -31,12 +31,17 @@ export const getNote = (id) => async dispatch =>{
     })
     return(res.data)
   }catch(err){
+    const errors = err.response.data.errors;
+    if(errors){
+      errors.forEach(error => dispatch(setAlert(error, "danger")))
+    }
     dispatch({
       type: GET_NOTE_ERROR,
       payload: {msg: err.response.statusText, status: err.response.status}
     })
   }
 }
+
 
 //Create new Note
 export const createNote = (formData, history) => async dispatch => {
@@ -58,7 +63,8 @@ export const createNote = (formData, history) => async dispatch => {
       }
     }
     dispatch({
-      type: CREATE_NOTE_ERROR
+      type: CREATE_NOTE_ERROR,
+      payload: {msg: err.response.statusText, status: err.response.status}
     })
   }
 }
@@ -74,6 +80,12 @@ export const listNotes = () => async dispatch =>{
       payload: res.data
     })
   }catch(err){
+    if(err.response.data.errors){
+      const errors = err.response.data.errors;
+      if(errors){
+        errors.forEach(error => dispatch(setAlert(error, "danger")))
+      }
+    }
     dispatch({
       type: LIST_NOTES_ERROR,
       payload: {msg: err.response.statusText, status: err.response.status}
@@ -92,6 +104,12 @@ export const myNotes = () => async dispatch =>{
       payload: res.data
     })
   }catch(err){
+    if(err.response.data.errors){
+      const errors = err.response.data.errors;
+      if(errors){
+        errors.forEach(error => dispatch(setAlert(error, "danger")))
+      }
+    }
     dispatch({
       type: MY_NOTES_ERROR,
       payload: {msg: err.response.statusText, status: err.response.status}
@@ -111,6 +129,12 @@ export const updateNote = (formData, id) => async dispatch =>{
     })
     return(res.data)
   }catch(err){
+    if(err.response.data.errors){
+      const errors = err.response.data.errors;
+      if(errors){
+        errors.forEach(error => dispatch(setAlert(error, "danger")))
+      }
+    }
     dispatch({
       type: UPDATE_NOTE_ERROR,
       payload: {msg: err.response.statusText, status: err.response.status}
@@ -129,7 +153,6 @@ export const deleteNote = (id, history) => async dispatch => {
     })
     history.push('/notes')
   }catch (err) {
-    console.log(err)
     if(err.response.data.errors){
       const errors = err.response.data.errors;
       if(errors){
@@ -144,14 +167,10 @@ export const deleteNote = (id, history) => async dispatch => {
 
 //search and list result for public notes
 export const searchPublicNotes = (term) => async dispatch =>{
-  const config = {headers: 
-    {
+  const config = {headers: {
       Authorization: localStorage.token,
       "Content-Type": "application/json"
-
-    }
-  }
-
+  }}
   try {
     const res = await axios.get("/api/notes?search="+term, config);
     console.log(res.data)
@@ -160,6 +179,12 @@ export const searchPublicNotes = (term) => async dispatch =>{
       payload: res.data
     })
   }catch(err){
+    if(err.response.data.errors){
+      const errors = err.response.data.errors;
+      if(errors){
+        errors.forEach(error => dispatch(setAlert(error, "danger")))
+      }
+    }
     dispatch({
       type: LIST_NOTES_ERROR,
       payload: {msg: err.response.statusText, status: err.response.status}

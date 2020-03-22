@@ -15,6 +15,7 @@ const EditUser = ({setAlert, editUser, getUser, deleteUser, user: {user, loading
   useEffect(()=>{
     const userData = async (id, currentUser) => {
       user = await getUser(id)
+      if(user){
         setFormData({
           ...formData,
           email: user.email,
@@ -22,6 +23,7 @@ const EditUser = ({setAlert, editUser, getUser, deleteUser, user: {user, loading
           profession: user.profession,
           about: user.about
         })
+      }
     }
     userData(id, currentUser)
   }, [id])
@@ -109,8 +111,6 @@ const EditUser = ({setAlert, editUser, getUser, deleteUser, user: {user, loading
           </Fragment>
         )
       }
-      
-
     </Fragment>
   )
 }

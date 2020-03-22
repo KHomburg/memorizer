@@ -7,6 +7,7 @@ import Loading from "../../layout/Loading"
 import Button from 'react-bootstrap/Button';
 import Badge from 'react-bootstrap/Badge';
 import Modal from 'react-bootstrap/Modal';
+import NotFound from "../../shared/404/notFound"
 
 const Note = ({ getNote, note: {note, loading}, history, deleteNote, auth: {currentUser}} ) => {
   let {id} = useParams()
@@ -20,10 +21,16 @@ const Note = ({ getNote, note: {note, loading}, history, deleteNote, auth: {curr
 
   return (
     <Fragment>
-      {note === null || loading ? (
-        <Fragment>
-          <Loading />
-        </Fragment>
+      {note.title === "" || loading ? (
+        loading ? (
+          <Fragment>
+            <Loading />
+          </Fragment>
+        ) : (
+          <Fragment>
+            <NotFound />
+          </Fragment>
+        )
       ) : (
         <Fragment>
           <div className="main-container">
