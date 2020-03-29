@@ -70,11 +70,15 @@ export const createNote = (formData, history) => async dispatch => {
 }
 
 //list notes
-export const listNotes = () => async dispatch =>{
+export const listNotes = (page) => async dispatch =>{
+  var limit = 20
+  if(!page){page = 1}
+  var offset = page>1 ? ((page-1) * 20) : (0)
   try {
-    const res = await axios.get("/api/notes", 
+    const res = await axios.get("/api/notes?" + "limit=" + limit + "&offset=" + offset, 
       {headers: {Authorization: localStorage.token}}
     )
+    console.log(res.data)
     dispatch({
       type: LIST_NOTES,
       payload: res.data

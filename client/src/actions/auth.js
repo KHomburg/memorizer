@@ -70,7 +70,7 @@ export const login = ({email, password}, history) => async dispatch => {
       type: LOGIN_SUCCESS, 
       payload: res.data
     })
-    history.push("/notes")
+    history.push("/notesindex")
   }catch (err) {
     const errors = err.response.data.errors;
     if(errors){

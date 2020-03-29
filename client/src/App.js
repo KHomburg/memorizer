@@ -71,7 +71,8 @@ const App = () => {
                   <PrivateRoute exact path="/notes/mynotes" component={MyNotes} />
                   <PrivateRoute exact path="/notes/:id/edit" component={EditNote} />
                   <Route exact path="/notes/:id" component={Note} />
-                  <Route exact path="/notes" component={NoteIndex} />
+                  <Route exact path="/notesindex" component={NoteIndex} />
+                  <Route exact path="/notesindex/:page" component={NoteIndex} />
                   <PrivateRoute exact path="/test" component={Landing} />
                 </Switch>
               </section>

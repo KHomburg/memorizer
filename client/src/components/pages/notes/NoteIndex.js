@@ -1,18 +1,21 @@
 import React, {Fragment, useEffect} from 'react'
-import {Link} from 'react-router-dom'
+import {Link, useParams} from 'react-router-dom'
 import {connect} from "react-redux"
 import PropTypes from 'prop-types';
 import {listNotes} from "../../../actions/note"
 import Loading from "../../layout/Loading"
 import NoteReference from "../../shared/note/NoteReference"
+import Paginate from '../../shared/paginate/Paginate'
 
 const Notes = ({ listNotes, note: {notes, loading} }) => {
+  let {page} = useParams()
+  
   useEffect(()=>{
-    notes = listNotes()
+    notes = listNotes(page)
   }, [])
   return (
     <Fragment>
-      {notes === null || loading ? (
+      {notes === [] || loading ? (
         <Fragment>
           <Loading />
         </Fragment>
@@ -26,8 +29,9 @@ const Notes = ({ listNotes, note: {notes, loading} }) => {
                 </Fragment>
               ))
             ) : (
-              <p>test</p>
+              null
             )}
+            <Paginate page={page}/>
           </div>
         </Fragment>
       )}
