@@ -83,8 +83,6 @@ const SidenavCollabse = ({sidenav, sidenavPublicNotes, sidenavMyNotes, closeColl
     }
   }
 
-  //TODO: switch for which search should be performed
-
   return (    
     <Fragment>
       {
