@@ -133,7 +133,8 @@ router.get("/", async (req, res, next) => {
 });
 
 //update note
-router.put("/:id", async (req, res, next) => {
+router.put("/:id", passport.authenticate('jwt', {session: false}), async (req, res, next) => {
+  console.log(req.params.id)
   try{
     const validationErrors = await validate.validateNote(req, res)
     if(validationErrors){
@@ -143,7 +144,10 @@ router.put("/:id", async (req, res, next) => {
       if(req.user.id != note.userId){
         return res.status(401).json({errors: ["Unauthorized to edit this note"]})
       }
-      let tags = req.body.tags.split(",")
+      let tags = req.body.tags
+      if(tags){
+        tags = tags.split(",")
+      }
 
       if(note){
         const updatedNote = await note.update({
