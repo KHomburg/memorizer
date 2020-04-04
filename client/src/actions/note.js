@@ -75,10 +75,9 @@ export const listNotes = (page) => async dispatch =>{
   if(!page){page = 1}
   var offset = page>1 ? ((page-1) * 20) : (0)
   try {
-    const res = await axios.get("/api/notes?" + "limit=" + limit + "&offset=" + offset, 
+    const res = await axios.get("/api/notes/public?" + "limit=" + limit + "&offset=" + offset, 
       {headers: {Authorization: localStorage.token}}
     )
-    console.log(res.data)
     dispatch({
       type: LIST_NOTES,
       payload: res.data
@@ -176,7 +175,7 @@ export const searchPublicNotes = (term) => async dispatch =>{
       "Content-Type": "application/json"
   }}
   try {
-    const res = await axios.get("/api/notes?search="+term, config);
+    const res = await axios.get("/api/notes/public?search="+term, config);
     console.log(res.data)
     dispatch({
       type: SEARCH_PUBLIC_NOTES, 
