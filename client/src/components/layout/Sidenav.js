@@ -38,13 +38,15 @@ const Sidenav = ({closeCollabse, logout, sidenavPublicNotes, openSearch, sidenav
       (!loading && isAuthenticated) && 
         <Fragment>
           <div className="sidenav">
+            {/*
             <Link onClick={() => openSearch()} data-tooltip="Search" data-tooltip-location="right">
               <img src={searchIcon} height="20px" width="20px" />
             </Link>
+            */}
             <Link onClick={e => openMyNotes(e)} data-tooltip="My Notes" data-tooltip-location="right">
               <img src={myContentIcon} height="20px" width="20px"/>
             </Link>
-            <Link onClick={e => openAllNotes(e)} data-tooltip="All Notes" data-tooltip-location="right">
+            <Link onClick={e => openAllNotes(e)} data-tooltip="Public Notes" data-tooltip-location="right">
               <img src={contentIcon} height="20px" width="20px"/>
             </Link>
             <Link to="/notes/new" onClick={() => closeCollabse()} data-tooltip="Write a Note" data-tooltip-location="right">
