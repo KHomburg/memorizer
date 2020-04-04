@@ -67,8 +67,8 @@ const EditUser = ({setAlert, editUser, getUser, deleteUser, user: {user, loading
                 <Form.Control type="email" name="email" placeholder="Enter email" value={email} onChange={e => onChange(e)} />
               </Form.Group>
       
-              <Form.Group controlId="formBasicPassword">
-                <Form.Label>Password</Form.Label>
+              <Form.Group controlId="formBasicUsername">
+                <Form.Label>Username</Form.Label>
                 <Form.Control type="text" name="username" placeholder="Username" value={username} onChange={e => onChange(e)} />
               </Form.Group>
               <Form.Group controlId="formProfession">

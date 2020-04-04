@@ -1,0 +1,11 @@
+.box-primary{
+  background: $gray-900;
+  border: solid 1px $white;
+  padding: 10px 10px;
+
+  p{
+    padding: 0px;
+    margin-bottom: 0.5rem;
+    margin-top: 0.5rem;
+  }
+}

@@ -7,6 +7,13 @@ import Loading from "../../layout/Loading"
 import NotFound from "../../shared/404/notFound"
 import Button from 'react-bootstrap/Button';
 
+
+//Layout
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+
+
 const User = ({ getUser, user: {user, loading}, auth: {currentUser}}) => {
   let {id} = useParams()
   useEffect(()=>{
@@ -26,18 +33,35 @@ const User = ({ getUser, user: {user, loading}, auth: {currentUser}}) => {
         )
       ) : (
         <Fragment>
-          <p>{user.id}</p>
-          <p>{user.username}</p>
-          <p>{user.email}</p>
-          {currentUser != null && currentUser.id == id ? (
-            <Fragment>
-              <Link to={`/users/${user.id}/edit`}>
-                <Button variant="primary border-white">
-                  Edit My Profile
-                </Button>
-              </Link>
-            </Fragment>
-          ): (null)}
+          <Container>
+            <Row>
+              <Col lg="2"></Col>
+              <Col>
+                <div className="profile-head">
+                  <h3>{user.username}</h3>
+                </div>
+
+                <div className="profile-profession">
+                  <p>{user.profession}</p>
+                </div>
+                
+                <div className="profile-about">
+                  <p>{user.about}</p>
+                </div>
+
+                {currentUser != null && currentUser.id == id ? (
+                  <Fragment>
+                    <Link to={`/users/${user.id}/edit`}>
+                      <Button variant="primary border-white">
+                        Edit My Profile
+                      </Button>
+                    </Link>
+                  </Fragment>
+                ): (null)}
+                </Col>
+                <Col lg="2"></Col>
+              </Row>
+            </Container>
         </Fragment>
       )}
     </Fragment>
