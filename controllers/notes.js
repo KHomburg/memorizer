@@ -77,6 +77,42 @@ router.get("/mynotes", passport.authenticate('jwt', {session: false}), async (re
   }
 });
 
+//find all public notes
+router.get("/public", async (req, res, next) => {
+  try{
+    
+    let limit = req.query.limit ? req.query.limit : 50
+    let offset = req.query.offset ? req.query.offset : 0
+    let search = req.query.search ? req.query.search : false
+    let notes
+    //TODO: limit user data sent as response
+    //TODO: limit notes search to public notes or make it admin restricted
+    if(search){
+      notes = await models.Note.searchFilterPublicNotes(search, limit, offset)
+    }else{
+      notes = await models.Note.findAll({
+        offset: offset,
+        limit: limit,
+        where: {isPublic: true},
+        include: [
+          {model: models.User, as: "user"}, 
+          {model: models.Tag, as: "tags", through: {attributes:[]}}
+        ],
+        order: [
+          ['createdAt', 'DESC'],
+        ]
+      })
+    }
+    if(notes){
+      res.status(200).json(notes)
+    }else{
+      res.status(404).json({errors: ["Notes not found"]})
+    }
+  }catch(err){
+    next(err)
+  }
+});
+
 //find note by id
 router.get("/:id", authorize.getUser,
 async (req, res, next) => {
@@ -108,7 +144,7 @@ router.get("/", async (req, res, next) => {
     //TODO: limit user data sent as response
     //TODO: limit notes search to public notes or make it admin restricted
     if(search){
-      notes = await models.Note.searchFilter(search, limit, offset)
+      notes = await models.Note.searchFilterAllNotes(search, limit, offset)
     }else{
       notes = await models.Note.findAll({
         offset: offset,
@@ -131,6 +167,8 @@ router.get("/", async (req, res, next) => {
     next(err)
   }
 });
+
+
 
 //update note
 router.put("/:id", passport.authenticate('jwt', {session: false}), async (req, res, next) => {

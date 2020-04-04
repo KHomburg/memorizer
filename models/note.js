@@ -49,11 +49,11 @@ module.exports = (sequelize, DataTypes) => {
   };
 
   //search for notes by a term
-  Note.searchFilter = function(term, limit, offset){
+  Note.searchFilterAllNotes = function(term, limit, offset){
     return this.sequelize.query(`
       SELECT "id", "userId", "title", "text", "content", "createdAt", "updatedAt", "isPublic" 
       FROM "Notes"
-      WHERE "isPublic" = true` + (term ? ` AND ts_search @@ plainto_tsquery('simple', :query)` : "")+
+      ` + (term ? `WHERE ts_search @@ plainto_tsquery('simple', :query)` : "")+
       `
       ORDER BY "createdAt" DESC
       OFFSET :offset
@@ -64,6 +64,25 @@ module.exports = (sequelize, DataTypes) => {
       }
     );
   }
+
+    //search for notes by a term
+    Note.searchFilterPublicNotes = function(term, limit, offset){
+      return this.sequelize.query(`
+        SELECT "id", "userId", "title", "text", "content", "createdAt", "updatedAt", "isPublic" 
+        FROM "Notes"
+        WHERE "isPublic" = true` + (term ? ` AND ts_search @@ plainto_tsquery('simple', :query)` : "")+
+        `
+        ORDER BY "createdAt" DESC
+        OFFSET :offset
+        LIMIT :limit;
+        `, {
+        model: Note,
+        replacements: { query: term, offset: offset, limit: limit},
+        }
+      );
+    }
+
+  
 
   //search for notes by a term
   Note.searchFilterUsersNotes = function(term, user_id, limit, offset){
