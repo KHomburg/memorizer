@@ -51,7 +51,9 @@ const EditNote = ({setAlert, updateNote, getNote, note: {note, loading}}) => {
   const handleChange = (newValue: any, actionMeta: any) => {
     if(newValue != null){
       setFormData({...formData, tags: newValue})
-    }else{tags = []}
+    }else{
+      setFormData({...formData, tags: []})
+    }
   };
   
   const onSubmit = async e => {
@@ -106,6 +108,11 @@ const EditNote = ({setAlert, updateNote, getNote, note: {note, loading}}) => {
               </Form.Group>
               <Button variant="primary border-white" type="submit" value="create note">
                 Update note
+              </Button>
+              <Button variant="primary border-white" type="submit" value="create note">
+                <Link to={'/notes/' + note.id} style={{color: "white"}}>
+                  Back to note
+                </Link>
               </Button>
             </Form>
           </div>

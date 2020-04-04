@@ -134,7 +134,6 @@ router.get("/", async (req, res, next) => {
 
 //update note
 router.put("/:id", passport.authenticate('jwt', {session: false}), async (req, res, next) => {
-  console.log(req.params.id)
   try{
     const validationErrors = await validate.validateNote(req, res)
     if(validationErrors){
@@ -164,8 +163,8 @@ router.put("/:id", passport.authenticate('jwt', {session: false}), async (req, r
             let newTag = await models.Tag.findOrCreate({where: {name: tag}})
             tagsIds.push(newTag[0].id)
           }
-          await note.setTags(tagsIds)
         }
+        await note.setTags(tagsIds)
         const changedNote = await models.Note.findByPk(req.params.id, {include: [{model: models.Tag, as: "tags", through: {attributes:[]}}]})
         res.json(changedNote)
       }else{
