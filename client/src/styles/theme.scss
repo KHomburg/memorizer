@@ -43,8 +43,28 @@ $enable-rounded: false;
 $body-bg: $gray-800;
 $text-muted: $gray-600 !default;
 
+//new breakpoints
+$grid-xs: 0px;
+$grid-sm: 576px;
+$grid-md: 768px;
+$grid-lg: 992px;
+$grid-xl: 1200px;
+
 p, h1, h2, h3, h4, h5, h6{
   color: $gray-200;
+}
+
+@media only screen and (max-width: $grid-sm){
+  h2{
+    font-size: 1.5rem !important;
+  }
+  h5{
+    font-size: 1.1rem !important;
+    line-height: 1rem !important;
+  }
+  p{
+    font-size: 0.9rem !important;
+  }
 }
 
 
@@ -74,3 +94,12 @@ p, h1, h2, h3, h4, h5, h6{
 .margin{
   margin: 5px;
 }
+
+@media only screen and (max-width: $grid-sm){
+  .margin{
+    margin: 3px;
+  }
+}
+
+
+

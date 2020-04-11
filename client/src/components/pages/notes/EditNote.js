@@ -69,8 +69,8 @@ const EditNote = ({setAlert, updateNote, getNote, note: {note, loading}}) => {
         </Fragment>
       ): (
         <Fragment>
-          <h5>Edit your Note</h5>
           <div className="main-container">
+            <h5>Edit your Note</h5>
             <Form onSubmit={e=>onSubmit(e)}>
               <Form.Group controlId="">
                 <Form.Label>Title</Form.Label>
@@ -98,6 +98,7 @@ const EditNote = ({setAlert, updateNote, getNote, note: {note, loading}}) => {
                 <Form.Control type="hidden" name="text" value={text}/>
               </Form.Group>     
               <CreatableSelect
+                className="tagInput"
                 name="tags"
                 value={tags}
                 isMulti

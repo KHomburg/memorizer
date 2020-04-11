@@ -3,10 +3,13 @@
   border: 1px solid $gray-500;
   margin-top: 5px;
   margin-bottom: 5px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .card-title{
-  color: $gray-100
+  color: $gray-100;
+  margin-bottom: 2px;
 }
 
 .card-subtitle{
@@ -19,7 +22,8 @@
 }
 
 .card-link{
-  color: $gray-500
+  color: $gray-500;
+  font-size: 0.7rem !important;
 }
 
 .card-tags{
@@ -31,4 +35,11 @@
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
+}
+
+@media only screen and (max-width: $grid-sm){
+  .card{
+    margin-top: 2px;
+    margin-bottom: 2px;
+  }
 }

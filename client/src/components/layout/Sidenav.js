@@ -44,19 +44,19 @@ const Sidenav = ({closeCollabse, logout, sidenavPublicNotes, openSearch, sidenav
             </Link>
             */}
             <Link onClick={e => openMyNotes(e)} data-tooltip="My Notes" data-tooltip-location="right">
-              <img src={myContentIcon} height="20px" width="20px"/>
+              <img className="sideNavItem" src={myContentIcon}/>
             </Link>
             <Link onClick={e => openAllNotes(e)} data-tooltip="Public Notes" data-tooltip-location="right">
-              <img src={contentIcon} height="20px" width="20px"/>
+              <img className="sideNavItem" src={contentIcon}/>
             </Link>
             <Link to="/notes/new" onClick={() => closeCollabse()} data-tooltip="Write a Note" data-tooltip-location="right">
-              <img src={createIcon} height="20px" width="20px"/>
+              <img className="sideNavItem" src={createIcon}/>
             </Link>
             <Link to={"/users/"+currentUser.id} onClick={() => closeCollabse()} data-tooltip="My Profile" data-tooltip-location="right">
-              <img src={profileIcon} height="20px" width="20px"/>
+              <img className="sideNavItem" src={profileIcon}/>
             </Link>
             <Link onClick={logout} data-tooltip="Logout" data-tooltip-location="right">
-              <img src={logoutIcon} height="20px" width="20px"/>
+              <img className="sideNavItem" src={logoutIcon}/>
             </Link>
           </div>
         </Fragment>

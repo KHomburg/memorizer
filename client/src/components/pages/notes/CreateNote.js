@@ -46,8 +46,8 @@ const CreateNote = ({setAlert, createNote, history}) => {
 
   return (
     <Fragment>
-      <h5>Create a new note</h5>
       <div className="main-container">
+        <h5>Create a new note</h5>
         <Form onSubmit={e=>onSubmit(e)}>
           <Form.Group controlId="">
             <Form.Label>Titel</Form.Label>
@@ -75,6 +75,7 @@ const CreateNote = ({setAlert, createNote, history}) => {
             <Form.Control type="hidden" name="text" value={text}/>
           </Form.Group>     
           <CreatableSelect
+            className="tagInput"
             name="tags"
             isMulti
             onChange={newValue => {handleChange(newValue)}}

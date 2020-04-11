@@ -87,24 +87,26 @@ const SidenavCollabse = ({sidenav, sidenavPublicNotes, sidenavMyNotes, closeColl
     <Fragment>
       {
         (!loading && isAuthenticated && sidenav.open) && 
+        
         <div id="sidenav-collabse" className="sidenav-collabse collabsible-open" onScroll={e => getScroll()}>
-          <img className="close-icon" src={closeIcon} onClick={close} height="20px" width="20px"/>
-          <h2>{sidenav.notesListType}</h2>
-          {(sidenav.notesListType == "Public Notes" || sidenav.notesListType == "Search Public Notes") ? (
-            <Form onSubmit={e=>searchNotes(e)}>
-              <Form.Group controlId="formBasic">
-                <Form.Control type="text" name="term" placeholder="Search" value={term} onChange={e => onChange(e)} required/>
-              </Form.Group>
-            </Form>) : null
-          }
-          {(sidenav.notesListType == "My Notes" || sidenav.notesListType == "Search My Notes") ? (
-            <Form onSubmit={e=>searchNotes(e)}>
-              <Form.Group controlId="formBasic">
-                <Form.Control type="text" name="term" placeholder="Search" value={term} onChange={e => onChange(e)} required/>
-              </Form.Group>
-            </Form>) : null
-          }
-
+          <div className="sidenav-head">
+            <img className="close-icon" src={closeIcon} onClick={close} height="20px" width="20px"/>
+            <h2>{sidenav.notesListType}</h2>
+            {(sidenav.notesListType == "Public Notes" || sidenav.notesListType == "Search Public Notes") ? (
+              <Form onSubmit={e=>searchNotes(e)}>
+                <Form.Group controlId="formBasic">
+                  <Form.Control type="text" name="term" placeholder="Search" value={term} onChange={e => onChange(e)} required/>
+                </Form.Group>
+              </Form>) : null
+            }
+            {(sidenav.notesListType == "My Notes" || sidenav.notesListType == "Search My Notes") ? (
+              <Form onSubmit={e=>searchNotes(e)}>
+                <Form.Group controlId="formBasic">
+                  <Form.Control type="text" name="term" placeholder="Search" value={term} onChange={e => onChange(e)} required/>
+                </Form.Group>
+              </Form>) : null
+            }
+          </div>
           <NoteList />
 
           {(!sidenav.isEnd) ? (
