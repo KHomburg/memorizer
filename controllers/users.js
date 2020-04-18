@@ -123,6 +123,61 @@ router.get("/note/:id", passport.authenticate('jwt', {session: false}), async (r
   }
 });
 
+//edit users credentials
+router.put("/:id/credentials", passport.authenticate('jwt', {session: false}), async (req, res, next) => {
+  try{
+    //check if valid password is provided, and user to be change is same as logged in
+    if(!req.body.oldpassword) return res.status(401).json({errors: ["You need to enter your current password"]})
+    if(req.params.id != req.user.id) return res.status(401).json({errors: ["You are not authorized to edit this profile"]})
+
+    //find user
+    const user = await models.User.findOne({ where: { email: req.user.email } })
+    if(!user) return res.status(404).json({errors: ["Unexpected Error: your profile was not found"]})
+
+    //check if passwords match
+    const isMatch = await bcrypt.compare(req.body.oldpassword, user.password)
+    if(!isMatch) return res.status(401).json({errors: ["Wrong current password"]})
+
+    //check if new email is unique
+    const checkUniqueEmail = await models.User.findOne({ where: { email: req.body.newemail } })
+    if(checkUniqueEmail) return res.status(401).json({errors: ["Email is already in use"]})
+
+    var newPassword = !req.body.newpassword || req.body.newpassword == "" ? false : req.body.newpassword
+    var newEmail = !req.body.newemail || req.body.newemail == "" ? false : req.body.newemail
+
+    if (isMatch) {
+      //update password and mail
+      if(newPassword){
+        bcrypt.genSalt(10, (err, salt) => {
+          if (err) next(err)
+          bcrypt.hash(newPassword, salt, async (err, hash) => {
+            if (err) next(err)
+            try{
+              user.email = newEmail ? newEmail : user.email
+              user.password = hash
+              const updatedUser = await user.save()
+              res.status(200).json("User credentials successfully updated")
+            }catch(err){
+              next(err)
+            }
+          }, null)
+        })
+      }else if(newEmail){
+        //update only mail
+        try{
+          user.email = newEmail
+          const updatedUser = await user.save()
+          res.status(200).json("User credentials successfully updated")
+        }catch(err){
+          next(err)
+        }
+      }
+    }
+  }catch(err){
+    next(err)
+  }
+})
+
 //edit users profile route
 router.put("/:id", passport.authenticate('jwt', {session: false}), async (req, res, next) => {
   var userId = req.user.id
