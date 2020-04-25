@@ -3,16 +3,19 @@ import {connect} from "react-redux";
 import {useParams} from 'react-router-dom'
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
+import Tabs from 'react-bootstrap/Tabs';
+import Tab from 'react-bootstrap/Tab';
 import Form from 'react-bootstrap/Form';
 import {setAlert} from "../../../actions/alert";
-import {editUser, getUser, deleteUser} from "../../../actions/user";
+import {editUser, editUserCredentials, getUser, deleteUser} from "../../../actions/user";
 import PropTypes from 'prop-types';
 
-const EditUser = ({setAlert, editUser, getUser, deleteUser, user: {user, loading}, auth: {currentUser}, history}) => {
+const EditUser = ({setAlert, editUser, editUserCredentials, getUser, deleteUser, user: {user, loading}, auth: {currentUser}, history}) => {
   const {id} = useParams()
   let password = ""
 
   useEffect(()=>{
+    
     const userData = async (id, currentUser) => {
       user = await getUser(id)
       if(user){
@@ -21,7 +24,10 @@ const EditUser = ({setAlert, editUser, getUser, deleteUser, user: {user, loading
           email: user.email,
           username: user.username,
           profession: user.profession,
-          about: user.about
+          about: user.about,
+          oldPassword: user.oldPassword,
+          newPassword: user.newPassword,
+          confirmPassword: user.confirmPassword,
         })
       }
     }
@@ -34,15 +40,28 @@ const EditUser = ({setAlert, editUser, getUser, deleteUser, user: {user, loading
     username: "",
     profession: "",
     about: "",
+    oldPassword: "",
+    newPassword: "",
+    confirmPassword: "",
   });
 
 
   //updating frontend for form data changes
-  const {email, username, profession, about} = formData;
-  const onChange = e => setFormData({...formData, [e.target.name]: e.target.value})
-  const onSubmit = async e => {
+  const {email, username, profession, about, oldPassword, newPassword, confirmPassword} = formData;
+  const onChange = e => {
+    setFormData({...formData, [e.target.name]: e.target.value})
+  }
+  const onSubmitGeneral = async e => {
     e.preventDefault()
-    editUser({email, username, profession, about}, id);
+    editUser({username, profession, about}, id);
+  }
+
+  const onSubmitCredentials = async e => {
+    e.preventDefault()
+    if(newPassword === confirmPassword){
+      console.log("TEST")
+      editUserCredentials({email, oldPassword, newPassword}, id);
+    }
   }
 
   //for user deletion form
@@ -60,33 +79,55 @@ const EditUser = ({setAlert, editUser, getUser, deleteUser, user: {user, loading
       {
         currentUser && user && currentUser.id == user.id ?(
           <Fragment>
-            <h5>Edit Profile</h5>
-            <Form onSubmit={e=>onSubmit(e)}>
-              <Form.Group controlId="formBasicEmail">
-                <Form.Label>Email address</Form.Label>
-                <Form.Control type="email" name="email" placeholder="Enter email" value={email} onChange={e => onChange(e)} />
-              </Form.Group>
-      
-              <Form.Group controlId="formBasicUsername">
-                <Form.Label>Username</Form.Label>
-                <Form.Control type="text" name="username" placeholder="Username" value={username} onChange={e => onChange(e)} />
-              </Form.Group>
-              <Form.Group controlId="formProfession">
-                <Form.Label>Profession</Form.Label>
-                <Form.Control type="text" name="profession" placeholder="Your Profession" value={profession} onChange={e => onChange(e)} />
-              </Form.Group>
-              <Form.Group controlId="formAbout">
-                <Form.Label>About you</Form.Label>
-                <Form.Control as="textarea" type="textarea" name="about" placeholder="About You" value={about} onChange={e => onChange(e)} />
-              </Form.Group>
-              <Button variant="primary border-white" type="submit" value="Submit">
-                Submit
-              </Button>
-              <Button variant="primary border-white" onClick={handleShow}>
-                Delete this Profile
-              </Button>
-            </Form>
+            <Tabs defaultActiveKey="general" id="uncontrolled-tab-example">
+              <Tab eventKey="general" title="General">
+                <Form onSubmit={e=>onSubmitGeneral(e)}>          
+                  <Form.Group controlId="formBasicUsername">
+                    <Form.Label>Username</Form.Label>
+                    <Form.Control type="text" name="username" placeholder="Username" value={username} onChange={e => onChange(e)} />
+                  </Form.Group>
+                  <Form.Group controlId="formProfession">
+                    <Form.Label>Profession</Form.Label>
+                    <Form.Control type="text" name="profession" placeholder="Your Profession" value={profession} onChange={e => onChange(e)} />
+                  </Form.Group>
+                  <Form.Group controlId="formAbout">
+                    <Form.Label>About you</Form.Label>
+                    <Form.Control as="textarea" type="textarea" name="about" placeholder="About You" value={about} onChange={e => onChange(e)} />
+                  </Form.Group>
+                  <Button variant="primary border-white" type="submit" value="Submit">
+                    Submit
+                  </Button>
+                </Form>
+              </Tab>
 
+              <Tab eventKey="loginData" title="Login Data">
+                <Form onSubmit={e=>onSubmitCredentials(e)}>
+                  <Form.Group controlId="formBasicEmail">
+                    <Form.Label>Email address</Form.Label>
+                    <Form.Control type="email" name="email" placeholder="Enter email" value={email} onChange={e => onChange(e)} />
+                  </Form.Group>
+          
+                  <Form.Group controlId="formBasicUsername">
+                    <Form.Label>Your current password</Form.Label>
+                    <Form.Control type="text" name="oldPassword" placeholder="Current password" value={oldPassword} onChange={e => onChange(e)} />
+                  </Form.Group>
+                  <Form.Group controlId="formProfession">
+                    <Form.Label>Your new password</Form.Label>
+                    <Form.Control type="text" name="newPassword" placeholder="New password" value={newPassword} onChange={e => onChange(e)} />
+                  </Form.Group>
+                  <Form.Group controlId="formProfession">
+                    <Form.Label>Confirm new password</Form.Label>
+                    <Form.Control type="text" name="confirmPassword" placeholder="Confirm password" value={confirmPassword} onChange={e => onChange(e)} />
+                  </Form.Group>
+                  <Button variant="primary border-white" type="submit" value="Submit">
+                    Submit
+                  </Button>
+                  <Button variant="primary border-white" className="deleteProfileButton" onClick={handleShow}>
+                    Delete this Profile
+                  </Button>
+                </Form>
+              </Tab>
+            </Tabs>
             <Modal show={show} onHide={handleClose}>
               <Modal.Header closeButton>
                 <Modal.Title>Are you sure you want to delete this Profile?</Modal.Title>
@@ -121,6 +162,7 @@ EditUser.propTypes={
   user: PropTypes.object.isRequired,
   setAlert: PropTypes.func.isRequired,
   editUser: PropTypes.func.isRequired,
+  editUserCredentials: PropTypes.func.isRequired,
 }
 
 const mapStateToProps = state => ({
@@ -129,4 +171,4 @@ const mapStateToProps = state => ({
 })
 
 
-export default connect(mapStateToProps, {setAlert, editUser, getUser, deleteUser})(EditUser)
+export default connect(mapStateToProps, {setAlert, editUser, editUserCredentials, getUser, deleteUser})(EditUser)

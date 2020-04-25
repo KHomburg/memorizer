@@ -1,4 +1,4 @@
-import { USER_ERROR, GET_USER, LIST_USERS, LIST_USERS_ERROR, EDIT_USER, EDIT_USER_ERROR, DELETE_USER, DELETE_USER_ERROR} from "../actions/types";
+import { USER_ERROR, GET_USER, LIST_USERS, LIST_USERS_ERROR, EDIT_USER, EDIT_USER_ERROR, DELETE_USER, DELETE_USER_ERROR, EDIT_USER_CREDENTIALS, EDIT_USER_CREDENTIALS_ERROR} from "../actions/types";
 
 const initialState = {
   user: null,
@@ -28,6 +28,7 @@ export default function(state= initialState, action){
     case LIST_USERS_ERROR:
     case EDIT_USER_ERROR:
     case DELETE_USER_ERROR:
+    case EDIT_USER_CREDENTIALS:
       return{
         ...state,
         error: payload,

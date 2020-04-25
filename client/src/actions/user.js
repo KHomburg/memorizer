@@ -9,6 +9,8 @@ import{
   EDIT_USER_ERROR,
   DELETE_USER,
   DELETE_USER_ERROR,
+  EDIT_USER_CREDENTIALS,
+  EDIT_USER_CREDENTIALS_ERROR,
 } from "./types";
 
 //get user by id
@@ -57,15 +59,16 @@ export const listUsers = () => async dispatch =>{
 }
 
 //edit user
-export const editUser = ({email, username, profession, about}, id) => async dispatch =>{
+export const editUser = ({username, profession, about}, id) => async dispatch =>{
   const config = {headers: {Authorization: localStorage.token, "Content-Type": "application/json"}}
-  const body = JSON.stringify({email, username, profession, about})
+  const body = JSON.stringify({username, profession, about})
   try {
     const res = await axios.put("/api/users/"+id, body, config)
     dispatch({
       type: EDIT_USER,
       payload: res.data
     })
+    dispatch(setAlert("Profile successfully updated", "success"))
   }catch(err){
     const errors = err.response.data.errors;
     if(errors){
@@ -73,6 +76,30 @@ export const editUser = ({email, username, profession, about}, id) => async disp
     }
     dispatch({
       type: EDIT_USER_ERROR,
+      payload: {msg: err.response.statusText, status: err.response.status}
+    })
+  }
+}
+
+//edit user credetnials
+export const editUserCredentials = ({email, newPassword, oldPassword}, id) => async dispatch =>{
+  const config = {headers: {Authorization: localStorage.token, "Content-Type": "application/json"}}
+  const body = JSON.stringify({newemail: email, newpassword: newPassword, oldpassword: oldPassword})
+  console.log(body)
+  try {
+    const res = await axios.put("/api/users/"+id+"/credentials", body, config)
+    dispatch({
+      type: EDIT_USER_CREDENTIALS,
+      payload: res.data
+    })
+    dispatch(setAlert("Profile successfully updated", "success"))
+  }catch(err){
+    const errors = err.response.data.errors;
+    if(errors){
+      errors.forEach(error => dispatch(setAlert(error, "danger")))
+    }
+    dispatch({
+      type: EDIT_USER_CREDENTIALS_ERROR,
       payload: {msg: err.response.statusText, status: err.response.status}
     })
   }

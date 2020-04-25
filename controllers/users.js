@@ -131,17 +131,20 @@ router.put("/:id/credentials", passport.authenticate('jwt', {session: false}), a
     if(req.params.id != req.user.id) return res.status(401).json({errors: ["You are not authorized to edit this profile"]})
 
     //find user
+
     const user = await models.User.findOne({ where: { email: req.user.email } })
     if(!user) return res.status(404).json({errors: ["Unexpected Error: your profile was not found"]})
+    
 
     //check if passwords match
     const isMatch = await bcrypt.compare(req.body.oldpassword, user.password)
     if(!isMatch) return res.status(401).json({errors: ["Wrong current password"]})
 
     //check if new email is unique
-    const checkUniqueEmail = await models.User.findOne({ where: { email: req.body.newemail } })
-    if(checkUniqueEmail) return res.status(401).json({errors: ["Email is already in use"]})
-
+    if(req.user.email != req.body.newemail){
+      const checkUniqueEmail = await models.User.findOne({ where: { email: req.body.newemail } })
+      if(checkUniqueEmail) return res.status(401).json({errors: ["Email is already in use"]})
+    }
     var newPassword = !req.body.newpassword || req.body.newpassword == "" ? false : req.body.newpassword
     var newEmail = !req.body.newemail || req.body.newemail == "" ? false : req.body.newemail
 
