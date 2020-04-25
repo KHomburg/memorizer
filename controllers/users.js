@@ -186,7 +186,6 @@ router.put("/:id", passport.authenticate('jwt', {session: false}), async (req, r
   var userId = req.user.id
   //if certain params provided use old one
   var newUsername = !req.body.username || req.body.username == "" ? req.user.username : req.body.username
-  var newEmail = !req.body.email || req.body.email == "" ? req.user.email : req.body.email
   var newAbout = !req.body.about || req.body.about == "" ? req.user.about : req.body.about
   var newProfession = !req.body.profession || req.body.profession == "" ? req.user.profession : req.body.profession
 
@@ -195,7 +194,6 @@ router.put("/:id", passport.authenticate('jwt', {session: false}), async (req, r
       const user = await models.User.findOne({ where: { id: req.user.id } })
       if(user){
         const updatedUser = await user.update({
-          email: newEmail,
           username: newUsername,
           profession: newProfession,
           about: newAbout,
