@@ -61,6 +61,8 @@ const EditUser = ({setAlert, editUser, editUserCredentials, getUser, deleteUser,
     if(newPassword === confirmPassword){
       console.log("TEST")
       editUserCredentials({email, oldPassword, newPassword}, id);
+    }else{
+      setAlert("New password and confirmation do not match!", "danger")
     }
   }
 
@@ -109,15 +111,15 @@ const EditUser = ({setAlert, editUser, editUserCredentials, getUser, deleteUser,
           
                   <Form.Group controlId="formBasicUsername">
                     <Form.Label>Your current password</Form.Label>
-                    <Form.Control type="text" name="oldPassword" placeholder="Current password" value={oldPassword} onChange={e => onChange(e)} />
+                    <Form.Control type="password" name="oldPassword" placeholder="Current password" value={oldPassword} onChange={e => onChange(e)} />
                   </Form.Group>
                   <Form.Group controlId="formProfession">
                     <Form.Label>Your new password</Form.Label>
-                    <Form.Control type="text" name="newPassword" placeholder="New password" value={newPassword} onChange={e => onChange(e)} />
+                    <Form.Control type="password" name="newPassword" placeholder="New password" value={newPassword} onChange={e => onChange(e)} />
                   </Form.Group>
                   <Form.Group controlId="formProfession">
                     <Form.Label>Confirm new password</Form.Label>
-                    <Form.Control type="text" name="confirmPassword" placeholder="Confirm password" value={confirmPassword} onChange={e => onChange(e)} />
+                    <Form.Control type="password" name="confirmPassword" placeholder="Confirm password" value={confirmPassword} onChange={e => onChange(e)} />
                   </Form.Group>
                   <Button variant="primary border-white" type="submit" value="Submit">
                     Submit
