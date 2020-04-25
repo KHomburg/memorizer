@@ -130,6 +130,7 @@ export const updateNote = (formData, id) => async dispatch =>{
       type: UPDATE_NOTE,
       payload: res.data
     })
+    dispatch(setAlert("Note Updated", "success"))
     return(res.data)
   }catch(err){
     if(err.response.data.errors){
@@ -154,7 +155,8 @@ export const deleteNote = (id, history) => async dispatch => {
       type: DELETE_NOTE, 
       payload: res.data
     })
-    history.push('/notes')
+    dispatch(setAlert("Note deleted", "success"))
+    history.push('/notesindex')
   }catch (err) {
     if(err.response.data.errors){
       const errors = err.response.data.errors;
