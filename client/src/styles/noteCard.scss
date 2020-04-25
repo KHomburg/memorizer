@@ -21,9 +21,21 @@
   margin-bottom: 5px;
 }
 
+.card-date{
+  color: $gray-500;
+  font-size: 0.9rem;
+  padding-top: 10px;
+  float: right;
+}
+
+.note-date{
+  color: $gray-500;
+  font-size: 1.2rem;
+}
+
 .card-link{
   color: $gray-500;
-  font-size: 0.7rem !important;
+  font-size: 0.9rem !important;
 }
 
 .card-tags{

@@ -35,6 +35,7 @@ const Note = ({ getNote, note: {note, loading}, history, deleteNote, auth: {curr
         <Fragment>
           <div className="main-container">
             <h1>{note.title}</h1>
+            <div className="note-date">{new Date(note.createdAt).toLocaleDateString()}</div>
             <div className="content" dangerouslySetInnerHTML={{__html: note.content}} />
             <div>{note.tags ? note.tags.map(tag => <Badge variant="secondary" className="margin">{tag.name}</Badge>) : null}</div>
 

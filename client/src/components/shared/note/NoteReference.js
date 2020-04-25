@@ -18,7 +18,7 @@ const NoteReference = ({
             {text}
           </Card.Text>
             <div>{tags ? tags.map(tag => <Badge variant="secondary" className="margin">{tag.name}</Badge>) : null}</div>
-          <Card.Link href="#">{createdAt}</Card.Link>
+            <div className="card-date">{new Date(createdAt).toLocaleDateString()}</div>
           
         </Card.Body>
       </Card>
