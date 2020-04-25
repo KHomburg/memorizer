@@ -110,9 +110,27 @@ const validateUserUpdate = (req, res) => {
   })
 }
 
+//Validation for registration input:
+const validateCredentialUpdate = (req, res) => {
+  return new Promise((resolve, reject) =>{
+    var registerConstraints = {
+      newemail: {
+        presence: {
+          message: "Email adress is required"
+        },
+        email: {
+          message: "You entered an invalid E-Mail address"
+        }
+      },
+    }
+    resolve(validate(req.body, registerConstraints, {format: "custom"}))
+  })
+}
+
 module.exports = {
   validateRegistration,
   validateLogin,
   validateNote,
   validateUserUpdate,
+  validateCredentialUpdate,
 }

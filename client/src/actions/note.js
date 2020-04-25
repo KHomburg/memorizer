@@ -171,7 +171,7 @@ export const deleteNote = (id, history) => async dispatch => {
 }
 
 //search and list result for public notes
-export const searchPublicNotes = (term) => async dispatch =>{
+export const searchPublicNotes = (term, history) => async dispatch =>{
   const config = {headers: {
       Authorization: localStorage.token,
       "Content-Type": "application/json"
@@ -183,6 +183,7 @@ export const searchPublicNotes = (term) => async dispatch =>{
       type: SEARCH_PUBLIC_NOTES, 
       payload: res.data
     })
+    history.push('/notesindex')
   }catch(err){
     if(err.response.data.errors){
       const errors = err.response.data.errors;

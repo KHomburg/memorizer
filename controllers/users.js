@@ -126,6 +126,11 @@ router.get("/note/:id", passport.authenticate('jwt', {session: false}), async (r
 //edit users credentials
 router.put("/:id/credentials", passport.authenticate('jwt', {session: false}), async (req, res, next) => {
   try{
+    const validateError = await validate.validateCredentialUpdate(req, res)
+    if(validateError){
+      res.status(400).json({errors: validateError})
+    }
+
     //check if valid password is provided, and user to be change is same as logged in
     if(!req.body.oldpassword) return res.status(401).json({errors: ["You need to enter your current password"]})
     if(req.params.id != req.user.id) return res.status(401).json({errors: ["You are not authorized to edit this profile"]})

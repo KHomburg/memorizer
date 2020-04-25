@@ -1,6 +1,6 @@
-import React, {Fragment, useState} from 'react'
+import React, {Fragment, useEffect, useState} from 'react'
 import Form from 'react-bootstrap/Form';
-import {Link} from 'react-router-dom'
+import {Link, useParams} from 'react-router-dom'
 import {connect} from "react-redux"
 import PropTypes from 'prop-types';
 import {logout} from "../../actions/auth"
@@ -10,17 +10,15 @@ import {searchPublicNotes} from "../../actions/note"
 
 
 
-
-
-const Header = ({auth: {isAuthenticated, loading, currentUser}, searchPublicNotes }) => {
+const Header = ({auth: {isAuthenticated, loading, currentUser}, history, searchPublicNotes }) => {
   const [searchTerm, setSearchTerm] = useState({
     term: "",
   });
   const {term} = searchTerm
   const onChange = e => setSearchTerm(e.target.value)
-  const onSubmit = async e => {
+  const onSubmit = e => {
     e.preventDefault()
-    searchPublicNotes(searchTerm)
+    searchPublicNotes(searchTerm, history)
   }
   return (
     <Fragment>
@@ -60,6 +58,7 @@ const Header = ({auth: {isAuthenticated, loading, currentUser}, searchPublicNote
 Header.propTypes = {
   logout: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
+  searchPublicNotes: PropTypes.object.isRequired,
 }
 
 const mapStateToProps = state => ({
