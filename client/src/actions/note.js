@@ -178,12 +178,10 @@ export const searchPublicNotes = (term, history) => async dispatch =>{
   }}
   try {
     const res = await axios.get("/api/notes/public?search="+term, config);
-    console.log(res.data)
     dispatch({
       type: SEARCH_PUBLIC_NOTES, 
       payload: res.data
     })
-    history.push('/notesindex')
   }catch(err){
     if(err.response.data.errors){
       const errors = err.response.data.errors;
