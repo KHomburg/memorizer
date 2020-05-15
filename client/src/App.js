@@ -24,6 +24,7 @@ import EditUser from './components/pages/users/EditUser'
 
 
 import Note from './components/pages/notes/Note'
+import Notes from './components/pages/notes/Notes'
 import CreateNote from './components/pages/notes/CreateNote'
 import NoteIndex from './components/pages/notes/NoteIndex'
 import EditNote from './components/pages/notes/EditNote'
@@ -58,10 +59,11 @@ const App = () => {
             <Row>
               <Spacer />
               <Col>
-              <Route exact path="/" component={NoteIndex} />
               <section className="containter">
                 <Alert />
                 <Switch>
+                  <Route exact path="/" component={NoteIndex} />
+                  
                   <Route exact path="/users/register" component={Register} />
                   <Route exact path="/users/login" component={Login} />
                   <PrivateRoute exact path="/users" component={UserIndex} />
@@ -72,15 +74,14 @@ const App = () => {
                   <PrivateRoute exact path="/notes/:id/edit" component={EditNote} />
                   <Route exact path="/notes/:id" component={Note} />
                   <Route exact path="/notesindex" component={NoteIndex} />
-                  <Route exact path="/notesindex/:page" component={NoteIndex} />
+                  <Route exact path="/notesindex/:page" component={Notes} />
+                  <Route exact path="/notes" component={Notes} />
                   <PrivateRoute exact path="/test" component={Landing} />
                 </Switch>
               </section>
               </Col>
             </Row>
           </Container>
-          
-
         </Fragment>
       </Router>
     </Provider>

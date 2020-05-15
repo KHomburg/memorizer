@@ -182,6 +182,7 @@ export const searchPublicNotes = (term, history) => async dispatch =>{
       type: SEARCH_PUBLIC_NOTES, 
       payload: res.data
     })
+    history.push('/notes')
   }catch(err){
     if(err.response.data.errors){
       const errors = err.response.data.errors;

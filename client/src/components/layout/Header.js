@@ -1,16 +1,18 @@
-import React, {Fragment, useEffect, useState} from 'react'
+import React, {Fragment, useState} from 'react'
+import {connect} from "react-redux"
 import Form from 'react-bootstrap/Form';
 import {Link, useParams} from 'react-router-dom'
-import {connect} from "react-redux"
+import {withRouter} from 'react-router'
 import PropTypes from 'prop-types';
-import {logout} from "../../actions/auth"
+
 
 //state actions
+import {logout} from "../../actions/auth"
 import {searchPublicNotes} from "../../actions/note"
 
 
 
-const Header = ({auth: {isAuthenticated, loading, currentUser}, history, searchPublicNotes }) => {
+const Header = ({auth: {isAuthenticated, loading, currentUser}, searchPublicNotes, history }) => {
   const [searchTerm, setSearchTerm] = useState({
     term: "",
   });
@@ -63,7 +65,7 @@ Header.propTypes = {
 
 const mapStateToProps = state => ({
   auth: state.auth,
-  searchPublicNotes: PropTypes.func.isRequired
+  searchPublicNotes: PropTypes.func.isRequired,
 })
 
-export default connect(mapStateToProps, {logout, searchPublicNotes})(Header)
+export default withRouter(connect(mapStateToProps, {logout, searchPublicNotes})(Header))
