@@ -1,5 +1,5 @@
 import React, {Fragment, useEffect, useSate} from 'react'
-import {Link} from 'react-router-dom'
+import {Link, withRouter} from 'react-router-dom'
 import {connect} from "react-redux"
 import PropTypes from 'prop-types';
 
@@ -19,7 +19,7 @@ import sidenav from '../../reducers/sidenav';
 
 //import {logout} from "../../actions/auth"
 
-const Sidenav = ({closeCollabse, logout, sidenavPublicNotes, openSearch, sidenavMyNotes, auth: {isAuthenticated, loading, currentUser},}) => {
+const Sidenav = ({closeCollabse, logout, sidenavPublicNotes, openSearch, sidenavMyNotes, auth: {isAuthenticated, loading, currentUser}, history}) => {
 
   const openAllNotes = (e) => {
     e.preventDefault()
@@ -55,7 +55,7 @@ const Sidenav = ({closeCollabse, logout, sidenavPublicNotes, openSearch, sidenav
             <Link to={"/users/"+currentUser.id} onClick={() => closeCollabse()} data-tooltip="My Profile" data-tooltip-location="right">
               <img className="sideNavItem" src={profileIcon}/>
             </Link>
-            <Link onClick={logout} data-tooltip="Logout" data-tooltip-location="right">
+            <Link onClick={() => logout(history)} data-tooltip="Logout" data-tooltip-location="right">
               <img className="sideNavItem" src={logoutIcon}/>
             </Link>
           </div>
@@ -74,7 +74,7 @@ const mapStateToProps = state => ({
   closeCollabse: PropTypes.func.isRequired,
 })
 
-export default connect(mapStateToProps, {
+export default withRouter(connect(mapStateToProps, {
   listNotes, 
   myNotes, 
   logout, 
@@ -82,4 +82,4 @@ export default connect(mapStateToProps, {
   sidenavMyNotes,
   closeCollabse,
   openSearch,
-})(Sidenav)
+})(Sidenav))

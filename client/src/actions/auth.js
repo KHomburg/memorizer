@@ -83,10 +83,11 @@ export const login = ({email, password}, history) => async dispatch => {
 }
 
 //Logout User
-export const logout = () => async dispatch => {
+export const logout = (history) => async dispatch => {
   dispatch({
     type: LOGOUT
   })
+  history.push("/notesindex")
 }
 
 
