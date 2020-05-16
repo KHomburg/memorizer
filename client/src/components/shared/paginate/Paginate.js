@@ -7,8 +7,13 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Container from 'react-bootstrap/Container'
 
-const Paginate = ({page, listNotes}) => {
-  if(page == undefined){
+/**
+ * page: integer||string => current page (slash at start and end)
+ * path: string => base path to link to
+ * query: string => any additionaly query (starting with "?")
+ */
+const Paginate = ({page = "", path = "", query = "", listNotes}) => {
+  if(page == ""){
     page = 1
   }
   return (
@@ -17,13 +22,13 @@ const Paginate = ({page, listNotes}) => {
         {page>1 ? (
           <Fragment>
             <p className="center">
-              <Link to={`/notesindex/${parseInt(page) - 1}`} className="paginate" onClick={() => listNotes(parseInt(page)-1)}>
+              <Link to={`${path}${parseInt(page) - 1}${query}`} className="paginate">
                 Previous
               </Link>
               <div className="paginate">
                 {page}
               </div>
-              <Link to={`/notesindex/${parseInt(page) + 1}`} className="paginate" onClick={() => listNotes(parseInt(page)+1)}>
+              <Link to={`${path}${parseInt(page) + 1}${query}`} className="paginate">
                 Next
               </Link>
             </p>
@@ -32,7 +37,7 @@ const Paginate = ({page, listNotes}) => {
           <Fragment>
             <p className="center">
               1
-              <Link to={`/notesindex/${2}`} className="paginate" onClick={() => listNotes(2)}>
+              <Link to={`${path}${parseInt(page) + 1}${query}`} className="paginate">
                 Next
               </Link>
             </p>

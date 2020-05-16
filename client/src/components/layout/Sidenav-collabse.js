@@ -9,6 +9,7 @@ import closeIcon from "../../icons/close_icon.svg.png"
 
 
 //state actions
+//TODO: check if searchPublicNotes can be removed
 import {searchPublicNotes} from "../../actions/note"
 import {closeCollabse, searchPublicNotesSidenav, searchMyNotesSidenav, sidenavPublicNotes, sidenavMyNotes} from "../../actions/sidenav"
 

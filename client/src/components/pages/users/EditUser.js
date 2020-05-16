@@ -59,7 +59,6 @@ const EditUser = ({setAlert, editUser, editUserCredentials, getUser, deleteUser,
   const onSubmitCredentials = async e => {
     e.preventDefault()
     if(newPassword === confirmPassword){
-      console.log("TEST")
       editUserCredentials({email, oldPassword, newPassword}, id);
     }else{
       setAlert("New password and confirmation do not match!", "danger")

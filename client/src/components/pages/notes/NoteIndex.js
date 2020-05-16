@@ -7,11 +7,18 @@ import Loading from "../../layout/Loading"
 import NoteReference from "../../shared/note/NoteReference"
 import Paginate from '../../shared/paginate/Paginate'
 
-const Notes = ({ listNotes, note: {notes, loading} }) => {
+const Notes = ({ listNotes, note: {notes, loading}, history }) => {
   let {page} = useParams()
+  const path = "/notesindex/"
   
   useEffect(()=>{
     notes = listNotes(page)
+
+    //forcing state refresh and rerender upon page change through pagination
+    return history.listen((location) => {
+      page = location.pathname.split('/')[2]
+      notes = listNotes(page)
+    })
   }, [])
   return (
     <Fragment>
@@ -31,7 +38,7 @@ const Notes = ({ listNotes, note: {notes, loading} }) => {
             ) : (
               null
             )}
-            <Paginate page={page}/>
+            <Paginate page={page} path={path}/>
           </div>
         </Fragment>
       )}

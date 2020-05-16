@@ -171,18 +171,21 @@ export const deleteNote = (id, history) => async dispatch => {
 }
 
 //search and list result for public notes
-export const searchPublicNotes = (term, history) => async dispatch =>{
+export const searchPublicNotes = (term, page) => async dispatch =>{
+  var limit = 20
+  if(!page){page = 1}
+  var offset = page>1 ? ((page-1) * 20) : (0)
+
   const config = {headers: {
       Authorization: localStorage.token,
       "Content-Type": "application/json"
   }}
   try {
-    const res = await axios.get("/api/notes/public?search="+term, config);
+    const res = await axios.get("/api/notes/public?search="+term  + "&limit=" + limit + "&offset=" + offset, config);
     dispatch({
       type: SEARCH_PUBLIC_NOTES, 
       payload: res.data
     })
-    history.push('/notes')
   }catch(err){
     if(err.response.data.errors){
       const errors = err.response.data.errors;

@@ -8,11 +8,8 @@ import PropTypes from 'prop-types';
 
 //state actions
 import {logout} from "../../actions/auth"
-import {searchPublicNotes} from "../../actions/note"
 
-
-
-const Header = ({auth: {isAuthenticated, loading, currentUser}, searchPublicNotes, history }) => {
+const Header = ({auth: {isAuthenticated, loading, currentUser}, history }) => {
   const [searchTerm, setSearchTerm] = useState({
     term: "",
   });
@@ -20,7 +17,7 @@ const Header = ({auth: {isAuthenticated, loading, currentUser}, searchPublicNote
   const onChange = e => setSearchTerm(e.target.value)
   const onSubmit = e => {
     e.preventDefault()
-    searchPublicNotes(searchTerm, history)
+    history.push('/notes/search/1?term=' + searchTerm)
   }
   return (
     <Fragment>
@@ -60,12 +57,10 @@ const Header = ({auth: {isAuthenticated, loading, currentUser}, searchPublicNote
 Header.propTypes = {
   logout: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
-  searchPublicNotes: PropTypes.object.isRequired,
 }
 
 const mapStateToProps = state => ({
   auth: state.auth,
-  searchPublicNotes: PropTypes.func.isRequired,
 })
 
-export default withRouter(connect(mapStateToProps, {logout, searchPublicNotes})(Header))
+export default withRouter(connect(mapStateToProps, {logout})(Header))

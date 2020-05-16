@@ -1,13 +1,32 @@
-import React, {Fragment, useEffect} from 'react'
-import {Link, useParams} from 'react-router-dom'
+import React, {Fragment, useEffect, useState, useLayoutEffect} from 'react'
+import {Link, useParams, history} from 'react-router-dom'
 import {connect} from "react-redux"
 import PropTypes from 'prop-types';
-import {listNotes} from "../../../actions/note"
 import Loading from "../../layout/Loading"
 import NoteReference from "../../shared/note/NoteReference"
 import Paginate from '../../shared/paginate/Paginate'
 
-const Notes = ({ listNotes, note: {notes, loading} }) => {
+//state actions
+import {searchPublicNotes, listNotes} from "../../../actions/note"
+
+const Notes = ({ searchPublicNotes, note: {notes, loading}, location, history }) => {
+
+  let {page} = useParams()
+
+  //TODO: refactor following function, because it requires the search term to be the first query param
+  const term = location.search.split('=')[1].split('&')[0]
+  const path = "/notes/search/"
+  const query = `?term=${term}`
+
+  useEffect(()=>{
+    notes = searchPublicNotes(term, page)
+
+    //forcing state refresh and rerender upon page change through pagination
+    return history.listen((location) => {
+      page = location.pathname.split('/')[3]
+      notes = searchPublicNotes(term, page)
+    })
+  }, [history])
 
   return (
     <Fragment>
@@ -27,22 +46,26 @@ const Notes = ({ listNotes, note: {notes, loading} }) => {
             ) : (
               null
             )}
-            Pagination here
+            <Paginate page={page} path={path} query={query}/>
           </div>
         </Fragment>
       )}
     </Fragment>
   )
 }
+//'/notes/search/1?term=' + searchTerm
 
 Notes.propTypes = {
   auth: PropTypes.object.isRequired,
-  note: PropTypes.object.isRequired
+  note: PropTypes.object.isRequired,
+  searchPublicNotes: PropTypes.object.isRequired,
+
 }
 
 const mapStateToProps = state => ({
   auth: state.auth,
-  note: state.note
+  note: state.note,
+  searchPublicNotes: PropTypes.func.isRequired,
 })
 
-export default connect(mapStateToProps, {listNotes})(Notes)
+export default connect(mapStateToProps, {listNotes, searchPublicNotes})(Notes)
