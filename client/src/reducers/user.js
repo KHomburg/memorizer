@@ -37,7 +37,8 @@ export default function(state= initialState, action){
     case DELETE_USER:
       localStorage.removeItem("token");
       return{
-        state: null
+        user: null,
+        users: [],
       }
     default:
       return state

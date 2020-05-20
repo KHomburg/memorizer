@@ -11,6 +11,7 @@ import{
   DELETE_USER_ERROR,
   EDIT_USER_CREDENTIALS,
   EDIT_USER_CREDENTIALS_ERROR,
+  LOGOUT
 } from "./types";
 
 //get user by id
@@ -113,6 +114,10 @@ export const deleteUser = (password, id, history) => async dispatch => {
     dispatch({
       type: DELETE_USER, 
       payload: res.data
+    })
+    dispatch({
+      type: LOGOUT, 
+      payload: null
     })
     history.push('/')
   }catch (err) {

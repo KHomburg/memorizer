@@ -31,7 +31,7 @@ export const sidenavPublicNotes = (page) => async dispatch =>{
         payload: data,
       })
     }else{//for pagination
-      const res = await axios.get("/api/notes?" + "limit=" + limit, 
+      const res = await axios.get("/api/notes/public?" + "limit=" + limit, 
         {headers: {Authorization: localStorage.token}}
       )
       let isEnd = (res.data.length < 19) ? (true) : (false)
