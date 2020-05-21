@@ -268,10 +268,8 @@ router.post("/passwordreset", async (req, res, next) => {
         }, null)
       })
     }else{
-      res.status(404).json({errors: ["User with that mail adress not found"]})
+      res.status(404).json({errors: ["User with that E-Mail adress not found"]})
     }
-
-
   }catch(err){
     next(err)
   }

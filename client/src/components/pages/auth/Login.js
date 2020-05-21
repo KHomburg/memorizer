@@ -1,23 +1,40 @@
 import React, {Fragment, useState} from 'react';
 import {Link} from 'react-router-dom'
 import {connect} from "react-redux";
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
 import {setAlert} from "../../../actions/alert";
 import {login} from "../../../actions/auth";
+import {resetPassword} from "../../../actions/user"
 import PropTypes from 'prop-types';
 
-const Login = ({setAlert, login, history}) => {
+//component import
+import Modal from 'react-bootstrap/Modal';
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
+
+const Login = ({setAlert, login, history, resetPassword}) => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
 
+  //for login
   const {email, password} = formData;
   const onChange = e => setFormData({...formData, [e.target.name]: e.target.value})
   const onSubmit = async e => {
     e.preventDefault()
     login({email, password}, history);
+  }
+
+  //for password rest form
+  const [resetPasswordEmail, setResetPasswordEmail] = useState("")
+  const resetPasswordChange = e => setResetPasswordEmail(e.target.value)
+
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+  const resetPasswordTrigger = () => {
+    resetPassword(resetPasswordEmail)
+    handleClose()
   }
 
   return (
@@ -36,10 +53,25 @@ const Login = ({setAlert, login, history}) => {
         <Button variant="primary border-white" type="submit" value="login">
           Login
         </Button>
-        <Link href="#">
+        <Link href="#" onClick={handleShow}>
           <p>Forgotten password?</p>
         </Link>
       </Form>
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>You forgot your password?</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Enter your E-Mail here:</Modal.Body>
+        <Form.Control type="email" name="resetPasswordEmail" placeholder="Enter your E-Mail" value={resetPasswordEmail} onChange={e => resetPasswordChange(e)} />
+        <Modal.Footer>
+          <Button variant="primary border-white" onClick={handleClose}>
+            Back!
+          </Button>
+          <Button variant="primary border-white" onClick={resetPasswordTrigger}>
+            Send me a new password!
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </Fragment>
   )
 }
@@ -49,4 +81,4 @@ Login.propTypes={
   login: PropTypes.func.isRequired,
 }
 
-export default connect(null, {setAlert, login})(Login)
+export default connect(null, {setAlert, login, resetPassword})(Login)

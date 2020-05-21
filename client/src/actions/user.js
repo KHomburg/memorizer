@@ -11,7 +11,9 @@ import{
   DELETE_USER_ERROR,
   EDIT_USER_CREDENTIALS,
   EDIT_USER_CREDENTIALS_ERROR,
-  LOGOUT
+  LOGOUT,
+  RESET_PASSWORD,
+  RESET_PASSWORD_ERROR
 } from "./types";
 
 //get user by id
@@ -86,7 +88,6 @@ export const editUser = ({username, profession, about}, id) => async dispatch =>
 export const editUserCredentials = ({email, newPassword, oldPassword}, id) => async dispatch =>{
   const config = {headers: {Authorization: localStorage.token, "Content-Type": "application/json"}}
   const body = JSON.stringify({newemail: email, newpassword: newPassword, oldpassword: oldPassword})
-  console.log(body)
   try {
     const res = await axios.put("/api/users/"+id+"/credentials", body, config)
     dispatch({
@@ -129,6 +130,29 @@ export const deleteUser = (password, id, history) => async dispatch => {
     }
     dispatch({
       type: DELETE_USER_ERROR
+    })
+  }
+}
+
+//resetPassword
+//reset users password
+export const resetPassword = (email) => async dispatch =>{
+  const config = {headers: {"Content-Type": "application/json"}}
+  const body = JSON.stringify({"email": email})
+  try {
+    const res = await axios.post("/api/users/passwordreset", body, config)
+    dispatch({
+      type: RESET_PASSWORD,
+    })
+    dispatch(setAlert("New password sent to provided E-Mail adress", "success"))
+  }catch(err){
+    const errors = err.response.data.errors;
+    if(errors){
+      errors.forEach(error => dispatch(setAlert(error, "danger")))
+    }
+    dispatch({
+      type: RESET_PASSWORD_ERROR,
+      payload: {msg: err.response.statusText, status: err.response.status}
     })
   }
 }
