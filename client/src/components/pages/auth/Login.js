@@ -1,4 +1,5 @@
 import React, {Fragment, useState} from 'react';
+import {Link} from 'react-router-dom'
 import {connect} from "react-redux";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
@@ -35,6 +36,9 @@ const Login = ({setAlert, login, history}) => {
         <Button variant="primary border-white" type="submit" value="login">
           Login
         </Button>
+        <Link href="#">
+          <p>Forgotten password?</p>
+        </Link>
       </Form>
     </Fragment>
   )

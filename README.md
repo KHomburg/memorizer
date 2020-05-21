@@ -8,6 +8,7 @@ DB_PASSWORD=123456
 DB_NAME=memorizer
 DB_PORT=5432
 SECRET=test
+SENDER_MAIL=test@test.de
 
 install nodemon:
 npm i nodemon -g

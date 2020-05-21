@@ -8,6 +8,7 @@ const bcrypt = require('bcryptjs');
 require('dotenv').config();
 const secret = process.env.SECRET
 const validate = require("../helpers/validation")
+const mailer = require("../helpers/mailer");
 
 //register route
 router.post("/register", (req, res, next) => {
@@ -238,6 +239,44 @@ router.delete("/:id", passport.authenticate('jwt', {session: false}), async (req
     next(err)
   }
 })
+
+//TODO: creste "resetcredentials route"
+//send new password for forgotten password request
+router.post("/passwordreset", async (req, res, next) => {
+  try{
+    //get user
+    const email = req.body.email
+    const user = await models.User.findOne({ where: { email: req.body.email } })
+    if(user){
+      //create new password
+      const newPW = Math.random().toString(36).substring(3);
+
+      //hash new password, save it to user and send mail
+      bcrypt.genSalt(10, (err, salt) => {
+        if (err) next(err)
+        bcrypt.hash(newPW, salt, async (err, hash) => {
+          if (err) next(err)
+          try{
+            user.password = hash
+            const updatedUser = await user.save()
+            //send mail with password
+            mailer.passwordResetMail(email, newPW)
+            res.status(200).json("New password has been sent to provided E-Mail adress")
+          }catch(err){
+            next(err)
+          }
+        }, null)
+      })
+    }else{
+      res.status(404).json({errors: ["User with that mail adress not found"]})
+    }
+
+
+  }catch(err){
+    next(err)
+  }
+})
+
 
 
 
