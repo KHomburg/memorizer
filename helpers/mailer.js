@@ -1,18 +1,24 @@
 const dotenv = require("dotenv");
 require('dotenv').config()
 const mailjet = require ('node-mailjet').connect('701d0f3f3495b3a2dbfcb57bbc4c1a59', 'a25ad4740aa31de31eeff4633567c63a')
+const models = require("../models")
 
+//configure:
 dotenv.config({ path: "../.env" });
 var senderMailAdress = process.env.SENDER_MAIL
 
-
 /**
  * 
- * email String
+ * user Object
  * password String
  * 
  */
-const passwordResetMail = (email, password) => {
+const passwordResetMail = (user, password) => {
+  const mail = models.Mail.create({
+    type: "password reset",
+    adressee: user.id,
+  })
+
   return(
     mailjet
     .post("send", {'version': 'v3.1'})
@@ -25,7 +31,7 @@ const passwordResetMail = (email, password) => {
           },
           "To": [
             {
-              "Email": email,
+              "Email": user.email,
             }
           ],
           "Subject": "New Password",

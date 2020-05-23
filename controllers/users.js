@@ -246,7 +246,7 @@ router.post("/passwordreset", async (req, res, next) => {
   try{
     //get user
     const email = req.body.email
-    const user = await models.User.findOne({ where: { email: req.body.email } })
+    const user = await models.User.findOne({ where: { email: email } })
     if(user){
       //create new password
       const newPW = Math.random().toString(36).substring(3);
@@ -260,7 +260,7 @@ router.post("/passwordreset", async (req, res, next) => {
             user.password = hash
             const updatedUser = await user.save()
             //send mail with password
-            mailer.passwordResetMail(email, newPW)
+            mailer.passwordResetMail(user, newPW)
             res.status(200).json("New password has been sent to provided E-Mail adress")
           }catch(err){
             next(err)
