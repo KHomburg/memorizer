@@ -30,17 +30,17 @@
   width: 50px;
 }
 
-@media only screen and (max-width: $grid-sm){
+@media only screen and (max-width: $grid-md){
   .sideNavItem{
-    width: 15px !important;
+    width: 25px !important;
   }
 
   .sidenav {
-    width: 30px;
+    width: 50px;
   }
 
   .basic-spacer{
-    width: 30px;
+    width: 50px;
   }
 }
 
