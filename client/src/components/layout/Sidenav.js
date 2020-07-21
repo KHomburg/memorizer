@@ -55,7 +55,7 @@ const Sidenav = ({closeCollabse, logout, sidenavPublicNotes, openSearch, sidenav
             <Link to={"/users/"+currentUser.id} onClick={() => closeCollabse()} data-tooltip="My Profile" data-tooltip-location="right">
               <img className="sideNavItem" src={profileIcon}/>
             </Link>
-            <Link onClick={() => logout(history)} data-tooltip="Logout" data-tooltip-location="right">
+            <Link onClick={() => logout(history)} data-tooltip="Logout" data-tooltip-location="right" className="logout">
               <img className="sideNavItem" src={logoutIcon}/>
             </Link>
           </div>

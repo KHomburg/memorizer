@@ -57,7 +57,9 @@ const App = () => {
           <SidenavCollabse />
           <Container>
             <Row>
-              <Col>
+              <Spacer />
+              <Col className="left-space">
+              
               <section className="containter">
                 <Alert />
                 <Switch>
