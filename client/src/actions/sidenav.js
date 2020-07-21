@@ -4,6 +4,7 @@ import{
   SIDENAV_PUBLIC_NOTES,
   SIDENAV_MY_NOTES,
   CLOSE_COLLABSE,
+  OPEN_COLLABSE,
   OPEN_SEARCH,
   SEARCH_PUBLIC_NOTES_SIDENAV,
   SEARCH_MY_NOTES_SIDENAV,
@@ -90,6 +91,22 @@ export const closeCollabse = () => async dispatch =>{
   try {
     dispatch({
       type: CLOSE_COLLABSE,
+    })
+    //return()
+  }catch(err){
+    //dispatch({
+    //  type: CREATE_NOTE_ERROR,
+    //  payload: {msg: err.response.statusText, status: err.response.status}
+    //})
+    console.log("sidenav error: ", err)
+  }
+}
+
+//close collabse
+export const openCollabse = () => async dispatch =>{
+  try {
+    dispatch({
+      type: OPEN_COLLABSE,
     })
     //return()
   }catch(err){

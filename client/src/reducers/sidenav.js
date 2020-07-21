@@ -1,4 +1,4 @@
-import {SIDENAV_PUBLIC_NOTES, SIDENAV_MY_NOTES, CLOSE_COLLABSE, OPEN_SEARCH, SEARCH_PUBLIC_NOTES_SIDENAV, SEARCH_MY_NOTES_SIDENAV, ADD_PAGINATED_NOTES} from "../actions/types";
+import {SIDENAV_PUBLIC_NOTES, SIDENAV_MY_NOTES, CLOSE_COLLABSE, OPEN_COLLABSE, OPEN_SEARCH, SEARCH_PUBLIC_NOTES_SIDENAV, SEARCH_MY_NOTES_SIDENAV, ADD_PAGINATED_NOTES} from "../actions/types";
 
 const initialState = {
   open: false,
@@ -39,6 +39,11 @@ export default function(state= initialState, action){
         ...state,
         open: false,
         loading: false,
+      }
+    case OPEN_COLLABSE:
+      return{
+        ...state,
+        open: true,
       }
     case OPEN_SEARCH:
       return{

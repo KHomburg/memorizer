@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 //state actions
 import {listNotes, myNotes} from "../../actions/note"
 import {logout} from "../../actions/auth"
-import {sidenavPublicNotes, sidenavMyNotes, closeCollabse, openSearch} from "../../actions/sidenav"
+import {sidenavPublicNotes, sidenavMyNotes, closeCollabse, openCollabse,openSearch} from "../../actions/sidenav"
 
 //ICONS
 import searchIcon from "../../icons/search_icon.svg"
@@ -19,16 +19,24 @@ import sidenav from '../../reducers/sidenav';
 
 //import {logout} from "../../actions/auth"
 
-const Sidenav = ({closeCollabse, logout, sidenavPublicNotes, openSearch, sidenavMyNotes, auth: {isAuthenticated, loading, currentUser}, history}) => {
+const Sidenav = ({closeCollabse, openCollabse, logout, sidenavPublicNotes, openSearch, sidenavMyNotes, auth: {isAuthenticated, loading, currentUser}, sidenav, history}) => {
 
   const openAllNotes = (e) => {
     e.preventDefault()
-    sidenavPublicNotes(0)
+    if(sidenav.notesListType != 'Public Notes' && sidenav.notesListType != 'Search Public Notes'){
+      sidenavPublicNotes(0)
+    }else{
+      openCollabse()
+    }
   }
 
   const openMyNotes = (e) => {
     e.preventDefault()
-    sidenavMyNotes(0)
+    if(sidenav.notesListType != 'My Notes' && sidenav.notesListType != 'Search My Notes'){
+      sidenavMyNotes(0)
+    }else{
+      openCollabse()
+    }
   }
 
 
@@ -67,11 +75,13 @@ const Sidenav = ({closeCollabse, logout, sidenavPublicNotes, openSearch, sidenav
 
 const mapStateToProps = state => ({
   auth: state.auth,
+  sidenav: state.sidenav,
   listNotes: PropTypes.func.isRequired,
   myNotes: PropTypes.func.isRequired,
   logout: PropTypes.func.isRequired,
   sidenavPublicNotes: PropTypes.func.isRequired,
   closeCollabse: PropTypes.func.isRequired,
+  openCollabse: PropTypes.func.isRequired,
 })
 
 export default withRouter(connect(mapStateToProps, {
@@ -81,5 +91,6 @@ export default withRouter(connect(mapStateToProps, {
   sidenavPublicNotes,
   sidenavMyNotes,
   closeCollabse,
+  openCollabse,
   openSearch,
 })(Sidenav))

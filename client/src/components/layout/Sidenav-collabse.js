@@ -39,6 +39,12 @@ const SidenavCollabse = ({sidenav, sidenavPublicNotes, sidenavMyNotes, closeColl
   }
 
   const close = () => {closeCollabse()}
+
+  const mobileClose = () => {
+    if(window.innerWidth < 993){
+      closeCollabse()
+    }
+  }
   
   /**
    * trigger load of new notes
@@ -87,28 +93,31 @@ const SidenavCollabse = ({sidenav, sidenavPublicNotes, sidenavMyNotes, closeColl
   return (    
     <Fragment>
       {
-        (!loading && isAuthenticated && sidenav.open) && 
+        (!loading && isAuthenticated) && 
         
-        <div id="sidenav-collabse" className="sidenav-collabse collabsible-open" onScroll={e => getScroll()}>
+        <div id="sidenav-collabse" className={`sidenav-collabse ${sidenav.open ? "collabsible-open" : "collabsible-closed"}`} onScroll={e => getScroll()}>
           <div className="sidenav-head">
             <img className="close-icon" src={closeIcon} onClick={close} height="20px" width="20px"/>
             <h2>{sidenav.notesListType}</h2>
             {(sidenav.notesListType == "Public Notes" || sidenav.notesListType == "Search Public Notes") ? (
               <Form onSubmit={e=>searchNotes(e)}>
                 <Form.Group controlId="formBasic">
-                  <Form.Control type="text" name="term" placeholder="Search" value={term} onChange={e => onChange(e)} required/>
+                  <Form.Control type="text" name="term" placeholder="Search" value={term} onChange={e => onChange(e)} />
                 </Form.Group>
               </Form>) : null
             }
             {(sidenav.notesListType == "My Notes" || sidenav.notesListType == "Search My Notes") ? (
               <Form onSubmit={e=>searchNotes(e)}>
                 <Form.Group controlId="formBasic">
-                  <Form.Control type="text" name="term" placeholder="Search" value={term} onChange={e => onChange(e)} required/>
+                  <Form.Control type="text" name="term" placeholder="Search" value={term} onChange={e => onChange(e)} />
                 </Form.Group>
               </Form>) : null
             }
           </div>
-          <NoteList />
+          <div onClick={mobileClose}>
+            <NoteList />
+          </div>
+          
 
           {(!sidenav.isEnd) ? (
             <div id="loader">

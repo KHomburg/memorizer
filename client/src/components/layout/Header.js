@@ -22,7 +22,11 @@ const Header = ({auth: {isAuthenticated, loading, currentUser}, history }) => {
   const onChange = e => setSearchTerm(e.target.value)
   const onSubmit = e => {
     e.preventDefault()
-    history.push('/notes/search/1?term=' + searchTerm)
+    if(searchTerm){
+      history.push('/notes/search/1?term=' + searchTerm)
+    }else{
+      history.push('')
+    }
   }
   return (
     <Fragment>
@@ -46,7 +50,7 @@ const Header = ({auth: {isAuthenticated, loading, currentUser}, history }) => {
                 <Link to="/users/register" className="nav-link">Register</Link>
               </Nav.Link>
               <Form inline onSubmit={e=>onSubmit(e)}>
-                <FormControl type="text" name="term" placeholder="Search" value={term} onChange={e => onChange(e)} required/>
+                <FormControl type="text" name="term" placeholder="Search" value={term} onChange={e => onChange(e)} />
               </Form>
             </ul>
           </div>
