@@ -14,15 +14,18 @@ const Notes = ({ searchPublicNotes, note: {notes, loading}, location, history })
   let {page} = useParams()
 
   //TODO: refactor following function, because it requires the search term to be the first query param
-  const term = location.search.split('=')[1].split('&')[0]
+  let term = location.search.split('=')[1].split('&')[0]
   const path = "/notes/search/"
   const query = `?term=${term}`
 
   useEffect(()=>{
+    term = location.search.split('=')[1].split('&')[0]
     notes = searchPublicNotes(term, page)
 
     //forcing state refresh and rerender upon page change through pagination
     return history.listen((location) => {
+      term = location.search.split('=')[1]
+      term ? term = term.split('&')[0] : term = term
       page = location.pathname.split('/')[3]
       notes = searchPublicNotes(term, page)
     })
