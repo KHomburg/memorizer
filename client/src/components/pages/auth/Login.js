@@ -39,24 +39,26 @@ const Login = ({setAlert, login, history, resetPassword}) => {
 
   return (
     <Fragment>
-      <h5>Login Form</h5>
-      <Form onSubmit={e=>onSubmit(e)}>
-        <Form.Group controlId="formBasicEmail">
-          <Form.Label>Email address</Form.Label>
-          <Form.Control type="email" name="email" placeholder="Enter email" value={email} onChange={e => onChange(e)} required/>
-        </Form.Group>
+      <div className="login-page">
+        <h5>Login Form</h5>
+        <Form onSubmit={e=>onSubmit(e)}>
+          <Form.Group controlId="formBasicEmail">
+            <Form.Label>Email address</Form.Label>
+            <Form.Control type="email" name="email" placeholder="Enter email" value={email} onChange={e => onChange(e)} required/>
+          </Form.Group>
 
-        <Form.Group controlId="formBasicPassword">
-          <Form.Label>Password</Form.Label>
-          <Form.Control type="password" name="password" placeholder="Password" value={password} onChange={e => onChange(e)} required/>
-        </Form.Group>
-        <Button variant="primary border-white" type="submit" value="login">
-          Login
-        </Button>
-        <Link href="#" onClick={handleShow}>
-          <p>Forgotten password?</p>
-        </Link>
-      </Form>
+          <Form.Group controlId="formBasicPassword">
+            <Form.Label>Password</Form.Label>
+            <Form.Control type="password" name="password" placeholder="Password" value={password} onChange={e => onChange(e)} required/>
+          </Form.Group>
+          <Button variant="primary border-white" type="submit" value="login">
+            Login
+          </Button>
+          <Link href="#" onClick={handleShow}>
+            <p className="mt-5">Forgotten password?</p>
+          </Link>
+        </Form>
+      </div>
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>You forgot your password?</Modal.Title>

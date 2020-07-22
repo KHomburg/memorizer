@@ -13,3 +13,13 @@
 .ql-picker-label{
   color: #e9ecef;
 }
+
+.ql-tooltip{
+  width: 100%;
+  top: 28px;
+  left: 0px !important;
+}
+
+[data-video="Embed URL"]{
+  width: calc(100% - 110px) !important;
+}

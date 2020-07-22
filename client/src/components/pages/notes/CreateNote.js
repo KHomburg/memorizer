@@ -56,6 +56,7 @@ const CreateNote = ({setAlert, createNote, history}) => {
               required
             />
           </Form.Group>
+          
 
           <Form.Group controlId="">
             <Form.Label>Text:</Form.Label>
@@ -68,10 +69,10 @@ const CreateNote = ({setAlert, createNote, history}) => {
                 ['link', /*'image'*/],
                 ]}
               }
-              onChange={(content, delta, source, editor) => quillChange(content, editor)} 
+              onChange={(content, delta, source, editor) => quillChange(content, editor)}
             />
           </Form.Group>
-          <Form.Group controlId="">
+          <Form.Group controlId="" className="mb-5">
             <Form.Control type="hidden" name="text" value={text}/>
           </Form.Group>     
           <CreatableSelect
