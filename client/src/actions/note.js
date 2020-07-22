@@ -83,7 +83,7 @@ export const listNotes = (page) => async dispatch =>{
       payload: res.data
     })
   }catch(err){
-    if(err.response.data.errors){
+    if(err.response.data){
       const errors = err.response.data.errors;
       if(errors){
         errors.forEach(error => dispatch(setAlert(error, "danger")))
