@@ -35,20 +35,20 @@ const Note = ({ getNote, note: {note, loading}, history, deleteNote, auth: {curr
         <Fragment>
           <div className="main-container">
             <h1>{note.title}</h1>
-            <div className="note-date">{new Date(note.createdAt).toLocaleDateString()}</div>
+            <div className="note-date float-right mb-2">{new Date(note.createdAt).toLocaleDateString()}</div>
             <div className="content" dangerouslySetInnerHTML={{__html: note.content}} />
-            <div>{note.tags ? note.tags.map(tag => <Badge variant="secondary" className="margin">{tag.name}</Badge>) : null}</div>
+            <div>{note.tags ? note.tags.map(tag => <Badge variant="secondary" className="mt-1 mb-1 mr-3">{tag.name}</Badge>) : null}</div>
 
             {currentUser && note.userId == currentUser.id ? (
               <Fragment>
-              <Link to={`/notes/${note.id}/edit`}>
-                <Button variant="primary border-white" className="margin">
-                  Edit this note
+                <Link to={`/notes/${note.id}/edit`} className="mr-5 mt-4">
+                  <Button variant="primary border-white">
+                    Edit this note
+                  </Button>
+                </Link>
+                <Button variant="primary border-white float-right" onClick={handleShow}>
+                  Delete this note
                 </Button>
-              </Link>
-              <Button variant="primary border-white" onClick={handleShow}>
-                Delete this note
-              </Button>
               </Fragment>
             ):(
               null

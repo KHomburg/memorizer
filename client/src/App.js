@@ -60,7 +60,7 @@ const App = () => {
               <Spacer />
               <Col className="left-space">
               
-              <section className="containter">
+              <section className="containter mt-5">
                 <Alert />
                 <Switch>
                   <Route exact path="/" component={NoteIndex} />

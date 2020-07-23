@@ -1,7 +1,7 @@
 .sidenav-collabse {
   margin-left: 50px;
   display: none;
-  width: 90%;
+  width: calc(90% - 10px);
   max-width: 350px;
   height: 100%;
   position: fixed;
@@ -34,15 +34,15 @@
 
 .close-icon{
   position: absolute;
-  top: 10px;
-  right: 10px;
+  top: 5px;
+  right: 3px;
 }
 
 .sidenav-head{
   position: sticky;
   top: -15px;
   background-color: #111;
-  padding: 10px 0px;
+  padding: 30px 0px 10px 0px;
   z-index: 100;
 }
 
@@ -50,4 +50,15 @@
   .sidenav-collabse {
     margin-left: 50px;
   }
+}
+
+
+.collabse-search{
+  width: calc(100% - 30px);
+  display: inline;
+}
+.collabse-search-icon{
+  height: 35px;
+  width: 28px;
+  padding: 7px 0px 10px 7px;
 }

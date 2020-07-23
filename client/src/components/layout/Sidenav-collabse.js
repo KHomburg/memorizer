@@ -6,6 +6,7 @@ import Form from 'react-bootstrap/Form';
 import Card from "react-bootstrap/Card";
 import NoteList from "../shared/note/SidenavNotesList"
 import closeIcon from "../../icons/close_icon.svg.png"
+import searchIcon from "../../icons/search_icon.svg"
 
 
 //state actions
@@ -102,14 +103,19 @@ const SidenavCollabse = ({sidenav, sidenavPublicNotes, sidenavMyNotes, closeColl
             {(sidenav.notesListType == "Public Notes" || sidenav.notesListType == "Search Public Notes") ? (
               <Form onSubmit={e=>searchNotes(e)}>
                 <Form.Group controlId="formBasic">
-                  <Form.Control type="text" name="term" placeholder="Search" value={term} onChange={e => onChange(e)} />
+                  <span>
+                    <Form.Control className="collabse-search" type="text" name="term" placeholder="Search" value={term} onChange={e => onChange(e)} />
+                    <img className="collabse-search-icon" src={searchIcon} type="submit" onClick={e=>searchNotes(e)}/>
+                  </span>
+                  
                 </Form.Group>
               </Form>) : null
             }
             {(sidenav.notesListType == "My Notes" || sidenav.notesListType == "Search My Notes") ? (
               <Form onSubmit={e=>searchNotes(e)}>
                 <Form.Group controlId="formBasic">
-                  <Form.Control type="text" name="term" placeholder="Search" value={term} onChange={e => onChange(e)} />
+                  <Form.Control className="collabse-search" type="text" name="term" placeholder="Search" value={term} onChange={e => onChange(e)} />
+                  <img className="collabse-search-icon" src={searchIcon} type="submit" onClick={e=>searchNotes(e)}/>
                 </Form.Group>
               </Form>) : null
             }
