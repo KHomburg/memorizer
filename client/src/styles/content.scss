@@ -3,7 +3,11 @@
   padding: 20px 20px;
 }
 .content, .quill{
-  background-color: $gray-900;
+  border: solid 1px;
+  border-image-source: linear-gradient(160deg, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.1));
+  border-image-slice: 1;
+  background-color: rgba(0, 0, 0, 0.2);
+  box-shadow: inset 1px 1px 10px -8px white;
   blockquote, pre, ul, ol{
     color: $gray-200;
   }
