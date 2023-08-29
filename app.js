@@ -30,8 +30,8 @@ const client = new Client();
 const db = require("./models/index")
 
 db.sequelize.authenticate()
-  .then(() => {console.log("Success!")})
-  .catch(err => {console.log(err)});
+  .then(() => {console.log("Successfully connected to DB!")})
+  .catch(err => {console.log(`Error establishing DB connection: `, err)});
 
 /*
 Express Config:
@@ -90,6 +90,7 @@ app.use((err, req, res, next) => {
 Start Express server.
 */
 db.sequelize.sync().then(x => {
+  console.log('DB SYNCED')
   app.listen(app.get("port"), () => {
     console.log(
       "App is running at http://localhost:%d in %s mode",
@@ -98,6 +99,8 @@ db.sequelize.sync().then(x => {
     );
     console.log("  Press CTRL-C to stop\n");
   });
+}).catch(err => {
+  console.log(`ERROR: ${err}`)
 })
 
 
