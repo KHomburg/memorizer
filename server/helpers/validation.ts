@@ -1,7 +1,8 @@
-const validate = require("validate.js")
+import {validate as _validate} from "validate.js"
 
 //error message formatter
-validate.formatters.custom = function(errors) {
+// @ts-ignore
+_validate.formatters.custom = function(errors) {
   return errors.map(function(error) {
     return error.options.message;
   });
@@ -9,7 +10,8 @@ validate.formatters.custom = function(errors) {
 
 
 //Validation for registration input:
-const validateRegistration = (req, res) => {
+export const validate = {
+  validateRegistration: (req, res) => {
   return new Promise((resolve, reject) =>{
     var registerConstraints = {
       email: {
@@ -44,12 +46,12 @@ const validateRegistration = (req, res) => {
         }
       }
     }
-    resolve(validate(req.body, registerConstraints, {format: "custom"}))
+    resolve(_validate(req.body, registerConstraints, { format: "custom" }));
   })
-}
+},
 
 //Validation for login input:
-const validateLogin = (req, res) => {
+  validateLogin: (req, res) => {
   return new Promise((resolve, reject) =>{
     var loginConstraints = {
       email: {
@@ -70,12 +72,12 @@ const validateLogin = (req, res) => {
         }
       },
     }
-    resolve(validate(req.body, loginConstraints, {format: "custom"}))
+    resolve(_validate(req.body, loginConstraints, {format: "custom"}))
   })
-}
+},
 
 //Validation for note Input
-const validateNote = (req, res) => {
+  validateNote: (req, res) => {
   return new Promise((resolve, reject) =>{
     var noteConstraints = {
       title: {
@@ -89,12 +91,12 @@ const validateNote = (req, res) => {
         }
       },
     }
-    resolve(validate(req.body, noteConstraints, {format: "custom"}))
+    resolve(_validate(req.body, noteConstraints, {format: "custom"}))
   })
-}
+},
 
 //Validation for updating user
-const validateUserUpdate = (req, res) => {
+validateUserUpdate: (req, res) => {
   return new Promise((resolve, reject) =>{
     var userUpdateConstraints = {
       email: {
@@ -106,12 +108,12 @@ const validateUserUpdate = (req, res) => {
         }
       }
     }
-    resolve(validate(req.body, userUpdateConstraints, {format: "custom"}))
+    resolve(_validate(req.body, userUpdateConstraints, {format: "custom"}))
   })
-}
+},
 
 //Validation for registration input:
-const validateCredentialUpdate = (req, res) => {
+validateCredentialUpdate: (req, res) => {
   return new Promise((resolve, reject) =>{
     var registerConstraints = {
       newemail: {
@@ -123,14 +125,6 @@ const validateCredentialUpdate = (req, res) => {
         }
       },
     }
-    resolve(validate(req.body, registerConstraints, {format: "custom"}))
+    resolve(_validate(req.body, registerConstraints, {format: "custom"}))
   })
-}
-
-module.exports = {
-  validateRegistration,
-  validateLogin,
-  validateNote,
-  validateUserUpdate,
-  validateCredentialUpdate,
-}
+}}

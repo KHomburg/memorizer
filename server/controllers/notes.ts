@@ -1,8 +1,8 @@
 import express from "express";
 const router = express.Router();
 import models from "../models"
-import validate from "../helpers/validation"
-import authorize from "../helpers/authorize"
+import { validate } from "../helpers/validation"
+import { authorize } from "../helpers/authorize"
 import passport from "passport";
 import Sequelize from "sequelize"
 import Op = Sequelize.Op

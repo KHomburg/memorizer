@@ -1,7 +1,7 @@
-const dotenv = require("dotenv");
-require('dotenv').config()
-const mailjet = require ('node-mailjet').connect('701d0f3f3495b3a2dbfcb57bbc4c1a59', 'a25ad4740aa31de31eeff4633567c63a')
-const models = require("../models")
+import dotenv from "dotenv";
+import mailjet from 'node-mailjet'
+import models from "../models"
+dotenv.config()
 
 //configure:
 dotenv.config({ path: "../.env" });
@@ -13,7 +13,9 @@ var senderMailAdress = process.env.SENDER_MAIL
  * password String
  * 
  */
-const passwordResetMail = (user, password) => {
+export const mailer = {
+  passwordResetMail: (user, password) => {
+  mailjet.connect('701d0f3f3495b3a2dbfcb57bbc4c1a59', 'a25ad4740aa31de31eeff4633567c63a')
   const mail = models.Mail.create({
     type: "password reset",
     adressee: user.id,
@@ -41,8 +43,4 @@ const passwordResetMail = (user, password) => {
       ]
     })
   )
-}
-
-module.exports = {
-  passwordResetMail,
-}
+}}

@@ -1,17 +1,17 @@
-const express = require("express");
+import express from "express";
 const router = express.Router();
-const passport = require('passport');
-const jwt = require('jsonwebtoken');
-const models = require("../models")
-const config = require("../config/secret")
-const bcrypt = require('bcryptjs');
+import passport from 'passport';
+import jwt from 'jsonwebtoken';
+import models from "../models"
+// const config = "../config/secret"
+import bcrypt from 'bcryptjs';
 require('dotenv').config();
 const secret = process.env.SECRET
-const validate = require("../helpers/validation")
-const mailer = require("../helpers/mailer");
+import { validate } from "../helpers/validation"
+import { mailer } from "../helpers/mailer";
 
 //register route
-router.post("/register", (req, res, next) => {
+router.post("/register", (req: any, res, next) => {
   validate.validateRegistration(req, res)
   .then((validationErrors) => {
     if(validationErrors){
@@ -49,7 +49,7 @@ router.post("/register", (req, res, next) => {
 })
 
 //login route
-router.post("/login", async (req, res, next) => {
+router.post("/login", async (req: any, res, next) => {
   try{
     const validationErrors =  await validate.validateLogin(req, res)
     if(validationErrors) res.status(400).json({errors: validationErrors})
@@ -76,14 +76,14 @@ router.post("/login", async (req, res, next) => {
 })
 
 //user authentication route for users that have a token
-router.get("/auth", passport.authenticate('jwt', {session: false}), (req, res, next) => {
+router.get("/auth", passport.authenticate('jwt', {session: false}), (req: any, res, next) => {
   res.json({currentUser: req.user})
 })
 
 
 
 //find user by id route
-router.get("/:id", passport.authenticate('jwt', {session: false}), async (req, res, next) => {
+router.get("/:id", passport.authenticate('jwt', {session: false}), async (req: any, res, next) => {
   try{
     const user = await models.User.findByPk(req.params.id, {attributes: ["id", "username", "email", "profession", "about"]})
     if(user){
@@ -97,7 +97,7 @@ router.get("/:id", passport.authenticate('jwt', {session: false}), async (req, r
 });
 
 //find user by id route
-router.get("/", passport.authenticate('jwt', {session: false}), async (req, res, next) => {
+router.get("/", passport.authenticate('jwt', {session: false}), async (req: any, res, next) => {
   try{
     const users = await models.User.findAll({attributes: ["id", "username", "email"]})
     if(users){
@@ -111,7 +111,7 @@ router.get("/", passport.authenticate('jwt', {session: false}), async (req, res,
 });
 
 //find note with user model by noteId
-router.get("/note/:id", passport.authenticate('jwt', {session: false}), async (req, res, next) => {
+router.get("/note/:id", passport.authenticate('jwt', {session: false}), async (req: any, res, next) => {
   try{
     const note = await models.Note.findByPk(req.params.id, {include: [{model: models.User, as: "user", attributes: ["id", "username", "email"]}]})
     if(note){
@@ -125,7 +125,7 @@ router.get("/note/:id", passport.authenticate('jwt', {session: false}), async (r
 });
 
 //edit users credentials
-router.put("/:id/credentials", passport.authenticate('jwt', {session: false}), async (req, res, next) => {
+router.put("/:id/credentials", passport.authenticate('jwt', {session: false}), async (req: any, res, next) => {
   try{
     const validateError = await validate.validateCredentialUpdate(req, res)
     if(validateError){
@@ -188,7 +188,7 @@ router.put("/:id/credentials", passport.authenticate('jwt', {session: false}), a
 })
 
 //edit users profile route
-router.put("/:id", passport.authenticate('jwt', {session: false}), async (req, res, next) => {
+router.put("/:id", passport.authenticate('jwt', {session: false}), async (req: any, res, next) => {
   var userId = req.user.id
   //if certain params provided use old one
   var newUsername = !req.body.username || req.body.username == "" ? req.user.username : req.body.username
@@ -220,7 +220,7 @@ router.put("/:id", passport.authenticate('jwt', {session: false}), async (req, r
 
 
 //delete user
-router.delete("/:id", passport.authenticate('jwt', {session: false}), async (req, res, next) => {
+router.delete("/:id", passport.authenticate('jwt', {session: false}), async (req: any, res, next) => {
   try{
     if(!req.body.password) return res.status(401).json({errors: ["You need to enter your password"]})
     if(req.params.id != req.user.id) return res.status(401).json({errors: ["You are not authorized to delete this profile"]})
@@ -242,7 +242,7 @@ router.delete("/:id", passport.authenticate('jwt', {session: false}), async (req
 
 //TODO: creste "resetcredentials route"
 //send new password for forgotten password request
-router.post("/passwordreset", async (req, res, next) => {
+router.post("/passwordreset", async (req: any, res, next) => {
   try{
     //get user
     const email = req.body.email
