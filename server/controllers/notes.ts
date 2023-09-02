@@ -1,17 +1,18 @@
-const express = require("express");
+import express from "express";
 const router = express.Router();
-const models = require("../models")
-const validate = require("../helpers/validation")
-const authorize = require("../helpers/authorize")
-const passport = require("passport");
-const Sequelize = require("sequelize")
-const Op = Sequelize.Op
+import models from "../models"
+import validate from "../helpers/validation"
+import authorize from "../helpers/authorize"
+import passport from "passport";
+import Sequelize from "sequelize"
+import Op = Sequelize.Op
 
 require('dotenv').config();
 const secret = process.env.SECRET
 
 //create a new note
-router.post("/new", passport.authenticate('jwt', {session: false}), async (req, res, next) => {
+router.post("/new", passport.authenticate('jwt', {session: false}), async (req: any, res, next) => {
+  // @ts-ignore
   if(req.body.tags != [] && req.body.tags != ""){
     var tags = req.body.tags.split(",")
     var tagsIds = []
@@ -44,7 +45,7 @@ router.post("/new", passport.authenticate('jwt', {session: false}), async (req, 
 });
 
 //find all notes of current user
-router.get("/mynotes", passport.authenticate('jwt', {session: false}), async (req, res, next) => {
+router.get("/mynotes", passport.authenticate('jwt', {session: false}), async (req: any, res, next) => {
   let limit = req.query.limit ? req.query.limit : 50
   let offset = req.query.offset ? req.query.offset : 0
   let search = req.query.search ? req.query.search : false
@@ -78,7 +79,7 @@ router.get("/mynotes", passport.authenticate('jwt', {session: false}), async (re
 });
 
 //find all public notes
-router.get("/public", async (req, res, next) => {
+router.get("/public", async (req: any, res, next) => {
   try{
     
     let limit = req.query.limit ? req.query.limit : 50
@@ -115,7 +116,7 @@ router.get("/public", async (req, res, next) => {
 
 //find note by id
 router.get("/:id", authorize.getUser,
-async (req, res, next) => {
+async (req: any, res, next) => {
   try{
     const note = await models.Note.findOne({
       where: {id: req.params.id}, 
@@ -134,7 +135,7 @@ async (req, res, next) => {
 });
 
 //find all notes
-router.get("/", async (req, res, next) => {
+router.get("/", async (req: any, res, next) => {
   try{
     
     let limit = req.query.limit ? req.query.limit : 50
@@ -171,7 +172,7 @@ router.get("/", async (req, res, next) => {
 
 
 //update note
-router.put("/:id", passport.authenticate('jwt', {session: false}), async (req, res, next) => {
+router.put("/:id", passport.authenticate('jwt', {session: false}), async (req: any, res, next) => {
   try{
     const validationErrors = await validate.validateNote(req, res)
     if(validationErrors){
@@ -215,7 +216,7 @@ router.put("/:id", passport.authenticate('jwt', {session: false}), async (req, r
 });
 
 //find notes of user
-router.get("/user/:id", passport.authenticate('jwt', {session: false}), async (req, res, next) => {
+router.get("/user/:id", passport.authenticate('jwt', {session: false}), async (req: any, res, next) => {
   let limit = req.query.limit ? req.query.limit : 50
   let offset = req.query.offset ? req.query.offset : 0
   let search = req.query.search ? req.query.search : false
@@ -246,7 +247,7 @@ router.get("/user/:id", passport.authenticate('jwt', {session: false}), async (r
 });
 
 //delete note by user
-router.delete("/:id", passport.authenticate('jwt', {session: false}), async (req, res, next) => {
+router.delete("/:id", passport.authenticate('jwt', {session: false}), async (req: any, res, next) => {
   try{
     const note = await models.Note.findByPk(req.params.id)
     if(note && (note.userId == req.user.id)){

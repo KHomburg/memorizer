@@ -51,11 +51,11 @@ require('./config/passport-config')(passport);
 /*
 Controllers/route handlers.
 */
-const start = {};
+const start: any = {};
 start.routing = require("./controllers/start");
-const users = {};
+const users: any = {};
 users.routing = require("./controllers/users");
-const notes = {};
+const notes: any = {};
 notes.routing = require("./controllers/notes");
 /*
 Routing:
@@ -66,7 +66,7 @@ app.use("/api/notes", notes.routing);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-  const err = new Error('Not Found');
+  const err: any = new Error('Not Found');
   err.status = 404;
   next(err);
 })
