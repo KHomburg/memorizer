@@ -2,6 +2,7 @@ import express from "express";
 const router = express.Router();
 import passport from 'passport';
 import jwt from 'jsonwebtoken';
+// @ts-ignore
 import models from "../models"
 // const config = "../config/secret"
 import bcrypt from 'bcryptjs';

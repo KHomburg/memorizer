@@ -51,8 +51,8 @@ require('./config/passport-config')(passport);
 /*
 Controllers/route handlers.
 */
-const start: any = {};
-start.routing = require("./controllers/start");
+const index: any = {};
+index.routing = require("./controllers/index");
 const users: any = {};
 users.routing = require("./controllers/users");
 const notes: any = {};
@@ -60,7 +60,7 @@ notes.routing = require("./controllers/notes");
 /*
 Routing:
 */
-//app.use("/", start.routing);
+app.use("/", index.routing);
 app.use("/api/users", users.routing);
 app.use("/api/notes", notes.routing);
 
@@ -89,6 +89,7 @@ app.use((err, req, res, next) => {
 /*
 Start Express server.
 */
+console.log('initialize db connection')
 db.sequelize.sync().then(x => {
   console.log('DB SYNCED')
   app.listen(app.get("port"), () => {

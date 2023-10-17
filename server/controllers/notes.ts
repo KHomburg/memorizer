@@ -1,5 +1,6 @@
 import express from "express";
 const router = express.Router();
+// @ts-ignore
 import models from "../models"
 import { validate } from "../helpers/validation"
 import { authorize } from "../helpers/authorize"

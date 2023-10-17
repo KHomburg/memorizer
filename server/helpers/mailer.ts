@@ -1,5 +1,6 @@
 import dotenv from "dotenv";
 import mailjet from 'node-mailjet'
+// @ts-ignore
 import models from "../models"
 dotenv.config()
 
