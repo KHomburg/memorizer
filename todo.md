@@ -16,7 +16,7 @@
 
 #### general
 
-- compatibility with new node version
+- secure routes
 
 #### Tags
 
