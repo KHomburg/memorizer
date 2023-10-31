@@ -10,6 +10,7 @@ import CreatableSelect from 'react-select/creatable';
 import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css'
 import Loading from "../../layout/Loading"
+import {TagSelect} from "../../shared/tagSelect/TagSelect"
 
 
 const EditNote = ({setAlert, updateNote, getNote, note: {note, loading}}) => {
@@ -58,7 +59,7 @@ const EditNote = ({setAlert, updateNote, getNote, note: {note, loading}}) => {
   
   const onSubmit = async e => {
     e.preventDefault()
-    updateNote({...formData, tags: formData.tags.map(tag => tag.value).toString()}, id);
+    updateNote({...formData, tags: formData.tags}, id);
   }
 
   return (
@@ -97,11 +98,8 @@ const EditNote = ({setAlert, updateNote, getNote, note: {note, loading}}) => {
               <Form.Group controlId="">
                 <Form.Control type="hidden" name="text" value={text}/>
               </Form.Group>     
-              <CreatableSelect
-                className="tagInput"
-                name="tags"
+              <TagSelect 
                 value={tags}
-                isMulti
                 onChange={handleChange}
               />
               <Form.Group controlId="formBasicCheckbox">

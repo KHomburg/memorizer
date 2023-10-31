@@ -8,6 +8,7 @@ import PropTypes from 'prop-types';
 import CreatableSelect from 'react-select/creatable';
 import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css'
+import {TagSelect} from "../../shared/tagSelect/TagSelect"
 
 
 const CreateNote = ({setAlert, createNote, history}) => {
@@ -32,8 +33,7 @@ const CreateNote = ({setAlert, createNote, history}) => {
 
   const handleChange = async (newValue: any, actionMeta: any) => {
     if(newValue != null){
-      let newTags = await newValue.map(tag => tag.value).toString()
-      setFormData({...formData, tags: newTags})
+      setFormData({...formData, tags: newValue})
     }else{
       setFormData({...formData, tags: []})
     }
@@ -74,12 +74,10 @@ const CreateNote = ({setAlert, createNote, history}) => {
           </Form.Group>
           <Form.Group controlId="" className="mb-5">
             <Form.Control type="hidden" name="text" value={text}/>
-          </Form.Group>     
-          <CreatableSelect
-            className="tagInput"
-            name="tags"
-            isMulti
-            onChange={newValue => {handleChange(newValue)}}
+          </Form.Group>
+          <TagSelect
+            value={tags}
+            onChange={handleChange}
           />
           <Form.Group controlId="formBasicCheckbox">
             <Form.Check style={{color: "white"}} type="checkbox" name="isPublic" label="Make this note Public" checked={isPublic} value={isPublic} onChange={e => checkChange(e)}/>
